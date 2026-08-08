@@ -25,26 +25,43 @@
     align-items: center;
   }
 
-  /* Logo Container & Ultra-Sharp HD Styling */
+  /* Logo Container & Glowing Styling */
   .logo-container {
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
     margin: 10px auto 15px;
     border-radius: 50%;
     padding: 3px;
     background: linear-gradient(135deg, #ffd700, #ff4500, #ffd700);
     box-shadow: 0 0 25px rgba(255, 69, 0, 0.7);
     animation: glow 3s infinite alternate;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
   }
 
   .logo-img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    object-fit: contain; /* Photo ko stretched nahi balki saaf dikhayega */
+    object-fit: cover;
     background-color: #000000;
-    image-rendering: -webkit-optimize-contrast; /* Ultra-sharpness for mobile */
-    image-rendering: crisp-edges;
+  }
+
+  /* Image load na hone par Text Badge fallback */
+  .logo-text-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #000;
+    color: #ffd700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 2px;
   }
 
   @keyframes glow {
@@ -149,7 +166,8 @@
 <body>
 
 <div class="logo-container">
-  <img src="1000157566.png" alt="Maa Kali Logo" class="logo-img">
+  <!-- Agar image file '1000157566.png' nahi milti hai toh ye 'MVK' gold badge dikhayega -->
+  <img src="1000157566.png" class="logo-img" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'logo-text-fallback\'>MVK</div>';">
 </div>
 
 <h1>🎁 Maa Kali Rewards</h1>
