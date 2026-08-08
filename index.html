@@ -18,7 +18,6 @@
     align-items: center;
   }
 
-  /* Logo Styling */
   .logo-container {
     width: 95px;
     height: 95px;
@@ -33,7 +32,6 @@
   h1 { color: #ffd700; font-size: 22px; font-weight: 800; text-shadow: 0 2px 10px rgba(255,215,0,0.4); margin-bottom: 3px; }
   .subtitle { color: #d1c4e9; font-size: 13px; margin-bottom: 10px; }
 
-  /* Wheel Container */
   .wheel-box {
     position: relative;
     width: 320px;
@@ -45,7 +43,6 @@
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 15px rgba(0,0,0,0.8);
   }
 
-  /* 3D Center Golden Pin Cap */
   .center-cap {
     position: absolute;
     top: 50%;
@@ -60,7 +57,6 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.6);
   }
 
-  /* Sharp Red Pointer Arrow */
   .pointer {
     position: absolute;
     top: -20px;
@@ -121,7 +117,6 @@
     white-space: pre-line;
   }
 
-  /* WhatsApp Card */
   .whatsapp-card {
     margin: 20px auto 0;
     width: 100%;
@@ -190,7 +185,7 @@ const colors = ["#d32f2f", "#1976d2", "#f57c00", "#388e3c", "#7b1fa2", "#e65100"
 const canvas = document.getElementById("wheelCanvas");
 const ctx = canvas.getContext("2d");
 const numSegments = rewardsList.length;
-const anglePerSegment = (2 * Math.PI) / numSegments;
+const arcSize = (2 * Math.PI) / numSegments;
 let currentRotationAngle = 0;
 let isSpinning = false;
 let lastSegmentIndex = -1;
@@ -239,11 +234,11 @@ function drawWheel() {
   ctx.clearRect(0, 0, 1000, 1000);
 
   for (let i = 0; i < numSegments; i++) {
-    const angle = currentRotationAngle + i * anglePerSegment;
+    const angle = currentRotationAngle + i * arcSize;
     
     ctx.beginPath();
     ctx.moveTo(500, 500);
-    ctx.arc(500, 500, 480, angle, angle + anglePerSegment);
+    ctx.arc(500, 500, 480, angle, angle + arcSize);
     ctx.fillStyle = colors[i % colors.length];
     ctx.fill();
     ctx.lineWidth = 6;
@@ -260,7 +255,7 @@ function drawWheel() {
 
     ctx.save();
     ctx.translate(500, 500);
-    ctx.rotate(angle + anglePerSegment / 2);
+    ctx.rotate(angle + arcSize / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = "#ffffff";
     
@@ -276,9 +271,12 @@ function drawWheel() {
     ctx.restore();
   }
 
-  const normalizedAngle = (360 - ((currentRotationAngle * 180 / Math.PI) % 360) + 270) % 360;
-  const currentSegment = Math.floor(normalizedAngle / (360 / numSegments));
-  
+  // Pointer at Top (12 o'clock = 3*Math.PI/2)
+  const pointerAngle = 3 * Math.PI / 2;
+  const currentAngleOnPointer = (pointerAngle - currentRotationAngle) % (2 * Math.PI);
+  const normalizedAngle = (currentAngleOnPointer + 2 * Math.PI) % (2 * Math.PI);
+  const currentSegment = Math.floor(normalizedAngle / arcSize);
+
   if (currentSegment !== lastSegmentIndex && isSpinning) {
     playClickSound();
     lastSegmentIndex = currentSegment;
@@ -312,7 +310,6 @@ function startSpin() {
       fetch(TARGET_URL)
       .then(res => res.json())
       .then(targetReward => {
-        // String Cleaning & Exact Matching
         const cleanedTarget = String(targetReward).trim().toLowerCase();
         let winIndex = rewardsList.findIndex(r => r.name.trim().toLowerCase() === cleanedTarget);
         if (winIndex === -1) winIndex = 0;
@@ -320,24 +317,21 @@ function startSpin() {
         isSpinning = true;
         display.innerText = "🎰 Wheel ghoom raha hai...";
 
-        // Precise Degree Math Calculation relative to Current Position
-        const currentDeg = (currentRotationAngle * 180 / Math.PI);
-        const segmentAngle = 360 / numSegments;
+        // ABSOLUTE MATHEMATICAL ALIGNMENT TO 12 O'CLOCK PIN:
+        // Segment center offset: (winIndex + 0.5) * arcSize
+        // Pointer angle: 3 * PI / 2
+        const targetAngleForIndex = (3 * Math.PI / 2) - (winIndex + 0.5) * arcSize;
         
-        // Exact target angle required at 12 o'clock (270 deg)
-        const targetPosDeg = (270 - (winIndex * segmentAngle + segmentAngle / 2) % 360 + 360) % 360;
-        const currentPosDeg = (currentDeg % 360 + 360) % 360;
+        // 6 Full Spins + Exact Target Offset Alignment
+        const extraRounds = 6 * 2 * Math.PI;
         
-        let forwardDeg = targetPosDeg - currentPosDeg;
-        if (forwardDeg <= 0) {
-          forwardDeg += 360;
+        let targetRotation = targetAngleForIndex;
+        while (targetRotation <= currentRotationAngle) {
+          targetRotation += 2 * Math.PI;
         }
+        targetRotation += extraRounds;
 
-        // 5 Full Rounds + Exact Degree offset needed
-        const totalSpinDeg = (5 * 360) + forwardDeg;
         const startRad = currentRotationAngle;
-        const targetRad = startRad + (totalSpinDeg * Math.PI / 180);
-        
         let startTime = null;
         const duration = 5000;
 
@@ -351,7 +345,7 @@ function startSpin() {
           const progress = Math.min(elapsed / duration, 1);
 
           const easeProgress = easeOutCubic(progress);
-          currentRotationAngle = startRad + (targetRad - startRad) * easeProgress;
+          currentRotationAngle = startRad + (targetRotation - startRad) * easeProgress;
 
           drawWheel();
 
@@ -359,6 +353,8 @@ function startSpin() {
             requestAnimationFrame(animateWheel);
           } else {
             isSpinning = false;
+            currentRotationAngle = targetRotation;
+            drawWheel();
             playWinSound();
             display.style.color = "#81c784";
             display.style.backgroundColor = "rgba(46, 125, 50, 0.2)";
