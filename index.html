@@ -157,7 +157,6 @@
 <div class="wheel-box">
   <div class="pointer"></div>
   <div class="center-cap"></div>
-  <!-- HD Canvas (1000x1000) -->
   <canvas id="wheelCanvas" width="1000" height="1000"></canvas>
 </div>
 
@@ -177,7 +176,6 @@
 const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
 const TARGET_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/targetReward.json";
 
-// Products with Name and Worth/Amount
 const rewardsList = [
   { name: "Handkerchief", worth: "Worth ₹20" },
   { name: "Face Towel", worth: "Worth ₹40" },
@@ -187,7 +185,6 @@ const rewardsList = [
   { name: "FREE SHOPPING", worth: "Bumper Prize" }
 ];
 
-// Rich Vibrant Contrast Colors
 const colors = ["#d32f2f", "#1976d2", "#f57c00", "#388e3c", "#7b1fa2", "#e65100"];
 
 const canvas = document.getElementById("wheelCanvas");
@@ -198,7 +195,6 @@ let currentRotationAngle = 0;
 let isSpinning = false;
 let lastSegmentIndex = -1;
 
-// Web Audio API
 let audioCtx = null;
 
 function initAudio() {
@@ -207,7 +203,6 @@ function initAudio() {
   }
 }
 
-// Tick Sound
 function playClickSound() {
   if (!audioCtx) return;
   const osc = audioCtx.createOscillator();
@@ -223,7 +218,6 @@ function playClickSound() {
   osc.stop(audioCtx.currentTime + 0.05);
 }
 
-// Win Fanfare Tune
 function playWinSound() {
   if (!audioCtx) return;
   const notes = [261.63, 329.63, 392.00, 523.25];
@@ -247,7 +241,6 @@ function drawWheel() {
   for (let i = 0; i < numSegments; i++) {
     const angle = currentRotationAngle + i * anglePerSegment;
     
-    // Draw Slice
     ctx.beginPath();
     ctx.moveTo(500, 500);
     ctx.arc(500, 500, 480, angle, angle + anglePerSegment);
@@ -257,7 +250,6 @@ function drawWheel() {
     ctx.strokeStyle = "#ffffff";
     ctx.stroke();
 
-    // Draw White Border Bulbs
     const dotAngle = angle;
     const dotX = 500 + 465 * Math.cos(dotAngle);
     const dotY = 500 + 465 * Math.sin(dotAngle);
@@ -266,28 +258,24 @@ function drawWheel() {
     ctx.fillStyle = "#ffffff";
     ctx.fill();
 
-    // Draw Text (Name + Worth Below)
     ctx.save();
     ctx.translate(500, 500);
     ctx.rotate(angle + anglePerSegment / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = "#ffffff";
     
-    // Product Name
     ctx.font = "bold 36px Poppins";
     ctx.shadowColor = "rgba(0,0,0,0.8)";
     ctx.shadowBlur = 8;
     ctx.fillText(rewardsList[i].name, 430, -5);
 
-    // Product Worth / Amount
     ctx.font = "600 24px Poppins";
-    ctx.fillStyle = "#ffd700"; // Golden color for amount
+    ctx.fillStyle = "#ffd700";
     ctx.fillText(rewardsList[i].worth, 430, 28);
 
     ctx.restore();
   }
 
-  // Sound Tick Logic
   const normalizedAngle = (360 - ((currentRotationAngle * 180 / Math.PI) % 360) + 270) % 360;
   const currentSegment = Math.floor(normalizedAngle / (360 / numSegments));
   
@@ -308,37 +296,47 @@ function startSpin() {
   display.style.color = "#ffd700";
   display.style.backgroundColor = "rgba(255, 215, 0, 0.1)";
   display.style.border = "1px solid #ffd700";
-  display.innerText = "⏳ Access check ho raha hai...";
+  display.innerText = "⏳ Checking...";
 
-  // 1. Fetch Firebase Status
   fetch(STATUS_URL)
   .then(res => res.json())
   .then(statusData => {
     if (statusData && statusData.active === "ON") {
       
-      // Auto Turn OFF Status
       fetch(STATUS_URL, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ active: "OFF" })
       });
 
-      // 2. Fetch Admin Target Reward (No Randomization)
       fetch(TARGET_URL)
       .then(res => res.json())
       .then(targetReward => {
-        let winIndex = rewardsList.findIndex(r => r.name.trim().toLowerCase() === String(targetReward).trim().toLowerCase());
-        if (winIndex === -1) winIndex = 0; // Fallback to 0 if match fails
+        // String Cleaning & Exact Matching
+        const cleanedTarget = String(targetReward).trim().toLowerCase();
+        let winIndex = rewardsList.findIndex(r => r.name.trim().toLowerCase() === cleanedTarget);
+        if (winIndex === -1) winIndex = 0;
 
         isSpinning = true;
         display.innerText = "🎰 Wheel ghoom raha hai...";
 
-        const fullRounds = 6 * 360;
-        const targetAngleDeg = 360 - (winIndex * (360 / numSegments) + (360 / numSegments) / 2) - 90;
-        const totalTargetDeg = fullRounds + targetAngleDeg;
+        // Precise Degree Math Calculation relative to Current Position
+        const currentDeg = (currentRotationAngle * 180 / Math.PI);
+        const segmentAngle = 360 / numSegments;
         
+        // Exact target angle required at 12 o'clock (270 deg)
+        const targetPosDeg = (270 - (winIndex * segmentAngle + segmentAngle / 2) % 360 + 360) % 360;
+        const currentPosDeg = (currentDeg % 360 + 360) % 360;
+        
+        let forwardDeg = targetPosDeg - currentPosDeg;
+        if (forwardDeg <= 0) {
+          forwardDeg += 360;
+        }
+
+        // 5 Full Rounds + Exact Degree offset needed
+        const totalSpinDeg = (5 * 360) + forwardDeg;
         const startRad = currentRotationAngle;
-        const targetRad = startRad + (totalTargetDeg * Math.PI / 180);
+        const targetRad = startRad + (totalSpinDeg * Math.PI / 180);
         
         let startTime = null;
         const duration = 5000;
