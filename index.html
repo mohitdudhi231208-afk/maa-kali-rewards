@@ -8,7 +8,7 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
   body { 
-    background: radial-gradient(circle at top, #1a0203 0%, #080102 100%);
+    background: radial-gradient(circle at top, #2b0306 0%, #080102 100%);
     color: #ffffff;
     text-align: center; 
     padding: 20px 15px; 
@@ -19,100 +19,127 @@
   }
 
   .logo-container {
-    width: 100px;
-    height: 100px;
+    width: 95px;
+    height: 95px;
     margin: 5px auto 10px;
     border-radius: 50%;
     padding: 3px;
     background: linear-gradient(135deg, #ffd700, #ff4500, #ffd700);
-    box-shadow: 0 0 20px rgba(255, 69, 0, 0.7);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
   }
   .logo-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #000; }
 
-  h1 { color: #ffd700; font-size: 22px; font-weight: 800; text-shadow: 0 2px 10px rgba(255,215,0,0.3); }
-  .subtitle { color: #d1c4e9; font-size: 13px; margin-bottom: 20px; }
+  h1 { color: #ffd700; font-size: 22px; font-weight: 800; text-shadow: 0 2px 10px rgba(255,215,0,0.4); }
+  .subtitle { color: #d1c4e9; font-size: 13px; margin-bottom: 15px; }
 
-  /* Wheel Container Layout */
+  /* Wheel Outer Glow Box */
   .wheel-box {
     position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 10px auto 20px;
+    width: 310px;
+    height: 310px;
+    margin: 15px auto;
+    border-radius: 50%;
+    padding: 8px;
+    background: linear-gradient(145deg, #ffd700, #b8860b, #ff8c00, #ffd700);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 15px rgba(0,0,0,0.8);
   }
 
-  /* Pointer Arrow */
+  /* 3D Center Golden Pin */
+  .center-cap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45px;
+    height: 45px;
+    background: radial-gradient(circle, #ffe066 0%, #d4af37 60%, #8a6d0b 100%);
+    border-radius: 50%;
+    z-index: 8;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+  }
+
+  /* Sharp Red Pointer Arrow */
   .pointer {
     position: absolute;
-    top: -12px;
+    top: -18px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 25px solid #ffd700;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 32px solid #ff0000;
     z-index: 10;
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+  }
+  .pointer::after {
+    content: '';
+    position: absolute;
+    top: -32px;
+    left: -8px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 15px solid #ffe066;
   }
 
-  /* Canvas Wheel */
   #wheelCanvas {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-    border: 5px solid #ffd700;
+    display: block;
   }
 
-  /* Spin Button */
   .btn-spin { 
-    background: linear-gradient(135deg, #d32f2f, #9a0007);
+    background: linear-gradient(135deg, #ff1744, #b71c1c);
     color: #ffffff; 
-    border: 2px solid #ffb300; 
-    padding: 14px 28px; 
+    border: 2px solid #ffd700; 
+    padding: 14px 35px; 
     font-size: 16px; 
-    font-weight: 700; 
+    font-weight: 800; 
     border-radius: 50px; 
     cursor: pointer; 
-    box-shadow: 0 6px 20px rgba(211, 47, 47, 0.5); 
+    box-shadow: 0 6px 20px rgba(255, 23, 68, 0.6), 0 0 15px rgba(255, 215, 0, 0.4); 
     width: 100%;
     max-width: 280px;
+    letter-spacing: 1px;
   }
-  .btn-spin:active { transform: scale(0.96); }
+  .btn-spin:active { transform: scale(0.95); }
 
-  /* Result Display */
   #rewardDisplay { 
     margin: 20px auto 0; 
     width: 100%;
     max-width: 300px; 
-    font-size: 16px; 
+    font-size: 15px; 
     font-weight: 600; 
     padding: 15px; 
     border-radius: 12px; 
     display: none; 
+    white-space: pre-line;
   }
 
-  /* WhatsApp Box */
   .whatsapp-card {
-    margin: 25px auto 0;
+    margin: 20px auto 0;
     width: 100%;
     max-width: 300px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
+    padding: 12px;
     border-radius: 15px;
     border: 1px solid rgba(255, 215, 0, 0.2);
   }
-  .whatsapp-card h3 { color: #25D366; font-size: 15px; margin-bottom: 5px; }
-  .whatsapp-card p { font-size: 11px; color: #ccc; margin-bottom: 12px; }
+  .whatsapp-card h3 { color: #25D366; font-size: 14px; margin-bottom: 4px; }
+  .whatsapp-card p { font-size: 11px; color: #ccc; margin-bottom: 10px; }
   .btn-wa {
     display: inline-block;
     background: linear-gradient(135deg, #25D366, #128C7E);
     color: white;
     text-decoration: none;
     font-weight: 700;
-    padding: 10px 20px;
+    padding: 8px 18px;
     border-radius: 50px;
-    font-size: 13px;
+    font-size: 12px;
   }
 </style>
 </head>
@@ -125,9 +152,9 @@
 <h1>🎁 Maa Kali Spin & Win</h1>
 <p class="subtitle">Welcome to Maa Kali Vastralaya</p>
 
-<!-- Wheel Section -->
 <div class="wheel-box">
   <div class="pointer"></div>
+  <div class="center-cap"></div>
   <canvas id="wheelCanvas" width="300" height="300"></canvas>
 </div>
 
@@ -145,38 +172,51 @@
 
 <script>
 const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
+const TARGET_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/targetReward.json";
 
-// Updated Rewards List with "Free Shopping"
 const rewards = [
-  "Face Towel",
-  "FREE SHOPPING",
   "Handkerchief",
+  "Face Towel",
   "Short Dupatta",
   "₹50 OFF",
-  "Big Towel"
+  "Big Towel",
+  "FREE SHOPPING"
 ];
 
-const colors = ["#b71c1c", "#ffd700", "#1565c0", "#f57c00", "#2e7d32", "#6a1b9a"];
+// High contrast Vibrant Colors
+const colors = ["#d32f2f", "#1976d2", "#f57c00", "#388e3c", "#7b1fa2", "#ffd700"];
 
 const canvas = document.getElementById("wheelCanvas");
 const ctx = canvas.getContext("2d");
 const numSegments = rewards.length;
 const anglePerSegment = (2 * Math.PI) / numSegments;
-let startAngle = 0;
+let currentRotationAngle = 0; // Cumulative angle in radians
 let isSpinning = false;
 
-// Draw Wheel
 function drawWheel() {
+  ctx.clearRect(0, 0, 300, 300);
+
   for (let i = 0; i < numSegments; i++) {
-    const angle = startAngle + i * anglePerSegment;
+    const angle = currentRotationAngle + i * anglePerSegment;
+    
+    // Draw Segment
     ctx.beginPath();
     ctx.arc(150, 150, 145, angle, angle + anglePerSegment);
     ctx.lineTo(150, 150);
     ctx.fillStyle = colors[i];
     ctx.fill();
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     ctx.strokeStyle = "#ffffff";
     ctx.stroke();
+
+    // Draw White Dots / Bulbs on Segment Border
+    const dotAngle = angle;
+    const dotX = 150 + 140 * Math.cos(dotAngle);
+    const dotY = 150 + 140 * Math.sin(dotAngle);
+    ctx.beginPath();
+    ctx.arc(dotX, dotY, 3, 0, 2 * Math.PI);
+    ctx.fillStyle = "#ffffff";
+    ctx.fill();
 
     // Draw Text
     ctx.save();
@@ -184,8 +224,10 @@ function drawWheel() {
     ctx.rotate(angle + anglePerSegment / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = colors[i] === "#ffd700" ? "#000000" : "#ffffff";
-    ctx.font = "bold 11px Poppins";
-    ctx.fillText(rewards[i], 135, 4);
+    ctx.font = "bold 12px Poppins";
+    ctx.shadowColor = "rgba(0,0,0,0.5)";
+    ctx.shadowBlur = 4;
+    ctx.fillText(rewards[i], 130, 4);
     ctx.restore();
   }
 }
@@ -202,46 +244,70 @@ function startSpin() {
   display.style.border = "1px solid #ffd700";
   display.innerText = "⏳ Access check ho raha hai...";
 
-  // Check Status from Firebase
+  // 1. Check Status
   fetch(STATUS_URL)
   .then(res => res.json())
   .then(statusData => {
     if (statusData && statusData.active === "ON") {
       
-      // Auto Turn OFF status in Firebase
+      // Auto OFF status in Firebase
       fetch(STATUS_URL, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ active: "OFF" })
       });
 
-      // Start Wheel Rotation
-      isSpinning = true;
-      display.innerText = "🎰 Wheel ghoom raha hai...";
+      // 2. Fetch Admin Selected Target
+      fetch(TARGET_URL)
+      .then(res => res.json())
+      .then(targetReward => {
+        let winIndex = rewards.indexOf(targetReward);
+        if (winIndex === -1) winIndex = 0;
 
-      const winIndex = Math.floor(Math.random() * numSegments);
-      const randomRotations = 5 * 360;
-      
-      const targetSegmentAngle = 360 - (winIndex * (360 / numSegments) + (360 / numSegments) / 2) - 90;
-      const totalRotation = randomRotations + targetSegmentAngle;
-      
-      let currentRotation = 0;
-      const spinInterval = setInterval(() => {
-        currentRotation += 15;
-        startAngle = (currentRotation * Math.PI) / 180;
-        drawWheel();
+        isSpinning = true;
+        display.innerText = "🎰 Wheel ghoom raha hai...";
 
-        if (currentRotation >= totalRotation) {
-          clearInterval(spinInterval);
-          isSpinning = false;
+        // Calculate Target Angle
+        const fullRounds = 6 * 360; // 6 full turns
+        const targetAngleDeg = 360 - (winIndex * (360 / numSegments) + (360 / numSegments) / 2) - 90;
+        const totalTargetDeg = fullRounds + targetAngleDeg;
+        
+        const startRad = currentRotationAngle;
+        const targetRad = startRad + (totalTargetDeg * Math.PI / 180);
+        
+        let startTime = null;
+        const duration = 5000; // 5 Seconds smooth animation
 
-          // Show Final Reward
-          display.style.color = "#81c784";
-          display.style.backgroundColor = "rgba(46, 125, 50, 0.2)";
-          display.style.border = "1px solid #81c784";
-          display.innerText = "🎉 CONGRATULATIONS!\n\nAapne jeeta hai:\n" + rewards[winIndex];
+        // Ease-Out Cubic Formula for realistic slowing down
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
         }
-      }, 20);
+
+        function animateWheel(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          // Apply Easing (Fast at start, slows down smoothly at end)
+          const easeProgress = easeOutCubic(progress);
+          currentRotationAngle = startRad + (targetRad - startRad) * easeProgress;
+
+          drawWheel();
+
+          if (progress < 1) {
+            requestAnimationFrame(animateWheel);
+          } else {
+            isSpinning = false;
+            // Show Final Result
+            display.style.color = "#81c784";
+            display.style.backgroundColor = "rgba(46, 125, 50, 0.2)";
+            display.style.border = "1px solid #81c784";
+            display.innerText = "🎉 CONGRATULATIONS!\n\nAapne jeeta hai:\n" + rewards[winIndex];
+          }
+        }
+
+        requestAnimationFrame(animateWheel);
+      });
 
     } else {
       display.style.color = "#ff8a80";
