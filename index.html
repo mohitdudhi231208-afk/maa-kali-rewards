@@ -6,45 +6,11 @@
 <title>Maa Kali Rewards</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 30px 15px;
-    background-color: #f9f9f9;
-  }
-  h1 {
-    color: #b71c1c;
-    margin-bottom: 5px;
-  }
-  p {
-    color: #555;
-    font-size: 16px;
-  }
-  .btn {
-    background-color: #b71c1c;
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  }
-  .btn:active {
-    transform: scale(0.98);
-  }
-  #rewardDisplay {
-    margin: 25px auto 0;
-    max-width: 320px;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 15px;
-    border-radius: 10px;
-    display: none;
-    line-height: 1.5;
-  }
+  body { font-family: Arial, sans-serif; text-align: center; padding: 30px 15px; background-color: #f9f9f9; }
+  h1 { color: #b71c1c; margin-bottom: 5px; }
+  p { color: #555; font-size: 16px; }
+  .btn { background-color: #b71c1c; color: white; border: none; padding: 14px 28px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  #rewardDisplay { margin: 25px auto 0; max-width: 320px; font-size: 18px; font-weight: bold; padding: 15px; border-radius: 10px; display: none; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -57,56 +23,45 @@
 <div id="rewardDisplay"></div>
 
 <script>
-const FIREBASE_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/reward.json";
+const REWARD_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/reward.json";
+const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
 
 function openMyReward() {
     const display = document.getElementById("rewardDisplay");
-    
-    // Status Display Setup
     display.style.display = "block";
-
-    // 1. Check karein ki kya user pehle hi claim kar chuka hai
-    if (localStorage.getItem("rewardClaimed") === "true") {
-        display.style.color = "#d84315";
-        display.style.backgroundColor = "#fbe9e7";
-        display.style.border = "2px dashed #ffab91";
-        display.innerText = "🛍️ Aapne apna reward claim kar liya hai!\nAagami reward ke liye pehle kharidari karein.";
-        return;
-    }
-
-    // 2. Pehli baar click hone par
     display.style.color = "#e65100";
     display.style.backgroundColor = "#fff3e0";
     display.style.border = "2px dashed #ffe0b2";
-    display.innerText = "⏳ Reward khul raha hai...";
+    display.innerText = "⏳ Checking...";
 
-    fetch(FIREBASE_URL)
-    .then(res => {
-        if(!res.ok) throw new Error("Network error");
-        return res.json();
-    })
-    .then(data => {
-        if(data && data.selectedReward){
-            display.style.color = "#2e7d32";
-            display.style.backgroundColor = "#e8f5e9";
-            display.style.border = "2px solid #a5d6a7";
-            display.innerText = "🎉 CONGRATULATIONS!\n\n" + data.selectedReward;
-
-            // Claim status phone me save kar dein
-            localStorage.setItem("rewardClaimed", "true");
+    // 1. Firebase se Admin ka ON/OFF Status Check Karein
+    fetch(STATUS_URL)
+    .then(res => res.json())
+    .then(statusData => {
+        if (statusData && statusData.active === "OFF") {
+            // Agar Admin ne OFF rakha hai
+            display.style.color = "#d84315";
+            display.style.backgroundColor = "#fbe9e7";
+            display.style.border = "2px dashed #ffab91";
+            display.innerText = "🛍️ Reward paane ke liye pehle kharidari karein!";
         } else {
-            display.style.color = "#c62828";
-            display.style.backgroundColor = "#ffebee";
-            display.style.border = "2px solid #ef9a9a";
-            display.innerText = "❌ Abhi koi reward set nahi hai.";
+            // Agar Admin ne ON kar diya hai -> Reward Fetch Karein
+            fetch(REWARD_URL)
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.selectedReward) {
+                    display.style.color = "#2e7d32";
+                    display.style.backgroundColor = "#e8f5e9";
+                    display.style.border = "2px solid #a5d6a7";
+                    display.innerText = "🎉 CONGRATULATIONS!\n\n" + data.selectedReward;
+                } else {
+                    display.innerText = "❌ Abhi koi reward set nahi hai.";
+                }
+            });
         }
     })
     .catch(err => {
-        display.style.color = "#c62828";
-        display.style.backgroundColor = "#ffebee";
-        display.style.border = "2px solid #ef9a9a";
-        display.innerText = "❌ Connection Error! Dobara try karein.";
-        console.error(err);
+        display.innerText = "❌ Network Error! Refresh karke try karein.";
     });
 }
 </script>
