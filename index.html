@@ -5,6 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maa Kali Rewards</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  /* Status/Reward Text ke Styling */
+  #rewardDisplay {
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #2e7d32;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f1f8e9;
+    display: none; /* Starting me chhupa rahega */
+  }
+</style>
 </head>
 
 <body>
@@ -13,7 +26,11 @@
 
 <p>Welcome to Maa Kali Vastralaya</p>
 
-<button id="openReward">Open Your Reward</button>
+<!-- Button click hone par showReward() function chalega -->
+<button id="openReward" onclick="showReward()">Open Your Reward</button>
+
+<!-- Live Reward yahan show hoga -->
+<div id="rewardDisplay"></div>
 
 <script src="script.js"></script>
 
