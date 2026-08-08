@@ -3,324 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maa Kali Rewards - Independence Day Special</title>
+<title>Maa Kali Rewards - Spin & Win</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-  body { 
-    background: radial-gradient(circle at top, #111827 0%, #030712 100%);
-    color: #ffffff;
-    text-align: center; 
-    padding: 20px 15px; 
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logo-container {
-    width: 95px;
-    height: 95px;
-    margin: 5px auto 10px;
-    border-radius: 50%;
-    padding: 3px;
-    background: linear-gradient(135deg, #FF9933, #FFFFFF, #138808);
-    box-shadow: 0 0 25px rgba(255, 153, 51, 0.6);
-  }
-  .logo-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #000; }
-
-  /* Tiranga Text Gradient */
-  h1 { 
-    background: linear-gradient(180deg, #FF9933 20%, #FFFFFF 50%, #138808 80%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 22px; 
-    font-weight: 800; 
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
-  }
+  body { background: radial-gradient(circle at top, #111827 0%, #030712 100%); color: #ffffff; text-align: center; padding: 20px 15px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { background: linear-gradient(180deg, #FF9933 20%, #FFFFFF 50%, #138808 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; font-weight: 800; margin-bottom: 5px; }
   .subtitle { color: #cbd5e1; font-size: 13px; margin-bottom: 15px; }
 
-  /* Wheel Frame with Tricolor Border */
-  .wheel-box {
-    position: relative;
-    width: 310px;
-    height: 310px;
-    margin: 15px auto;
-    border-radius: 50%;
-    padding: 6px;
-    background: linear-gradient(135deg, #FF9933, #FFFFFF, #138808);
-    box-shadow: 0 0 30px rgba(255, 153, 51, 0.4), inset 0 0 15px rgba(0,0,0,0.8);
-  }
-
-  /* Center Ashoka Chakra Style Cap */
-  .center-cap {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 48px;
-    height: 48px;
-    background: radial-gradient(circle, #ffffff 30%, #000080 100%);
-    border-radius: 50%;
-    z-index: 8;
-    border: 3px solid #FF9933;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #000080;
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  /* Pointer Arrow */
-  .pointer {
-    position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-top: 32px solid #FF9933;
-    z-index: 10;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
-  }
-
-  /* Crisp Canvas Resolution */
-  #wheelCanvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: block;
-  }
-
-  .btn-spin { 
-    background: linear-gradient(135deg, #FF9933, #138808);
-    color: #ffffff; 
-    border: 2px solid #ffffff; 
-    padding: 14px 35px; 
-    font-size: 16px; 
-    font-weight: 800; 
-    border-radius: 50px; 
-    cursor: pointer; 
-    box-shadow: 0 6px 20px rgba(255, 153, 51, 0.5); 
-    width: 100%;
-    max-width: 280px;
-    letter-spacing: 1px;
-  }
+  /* Wheel Container */
+  .wheel-box { position: relative; width: 310px; height: 310px; margin: 15px auto; border-radius: 50%; padding: 6px; background: linear-gradient(135deg, #FF9933, #FFFFFF, #138808); box-shadow: 0 0 30px rgba(255, 153, 51, 0.4); }
+  
+  /* Blurry fix: Canvas ki resolution badi hai, CSS choti */
+  #wheelCanvas { width: 300px; height: 300px; border-radius: 50%; display: block; }
+  
+  .btn-spin { background: linear-gradient(135deg, #FF9933, #138808); color: #ffffff; border: 2px solid #ffffff; padding: 14px 35px; font-size: 16px; font-weight: 800; border-radius: 50px; cursor: pointer; width: 100%; max-width: 280px; box-shadow: 0 6px 20px rgba(255, 153, 51, 0.5); }
   .btn-spin:active { transform: scale(0.95); }
-
-  #rewardDisplay { 
-    margin: 20px auto 0; 
-    width: 100%;
-    max-width: 300px; 
-    font-size: 15px; 
-    font-weight: 600; 
-    padding: 15px; 
-    border-radius: 12px; 
-    display: none; 
-    white-space: pre-line;
-  }
-
-  .whatsapp-card {
-    margin: 20px auto 0;
-    width: 100%;
-    max-width: 300px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 153, 51, 0.3);
-  }
-  .whatsapp-card h3 { color: #25D366; font-size: 14px; margin-bottom: 4px; }
-  .whatsapp-card p { font-size: 11px; color: #ccc; margin-bottom: 10px; }
-  .btn-wa {
-    display: inline-block;
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 50px;
-    font-size: 12px;
-  }
+  
+  #rewardDisplay { margin: 20px auto 0; width: 100%; max-width: 300px; font-size: 15px; font-weight: 600; padding: 15px; border-radius: 12px; display: none; white-space: pre-line; border: 1px solid #FF9933; background: rgba(255, 153, 51, 0.1); }
 </style>
 </head>
 <body>
 
-<div class="logo-container">
-  <img src="1786193692481.png" alt="Maa Kali Logo" class="logo-img">
-</div>
-
 <h1>🇮🇳 Happy Independence Day 🇮🇳</h1>
-<p class="subtitle">Maa Kali Vastralaya - Spin & Win Offer</p>
+<p class="subtitle">Maa Kali Vastralaya - Spin & Win</p>
 
 <div class="wheel-box">
-  <div class="pointer"></div>
-  <div class="center-cap">⚙️</div>
-  <!-- Canvas dimensions doubled for Ultra High Sharpness (HD) -->
-  <canvas id="wheelCanvas" width="600" height="600"></canvas>
+  <!-- Resolution 1000x1000 kardi hai taaki blurness khatam ho jaye -->
+  <canvas id="wheelCanvas" width="1000" height="1000"></canvas>
 </div>
 
 <button class="btn-spin" onclick="startSpin()">SPIN THE WHEEL</button>
-
 <div id="rewardDisplay"></div>
 
-<div class="whatsapp-card">
-  <h3>📲 Offers & Updates</h3>
-  <p>WhatsApp Group se judein aur Independence Day discounts paayein!</p>
-  <a href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop" target="_blank" class="btn-wa">
-    💬 Join WhatsApp Group
-  </a>
-</div>
-
 <script>
+// --- CONFIGURATION ---
 const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
 const TARGET_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/targetReward.json";
 
-const rewards = [
-  "Handkerchief",
-  "Face Towel",
-  "Short Dupatta",
-  "₹50 OFF",
-  "Big Towel",
-  "FREE SHOPPING"
+const rewardsList = [
+  { name: "Handkerchief", worth: "₹20" },
+  { name: "Face Towel", worth: "₹40" },
+  { name: "Short Dupatta", worth: "₹99" },
+  { name: "₹50 OFF", worth: "Discount" },
+  { name: "Big Towel", worth: "₹150" },
+  { name: "FREE SHOPPING", worth: "Bumper Prize" }
 ];
 
-// Tiranga Color Scheme: Saffron (#FF9933), Navy Blue (#000080), Green (#138808)
 const colors = ["#FF9933", "#000080", "#138808", "#FF9933", "#000080", "#138808"];
-
 const canvas = document.getElementById("wheelCanvas");
 const ctx = canvas.getContext("2d");
-const numSegments = rewards.length;
+const numSegments = rewardsList.length;
 const anglePerSegment = (2 * Math.PI) / numSegments;
 let currentRotationAngle = 0;
 let isSpinning = false;
+let audioCtx = null;
+let lastSegmentIndex = -1;
+
+function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+
+function playClickSound() {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.1, audioCtx.currentTime); 
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+  osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+}
+
+function playWinSound() {
+  if (!audioCtx) return;
+  const notes = [261.63, 329.63, 392.00, 523.25];
+  notes.forEach((freq, index) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine'; osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.1);
+    gain.gain.setValueAtTime(0.2, audioCtx.currentTime + index * 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + index * 0.1 + 0.2);
+    osc.connect(gain); gain.connect(audioCtx.destination); osc.start(audioCtx.currentTime + index * 0.1); osc.stop(audioCtx.currentTime + index * 0.1 + 0.2);
+  });
+}
 
 function drawWheel() {
-  ctx.clearRect(0, 0, 600, 600);
-
+  ctx.clearRect(0, 0, 1000, 1000);
+  
   for (let i = 0; i < numSegments; i++) {
     const angle = currentRotationAngle + i * anglePerSegment;
-    
-    // Draw Segment
     ctx.beginPath();
-    ctx.moveTo(300, 300);
-    ctx.arc(300, 300, 290, angle, angle + anglePerSegment);
-    ctx.fillStyle = colors[i];
+    ctx.moveTo(500, 500); // Center at 500 (half of 1000)
+    ctx.arc(500, 500, 480, angle, angle + anglePerSegment);
+    ctx.fillStyle = colors[i % colors.length];
     ctx.fill();
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "#ffffff";
     ctx.stroke();
 
-    // Draw White Bulbs
-    const dotAngle = angle;
-    const dotX = 300 + 280 * Math.cos(dotAngle);
-    const dotY = 300 + 280 * Math.sin(dotAngle);
-    ctx.beginPath();
-    ctx.arc(dotX, dotY, 6, 0, 2 * Math.PI);
-    ctx.fillStyle = "#ffffff";
-    ctx.fill();
-
-    // Draw Crisp Bold Text
     ctx.save();
-    ctx.translate(300, 300);
+    ctx.translate(500, 500);
     ctx.rotate(angle + anglePerSegment / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 24px Poppins";
-    ctx.shadowColor = "rgba(0,0,0,0.8)";
-    ctx.shadowBlur = 6;
-    ctx.fillText(rewards[i], 260, 8);
+    ctx.font = "bold 40px Poppins"; // Bada font HD ke liye
+    ctx.fillText(rewardsList[i].name, 440, 10);
     ctx.restore();
   }
+
+  // Sound Logic
+  const normalizedAngle = (360 - ((currentRotationAngle * 180 / Math.PI) % 360) + 270) % 360;
+  const currentSegment = Math.floor(normalizedAngle / (360 / numSegments));
+  if (currentSegment !== lastSegmentIndex && isSpinning) { playClickSound(); lastSegmentIndex = currentSegment; }
 }
 
 drawWheel();
 
 function startSpin() {
   if (isSpinning) return;
-
+  initAudio();
   const display = document.getElementById("rewardDisplay");
+  display.innerText = "⏳ Checking...";
   display.style.display = "block";
-  display.style.color = "#FF9933";
-  display.style.backgroundColor = "rgba(255, 153, 51, 0.1)";
-  display.style.border = "1px solid #FF9933";
-  display.innerText = "⏳ Access check ho raha hai...";
 
   fetch(STATUS_URL)
   .then(res => res.json())
   .then(statusData => {
     if (statusData && statusData.active === "ON") {
-      
-      fetch(STATUS_URL, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ active: "OFF" })
-      });
-
+      fetch(STATUS_URL, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ active: "OFF" }) });
       fetch(TARGET_URL)
       .then(res => res.json())
       .then(targetReward => {
-        let winIndex = rewards.indexOf(targetReward);
+        let winIndex = rewardsList.findIndex(r => r.name === targetReward);
         if (winIndex === -1) winIndex = 0;
-
+        
         isSpinning = true;
-        display.innerText = "🎰 Wheel ghoom raha hai...";
-
-        const fullRounds = 6 * 360;
-        const targetAngleDeg = 360 - (winIndex * (360 / numSegments) + (360 / numSegments) / 2) - 90;
-        const totalTargetDeg = fullRounds + targetAngleDeg;
-        
+        const totalTargetDeg = (6 * 360) + (360 - (winIndex * (360 / numSegments) + (360 / numSegments) / 2) - 90);
         const startRad = currentRotationAngle;
-        const targetRad = startRad + (totalTargetDeg * Math.PI / 180);
-        
-        let startTime = null;
         const duration = 5000;
+        let startTime = null;
 
-        function easeOutCubic(t) {
-          return 1 - Math.pow(1 - t, 3);
-        }
-
-        function animateWheel(timestamp) {
+        function animate(timestamp) {
           if (!startTime) startTime = timestamp;
-          const elapsed = timestamp - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-
-          const easeProgress = easeOutCubic(progress);
-          currentRotationAngle = startRad + (targetRad - startRad) * easeProgress;
-
+          const progress = Math.min((timestamp - startTime) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          currentRotationAngle = startRad + (totalTargetDeg * Math.PI / 180) * ease;
           drawWheel();
-
-          if (progress < 1) {
-            requestAnimationFrame(animateWheel);
-          } else {
+          if (progress < 1) requestAnimationFrame(animate);
+          else {
             isSpinning = false;
-            display.style.color = "#81c784";
-            display.style.backgroundColor = "rgba(46, 125, 50, 0.2)";
-            display.style.border = "1px solid #81c784";
-            display.innerText = "🎉 CONGRATULATIONS!\n\nAapne jeeta hai:\n" + rewards[winIndex];
+            playWinSound();
+            display.innerText = `🎉 Mubarak ho!\nJeeta hai: ${rewardsList[winIndex].name}\nWorth: ${rewardsList[winIndex].worth}`;
           }
         }
-
-        requestAnimationFrame(animateWheel);
+        requestAnimationFrame(animate);
       });
-
     } else {
-      display.style.color = "#ff8a80";
-      display.style.backgroundColor = "rgba(198, 40, 40, 0.2)";
-      display.style.border = "1px solid #ff8a80";
       display.innerText = "🛍️ Wheel ghumane ke liye pehle kharidari karein!";
     }
-  })
-  .catch(err => {
-    display.style.color = "#ff8a80";
-    display.style.backgroundColor = "rgba(198, 40, 40, 0.2)";
-    display.innerText = "❌ Network Error! Internet check karein.";
   });
 }
 </script>
-
 </body>
 </html>
