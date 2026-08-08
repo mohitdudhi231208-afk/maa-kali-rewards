@@ -6,11 +6,45 @@
 <title>Maa Kali Rewards</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body { font-family: Arial, sans-serif; text-align: center; padding: 30px 15px; background-color: #f9f9f9; }
-  h1 { color: #b71c1c; margin-bottom: 5px; }
-  p { color: #555; font-size: 16px; }
-  .btn { background-color: #b71c1c; color: white; border: none; padding: 14px 28px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-  #rewardDisplay { margin: 25px auto 0; max-width: 320px; font-size: 18px; font-weight: bold; padding: 15px; border-radius: 10px; display: none; line-height: 1.5; }
+  body { 
+    font-family: Arial, sans-serif; 
+    text-align: center; 
+    padding: 30px 15px; 
+    background-color: #f9f9f9; 
+  }
+  h1 { 
+    color: #b71c1c; 
+    margin-bottom: 5px; 
+  }
+  p { 
+    color: #555; 
+    font-size: 16px; 
+  }
+  .btn { 
+    background-color: #b71c1c; 
+    color: white; 
+    border: none; 
+    padding: 14px 28px; 
+    font-size: 18px; 
+    font-weight: bold; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    margin-top: 20px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+  }
+  .btn:active { 
+    transform: scale(0.98); 
+  }
+  #rewardDisplay { 
+    margin: 25px auto 0; 
+    max-width: 320px; 
+    font-size: 18px; 
+    font-weight: bold; 
+    padding: 15px; 
+    border-radius: 10px; 
+    display: none; 
+    line-height: 1.5; 
+  }
 </style>
 </head>
 <body>
@@ -34,18 +68,20 @@ function openMyReward() {
     display.style.border = "2px dashed #ffe0b2";
     display.innerText = "⏳ Checking...";
 
-    // 1. Firebase se Admin ka ON/OFF Status Check Karein
+    // 1. Firebase se Admin Switch ka status check karein
     fetch(STATUS_URL)
     .then(res => res.json())
     .then(statusData => {
-        if (statusData && statusData.active === "OFF") {
-            // Agar Admin ne OFF rakha hai
-            display.style.color = "#d84315";
-            display.style.backgroundColor = "#fbe9e7";
-            display.style.border = "2px dashed #ffab91";
-            display.innerText = "🛍️ Reward paane ke liye pehle kharidari karein!";
-        } else {
-            // Agar Admin ne ON kar diya hai -> Reward Fetch Karein
+        if (statusData && statusData.active === "ON") {
+            
+            // 🛑 Automatic Switch OFF kar dein taaki dobara access block ho jaye
+            fetch(STATUS_URL, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ active: "OFF" })
+            });
+
+            // 🎁 Customer ko Reward Dikhayein
             fetch(REWARD_URL)
             .then(res => res.json())
             .then(data => {
@@ -58,10 +94,19 @@ function openMyReward() {
                     display.innerText = "❌ Abhi koi reward set nahi hai.";
                 }
             });
+
+        } else {
+            // Status OFF hone par ye message dikhega
+            display.style.color = "#d84315";
+            display.style.backgroundColor = "#fbe9e7";
+            display.style.border = "2px dashed #ffab91";
+            display.innerText = "🛍️ Reward paane ke liye pehle kharidari karein!";
         }
     })
     .catch(err => {
-        display.innerText = "❌ Network Error! Refresh karke try karein.";
+        display.style.color = "#c62828";
+        display.style.backgroundColor = "#ffebee";
+        display.innerText = "❌ Network Error! Internet check karke dobara try karein.";
     });
 }
 </script>
