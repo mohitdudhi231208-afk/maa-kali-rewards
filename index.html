@@ -171,12 +171,13 @@
 const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
 const TARGET_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/targetReward.json";
 
+// EXACT MATCH WITH ADMIN PANEL BUTTONS
 const rewardsList = [
-  { name: "Handkerchief", worth: "Worth ₹20" },
-  { name: "Face Towel", worth: "Worth ₹40" },
-  { name: "Short Dupatta", worth: "Worth ₹99" },
-  { name: "₹50 OFF", worth: "Discount Coupon" },
-  { name: "Big Towel", worth: "Worth ₹150" },
+  { name: "Face Towel", worth: "Worth ₹50" },
+  { name: "Big Face Towel", worth: "Worth ₹120" },
+  { name: "Handkerchief", worth: "Worth ₹25" },
+  { name: "Short Dupatta", worth: "Worth ₹50" },
+  { name: "₹50 OFF", worth: "Above ₹500" },
   { name: "FREE SHOPPING", worth: "Bumper Prize" }
 ];
 
@@ -259,19 +260,18 @@ function drawWheel() {
     ctx.textAlign = "right";
     ctx.fillStyle = "#ffffff";
     
-    ctx.font = "bold 36px Poppins";
+    ctx.font = "bold 34px Poppins";
     ctx.shadowColor = "rgba(0,0,0,0.8)";
     ctx.shadowBlur = 8;
     ctx.fillText(rewardsList[i].name, 430, -5);
 
-    ctx.font = "600 24px Poppins";
+    ctx.font = "600 22px Poppins";
     ctx.fillStyle = "#ffd700";
     ctx.fillText(rewardsList[i].worth, 430, 28);
 
     ctx.restore();
   }
 
-  // Pointer at Top (12 o'clock = 3*Math.PI/2)
   const pointerAngle = 3 * Math.PI / 2;
   const currentAngleOnPointer = (pointerAngle - currentRotationAngle) % (2 * Math.PI);
   const normalizedAngle = (currentAngleOnPointer + 2 * Math.PI) % (2 * Math.PI);
@@ -311,18 +311,19 @@ function startSpin() {
       .then(res => res.json())
       .then(targetReward => {
         const cleanedTarget = String(targetReward).trim().toLowerCase();
-        let winIndex = rewardsList.findIndex(r => r.name.trim().toLowerCase() === cleanedTarget);
+        
+        // Smart Fuzzy Matching to match Admin Panel Button values with rewardsList
+        let winIndex = rewardsList.findIndex(r => {
+          const nameLower = r.name.toLowerCase();
+          return cleanedTarget.includes(nameLower) || nameLower.includes(cleanedTarget);
+        });
+
         if (winIndex === -1) winIndex = 0;
 
         isSpinning = true;
         display.innerText = "🎰 Wheel ghoom raha hai...";
 
-        // ABSOLUTE MATHEMATICAL ALIGNMENT TO 12 O'CLOCK PIN:
-        // Segment center offset: (winIndex + 0.5) * arcSize
-        // Pointer angle: 3 * PI / 2
         const targetAngleForIndex = (3 * Math.PI / 2) - (winIndex + 0.5) * arcSize;
-        
-        // 6 Full Spins + Exact Target Offset Alignment
         const extraRounds = 6 * 2 * Math.PI;
         
         let targetRotation = targetAngleForIndex;
