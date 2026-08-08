@@ -12,16 +12,24 @@
   h1 { background: linear-gradient(180deg, #FF9933 20%, #FFFFFF 50%, #138808 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; font-weight: 800; margin-bottom: 5px; }
   .subtitle { color: #cbd5e1; font-size: 13px; margin-bottom: 15px; }
 
-  /* Wheel Container */
-  .wheel-box { position: relative; width: 310px; height: 310px; margin: 15px auto; border-radius: 50%; padding: 6px; background: linear-gradient(135deg, #FF9933, #FFFFFF, #138808); box-shadow: 0 0 30px rgba(255, 153, 51, 0.4); }
+  /* Wheel Box */
+  .wheel-box { position: relative; width: 310px; height: 310px; margin: 25px auto; border-radius: 50%; padding: 6px; background: linear-gradient(135deg, #FF9933, #FFFFFF, #138808); box-shadow: 0 0 30px rgba(255, 153, 51, 0.4); }
   
-  /* Blurry fix: Canvas ki resolution badi hai, CSS choti */
-  #wheelCanvas { width: 300px; height: 300px; border-radius: 50%; display: block; }
+  /* Pointer (Pin) */
+  .pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 32px solid #FF9933; z-index: 10; filter: drop-shadow(0 4px 5px rgba(0,0,0,0.5)); }
+
+  #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; display: block; }
   
   .btn-spin { background: linear-gradient(135deg, #FF9933, #138808); color: #ffffff; border: 2px solid #ffffff; padding: 14px 35px; font-size: 16px; font-weight: 800; border-radius: 50px; cursor: pointer; width: 100%; max-width: 280px; box-shadow: 0 6px 20px rgba(255, 153, 51, 0.5); }
   .btn-spin:active { transform: scale(0.95); }
   
   #rewardDisplay { margin: 20px auto 0; width: 100%; max-width: 300px; font-size: 15px; font-weight: 600; padding: 15px; border-radius: 12px; display: none; white-space: pre-line; border: 1px solid #FF9933; background: rgba(255, 153, 51, 0.1); }
+
+  /* WhatsApp Card */
+  .whatsapp-card { margin: 25px auto; width: 100%; max-width: 300px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(255, 153, 51, 0.3); }
+  .whatsapp-card h3 { color: #25D366; font-size: 14px; margin-bottom: 5px; }
+  .whatsapp-card p { font-size: 11px; color: #ccc; margin-bottom: 12px; }
+  .btn-wa { display: inline-block; background: linear-gradient(135deg, #25D366, #128C7E); color: white; text-decoration: none; font-weight: 700; padding: 8px 20px; border-radius: 50px; font-size: 12px; }
 </style>
 </head>
 <body>
@@ -30,15 +38,22 @@
 <p class="subtitle">Maa Kali Vastralaya - Spin & Win</p>
 
 <div class="wheel-box">
-  <!-- Resolution 1000x1000 kardi hai taaki blurness khatam ho jaye -->
+  <div class="pointer"></div>
   <canvas id="wheelCanvas" width="1000" height="1000"></canvas>
 </div>
 
 <button class="btn-spin" onclick="startSpin()">SPIN THE WHEEL</button>
 <div id="rewardDisplay"></div>
 
+<div class="whatsapp-card">
+  <h3>📲 Offers & Updates</h3>
+  <p>WhatsApp Group se judein aur Independence Day discounts paayein!</p>
+  <a href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop" target="_blank" class="btn-wa">
+    💬 Join WhatsApp Group
+  </a>
+</div>
+
 <script>
-// --- CONFIGURATION ---
 const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
 const TARGET_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/targetReward.json";
 
@@ -88,11 +103,10 @@ function playWinSound() {
 
 function drawWheel() {
   ctx.clearRect(0, 0, 1000, 1000);
-  
   for (let i = 0; i < numSegments; i++) {
     const angle = currentRotationAngle + i * anglePerSegment;
     ctx.beginPath();
-    ctx.moveTo(500, 500); // Center at 500 (half of 1000)
+    ctx.moveTo(500, 500);
     ctx.arc(500, 500, 480, angle, angle + anglePerSegment);
     ctx.fillStyle = colors[i % colors.length];
     ctx.fill();
@@ -103,12 +117,11 @@ function drawWheel() {
     ctx.rotate(angle + anglePerSegment / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 40px Poppins"; // Bada font HD ke liye
+    ctx.font = "bold 40px Poppins";
     ctx.fillText(rewardsList[i].name, 440, 10);
     ctx.restore();
   }
 
-  // Sound Logic
   const normalizedAngle = (360 - ((currentRotationAngle * 180 / Math.PI) % 360) + 270) % 360;
   const currentSegment = Math.floor(normalizedAngle / (360 / numSegments));
   if (currentSegment !== lastSegmentIndex && isSpinning) { playClickSound(); lastSegmentIndex = currentSegment; }
