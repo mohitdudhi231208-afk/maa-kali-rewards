@@ -6,33 +6,99 @@
 <title>Maa Kali Rewards</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  /* Status/Reward Text ke Styling */
-  #rewardDisplay {
-    margin-top: 25px;
-    font-size: 20px;
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 30px 15px;
+    background-color: #f9f9f9;
+  }
+  h1 {
+    color: #b71c1c;
+    margin-bottom: 5px;
+  }
+  p {
+    color: #555;
+    font-size: 16px;
+  }
+  .btn {
+    background-color: #b71c1c;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 18px;
     font-weight: bold;
-    color: #2e7d32;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  #rewardDisplay {
+    margin: 25px auto 0;
+    max-width: 320px;
+    font-size: 18px;
+    font-weight: bold;
     padding: 15px;
     border-radius: 10px;
-    background-color: #f1f8e9;
-    display: none; /* Starting me chhupa rahega */
+    display: none; /* Starting me hidden rahega */
+    line-height: 1.5;
   }
 </style>
 </head>
-
 <body>
 
 <h1>🎁 Maa Kali Rewards</h1>
-
 <p>Welcome to Maa Kali Vastralaya</p>
 
-<!-- Button click hone par showReward() function chalega -->
-<button id="openReward" onclick="showReward()">Open Your Reward</button>
+<!-- Button with Direct Inline Function Call -->
+<button class="btn" onclick="openMyReward()">Open Your Reward</button>
 
-<!-- Live Reward yahan show hoga -->
+<!-- Reward Text Box -->
 <div id="rewardDisplay"></div>
 
-<script src="script.js"></script>
+<script>
+const FIREBASE_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/reward.json";
+
+function openMyReward() {
+    const display = document.getElementById("rewardDisplay");
+    
+    // Status setup
+    display.style.display = "block";
+    display.style.color = "#e65100";
+    display.style.backgroundColor = "#fff3e0";
+    display.style.border = "2px dashed #ffe0b2";
+    display.innerText = "⏳ Reward khul raha hai...";
+
+    // Firebase Fetch
+    fetch(FIREBASE_URL)
+    .then(res => {
+        if(!res.ok) throw new Error("Network error");
+        return res.json();
+    })
+    .then(data => {
+        if(data && data.selectedReward){
+            display.style.color = "#2e7d32";
+            display.style.backgroundColor = "#e8f5e9";
+            display.style.border = "2px solid #a5d6a7";
+            display.innerText = "🎉 CONGRATULATIONS!\n\n" + data.selectedReward;
+        } else {
+            display.style.color = "#c62828";
+            display.style.backgroundColor = "#ffebee";
+            display.style.border = "2px solid #ef9a9a";
+            display.innerText = "❌ Abhi koi reward set nahi hai.\nAdmin panel se reward select karein.";
+        }
+    })
+    .catch(err => {
+        display.style.color = "#c62828";
+        display.style.backgroundColor = "#ffebee";
+        display.style.border = "2px solid #ef9a9a";
+        display.innerText = "❌ Connection Error!\nInternet check karke dobara click karein.";
+        console.error(err);
+    });
+}
+</script>
 
 </body>
 </html>
