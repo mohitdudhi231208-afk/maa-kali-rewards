@@ -105,6 +105,7 @@ const colors = ["#FF5722", "#4CAF50", "#FFEB3B", "#2196F3", "#9C27B0", "#E91E63"
 
 function drawWheel() {
   if(!ctx) return;
+  ctx.clearRect(0, 0, 260, 260); // Clear old drawing before redraw
   const numOptions = rewardsList.length;
   const arcSize = (2 * Math.PI) / numOptions;
 
@@ -154,9 +155,7 @@ function searchCustomer() {
       document.getElementById("loginCard").style.display = "none";
       document.getElementById("mainDashboard").style.display = "block";
 
-      // 👑 कस्टमर नाम के आगे "जी" जोड़ा गया
       document.getElementById("custName").innerText = data.name + " जी";
-      
       document.getElementById("custId").innerText = data.customerId || "MKV-CARD";
       document.getElementById("custPurchases").innerText = data.purchases || 0;
 
@@ -171,27 +170,41 @@ function searchCustomer() {
     });
 }
 
+// 🎯 UPDATED LOGIC: Minus/Add Purchase & Revoke Gift Handling
 function checkRewardEligibility(data) {
   const p = data.purchases || 0;
   const milestones = [3, 5, 8, 10];
   let eligibleMilestone = null;
 
   for(let m of milestones) {
+    // Agar current purchase milestone ke barabar ya zyaada hai
     if(p >= m) {
       if(!data.gifts || !data.gifts[m] || data.gifts[m].status !== "REDEEMED") {
         eligibleMilestone = m;
         break;
+      }
+    } else {
+      // ⚠️ CRITICAL FIX: Agar Admin ne purchase minus kar di hai aur pehle reward "REDEEMED" ho chuka tha,
+      // toh use database mein reset kar dein taaki aage wapas purchase add karne par spin open ho sake.
+      if(data.gifts && data.gifts[m] && data.gifts[m].status === "REDEEMED") {
+        delete data.gifts[m]; // Local state clean
+        fetch(`${DB_URL}customers/${data.mobile}/gifts/${m}.json`, { method: "DELETE" }); // Firebase clean
       }
     }
   }
 
   const statusArea = document.getElementById("rewardStatusArea");
   const wheelArea = document.getElementById("wheelArea");
+  const spinBtn = document.getElementById("spinBtn");
 
   if(eligibleMilestone) {
     statusArea.innerHTML = `<div class="milestone-badge">🎉 Milestone #${eligibleMilestone} अनलॉक्ड! उपहार पाने के लिए नीचे लकी व्हील घुमाएं।</div>`;
     wheelArea.style.display = "block";
     wheelArea.setAttribute("data-milestone", eligibleMilestone);
+    
+    // Wheel ko default position par reset karein
+    document.getElementById("wheel").style.transform = "rotate(0deg)";
+    spinBtn.disabled = false;
   } else {
     statusArea.innerHTML = `<p style="font-size:12px; color:#aaa; margin-bottom:10px;">अगला गिफ़्ट अनलॉक करने के लिए और ख़रीदारी करें! (गिफ़्ट माइलस्टोन: 3, 5, 8, 10)</p>`;
     wheelArea.style.display = "none";
@@ -227,7 +240,6 @@ function spinWheel() {
     const wonReward = rewardsList[targetIndex];
     const dateStr = new Date().toLocaleDateString('hi-IN');
 
-    // Save Result to Firebase
     fetch(`${DB_URL}customers/${currentCust.mobile}/gifts/${milestone}.json`, {
       method: "PUT",
       body: JSON.stringify({
@@ -252,8 +264,9 @@ function renderHistory(data) {
   const hList = document.getElementById("historyList");
   if(data.gifts) {
     let items = [];
-    for(let key in data.gifts) {
-      if(data.gifts[key].status === "REDEEMED") {
+    const milestones = [3, 5, 8, 10];
+    for(let key of milestones) {
+      if(data.gifts[key] && data.gifts[key].status === "REDEEMED") {
         items.push(`
           <div class="history-item">
             <div>
