@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Maa Kali Vastralaya - Digital Loyalty Card</title>
+<title>Maa Kali Vastralaya - Loyalty Card</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -14,13 +14,12 @@
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:'Poppins',sans-serif;
+    font-family:Poppins,Arial,sans-serif;
 }
 
 body{
-    background:
-    radial-gradient(circle at top,#2b1d00 0%,#121212 45%,#080808 100%);
-    color:#fff;
+    background:#101010;
+    color:white;
     min-height:100vh;
     padding:15px;
     max-width:500px;
@@ -28,20 +27,20 @@ body{
     text-align:center;
 }
 
+/* HEADER */
+
 .header{
-    margin-top:8px;
-    margin-bottom:18px;
+    margin:8px 0 20px;
 }
 
 .logo{
-    width:82px;
-    height:82px;
+    width:78px;
+    height:78px;
     object-fit:contain;
     border-radius:50%;
     border:2px solid #ffd700;
     padding:4px;
     background:#000;
-    box-shadow:0 0 20px rgba(255,215,0,.25);
     margin-bottom:8px;
 }
 
@@ -57,38 +56,43 @@ body{
     margin-top:3px;
 }
 
+
+/* CARD */
+
 .card{
-    background:linear-gradient(145deg,#242424,#171717);
+    background:#1d1d1d;
     padding:18px;
-    border-radius:18px;
+    border-radius:17px;
     border:1px solid #ffd700;
-    margin-bottom:16px;
-    box-shadow:0 5px 25px rgba(255,215,0,.12);
+    margin-bottom:17px;
+    box-shadow:0 5px 25px rgba(255,215,0,.10);
 }
+
+
+/* INPUT */
 
 input{
     width:100%;
     padding:13px;
-    border-radius:9px;
+    background:#050505;
+    color:white;
     border:1px solid #ffd700;
-    background:#000;
-    color:#fff;
-    font-size:15px;
+    border-radius:9px;
     text-align:center;
-    margin-bottom:12px;
+    font-size:15px;
     outline:none;
+    margin:12px 0;
 }
 
 button{
     width:100%;
     padding:13px;
+    border:0;
     border-radius:9px;
-    border:none;
     background:#ffd700;
     color:#000;
     font-weight:700;
     font-size:15px;
-    cursor:pointer;
 }
 
 button:disabled{
@@ -96,25 +100,31 @@ button:disabled{
     color:#aaa;
 }
 
-.loader-text{
+
+/* LOADER */
+
+.loader{
+    display:none;
     color:#ffd700;
     font-size:12px;
     margin-top:8px;
-    display:none;
 }
 
+
+/* USER */
+
 .user-info{
-    background:rgba(255,215,0,.07);
-    padding:14px;
-    border-radius:12px;
-    margin-bottom:15px;
     text-align:left;
+    padding:14px;
+    background:rgba(255,215,0,.07);
     border-left:4px solid #ffd700;
+    border-radius:10px;
+    margin-bottom:17px;
 }
 
 .user-info p{
     font-size:13px;
-    margin-bottom:5px;
+    margin:5px 0;
     color:#ddd;
 }
 
@@ -123,349 +133,318 @@ button:disabled{
 }
 
 
-/* ================================
+/* =========================
    LOYALTY CARD
-================================ */
+========================= */
 
 .loyalty-title{
     color:#ffd700;
-    font-size:16px;
+    font-size:17px;
     font-weight:700;
-    margin-bottom:5px;
 }
 
 .loyalty-subtitle{
-    color:#aaa;
+    color:#999;
     font-size:11px;
-    margin-bottom:15px;
+    margin:4px 0 15px;
 }
-
-
-/* 10 boxes */
 
 .loyalty-grid{
     display:grid;
     grid-template-columns:repeat(5,1fr);
-    gap:9px;
-    margin-top:10px;
+    gap:8px;
 }
 
-.purchase-box{
+.loyalty-box{
     position:relative;
-    min-height:72px;
-    border-radius:12px;
-    background:#202020;
+    height:75px;
+    background:#252525;
     border:1px solid #444;
+    border-radius:12px;
     display:flex;
     flex-direction:column;
-    align-items:center;
     justify-content:center;
-    transition:.35s;
-    overflow:hidden;
+    align-items:center;
+    transition:.3s;
 }
 
-.purchase-number{
-    font-size:20px;
-    font-weight:700;
+.loyalty-number{
     color:#777;
+    font-size:21px;
+    font-weight:700;
 }
 
-.purchase-text{
+.loyalty-label{
+    color:#777;
     font-size:8px;
-    color:#777;
-    margin-top:2px;
 }
 
-.purchase-check{
+.tick{
     display:none;
-    font-size:20px;
-    color:#fff;
+    color:white;
+    font-size:30px;
     font-weight:700;
+    line-height:1;
 }
 
-.purchase-box.completed{
-    background:#25d366;
-    border-color:#25d366;
-    box-shadow:0 0 12px rgba(37,211,102,.35);
+.loyalty-box.completed{
+    background:#20b957;
+    border-color:#20b957;
+    box-shadow:0 0 12px rgba(32,185,87,.35);
 }
 
-.purchase-box.completed .purchase-number,
-.purchase-box.completed .purchase-text{
+.loyalty-box.completed .loyalty-number,
+.loyalty-box.completed .loyalty-label{
     display:none;
 }
 
-.purchase-box.completed .purchase-check{
+.loyalty-box.completed .tick{
     display:block;
 }
 
-.purchase-box.current{
-    border-color:#ffd700;
-    box-shadow:0 0 13px rgba(255,215,0,.35);
-    animation:currentPulse 1.4s infinite;
+.loyalty-box.next{
+    border:2px solid #ffd700;
+    animation:pulse 1.2s infinite;
 }
 
-.purchase-box.gift-milestone{
-    border-color:#ff9800;
-}
-
-.purchase-box.gift-milestone.completed{
-    background:#25d366;
-    border-color:#25d366;
-}
-
-.gift-mark{
+.gift-icon{
     position:absolute;
     top:3px;
     right:5px;
     font-size:12px;
 }
 
-@keyframes currentPulse{
+@keyframes pulse{
     0%,100%{
-        transform:scale(1);
+        box-shadow:0 0 5px rgba(255,215,0,.2);
     }
     50%{
-        transform:scale(1.04);
+        box-shadow:0 0 18px rgba(255,215,0,.7);
     }
 }
 
 
-/* ================================
-   GIFT AREA
-================================ */
+/* GIFT */
 
 .gift-area{
     display:none;
-    margin:15px auto 5px;
+    margin-top:18px;
+    padding-top:12px;
+    border-top:1px dashed #555;
 }
 
-.gift-message{
+.gift-title{
     color:#ffd700;
     font-size:14px;
     font-weight:700;
-    margin-bottom:7px;
 }
 
 .gift-box{
-    width:100px;
-    height:100px;
+    font-size:70px;
     margin:8px auto;
+    width:100px;
     cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:60px;
-    filter:drop-shadow(0 0 13px rgba(255,215,0,.4));
+    animation:shake .6s infinite;
 }
 
-.shake{
-    animation:giftShake .65s infinite;
-}
-
-@keyframes giftShake{
-    0%{transform:rotate(0) scale(1);}
-    20%{transform:rotate(-9deg) scale(1.05);}
-    40%{transform:rotate(9deg) scale(1.05);}
-    60%{transform:rotate(-7deg) scale(1.05);}
-    80%{transform:rotate(7deg) scale(1.05);}
-    100%{transform:rotate(0) scale(1);}
+@keyframes shake{
+    0%{transform:rotate(0)}
+    20%{transform:rotate(-9deg)}
+    40%{transform:rotate(9deg)}
+    60%{transform:rotate(-7deg)}
+    80%{transform:rotate(7deg)}
+    100%{transform:rotate(0)}
 }
 
 .gift-hint{
-    color:#aaa;
+    color:#999;
     font-size:10px;
 }
 
 
-/* ================================
-   WHATSAPP
-================================ */
+/* WHATSAPP */
 
-.whatsapp-btn{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    width:100%;
-    padding:13px;
+.whatsapp{
+    display:block;
+    margin-top:15px;
+    padding:12px;
     border-radius:9px;
     background:#25D366;
-    color:#fff;
+    color:white;
     text-decoration:none;
+    font-size:13px;
     font-weight:700;
-    font-size:14px;
-    margin-top:15px;
 }
 
 
-/* ================================
-   HISTORY
-================================ */
+/* HISTORY */
 
-.history-box{
-    background:#1e1e1e;
-    padding:15px;
-    border-radius:12px;
+.history{
+    background:#1d1d1d;
     border:1px solid #333;
-    margin-top:18px;
+    border-radius:12px;
+    padding:15px;
     text-align:left;
 }
 
 .history-title{
     color:#ffd700;
+    font-weight:700;
     font-size:14px;
     margin-bottom:10px;
-    font-weight:bold;
 }
 
 .history-item{
-    font-size:12px;
-    padding:9px 0;
-    border-bottom:1px dashed #444;
     display:flex;
     justify-content:space-between;
-    align-items:center;
+    border-bottom:1px dashed #444;
+    padding:9px 0;
+    font-size:11px;
 }
 
-.history-item:last-child{
-    border-bottom:none;
-}
 
-
-/* ================================
-   WHEEL OVERLAY
-================================ */
+/* =========================
+   WHEEL POPUP
+========================= */
 
 #wheelOverlay{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.94);
-    z-index:9999;
-    padding:20px;
+    z-index:99999;
+    background:rgba(0,0,0,.96);
     align-items:center;
     justify-content:center;
     flex-direction:column;
+    padding:15px;
 }
 
-.wheel-title{
+.wheel-heading{
     color:#ffd700;
     font-size:20px;
     font-weight:700;
-    margin-bottom:5px;
+    margin-bottom:4px;
 }
 
-.wheel-subtitle{
+.wheel-subheading{
     color:#aaa;
     font-size:11px;
-    margin-bottom:10px;
+    margin-bottom:12px;
 }
 
-.wheel-container{
+
+/*
+ IMPORTANT:
+ Canvas itself will rotate.
+ Pointer stays fixed.
+*/
+
+.wheel-wrap{
     position:relative;
-    width:280px;
-    height:280px;
-    margin:10px auto 20px;
+    width:300px;
+    height:300px;
 }
 
 #wheel{
-    width:280px;
-    height:280px;
+    width:300px;
+    height:300px;
+    display:block;
     border-radius:50%;
     border:6px solid #ffd700;
-    background:#222;
-    box-shadow:0 0 35px rgba(255,215,0,.35);
-    transition:transform 6.5s cubic-bezier(.10,.75,.08,1);
+    background:#111;
+    box-shadow:
+        0 0 25px rgba(255,215,0,.4);
+    transform:rotate(0deg);
+    transition:
+        transform 7s cubic-bezier(.08,.72,.08,1);
 }
+
+
+/* FIXED POINTER */
 
 .pointer{
     position:absolute;
-    top:-15px;
+    z-index:20;
+    top:-10px;
     left:50%;
     transform:translateX(-50%);
     width:0;
     height:0;
-    border-left:14px solid transparent;
-    border-right:14px solid transparent;
-    border-top:28px solid #ff0055;
-    z-index:10;
-    filter:drop-shadow(0 2px 4px rgba(0,0,0,.7));
+    border-left:15px solid transparent;
+    border-right:15px solid transparent;
+    border-top:30px solid #ff1744;
+    filter:drop-shadow(0 2px 5px black);
 }
 
-#spinBtn{
-    max-width:280px;
+
+/* CENTER */
+
+.spin-button{
+    width:300px;
+    margin-top:18px;
     background:linear-gradient(135deg,#ffd700,#ff9800);
 }
 
+
+/* DISSOLVE */
+
 .dissolve{
-    animation:wheelDissolve 1.2s forwards;
+    animation:dissolveWheel 1.2s forwards;
 }
 
-@keyframes wheelDissolve{
+@keyframes dissolveWheel{
+
     0%{
         opacity:1;
-        transform:scale(1) rotate(0);
+        transform:scale(1);
         filter:blur(0);
     }
-    45%{
+
+    40%{
         opacity:.7;
-        transform:scale(1.08) rotate(8deg);
+        transform:scale(1.08);
         filter:blur(2px);
     }
+
     100%{
         opacity:0;
-        transform:scale(.2) rotate(25deg);
-        filter:blur(13px);
+        transform:scale(.15);
+        filter:blur(12px);
     }
 }
 
 
-/* ================================
-   REWARD RESULT
-================================ */
+/* RESULT */
 
-#rewardResult{
+#result{
     display:none;
-    max-width:340px;
     width:100%;
-    background:linear-gradient(145deg,#332300,#171717);
+    max-width:340px;
+    background:#211900;
     border:2px solid #ffd700;
     border-radius:18px;
-    padding:22px;
-    box-shadow:0 0 35px rgba(255,215,0,.3);
-    animation:rewardAppear .7s ease;
+    padding:23px;
+    box-shadow:0 0 35px rgba(255,215,0,.35);
 }
 
-@keyframes rewardAppear{
-    from{
-        opacity:0;
-        transform:scale(.5) translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:scale(1) translateY(0);
-    }
+.result-icon{
+    font-size:55px;
 }
 
-.reward-icon{
-    font-size:50px;
-    margin-bottom:8px;
-}
-
-.reward-small{
+.result-small{
     color:#aaa;
     font-size:11px;
-    margin-bottom:5px;
+    margin-top:4px;
 }
 
-.reward-name{
+.result-reward{
     color:#ffd700;
-    font-size:20px;
+    font-size:21px;
     font-weight:700;
-    margin-bottom:14px;
+    margin:10px 0 15px;
 }
 
-.reward-note{
+.result-note{
     color:#ddd;
     font-size:11px;
     line-height:1.5;
@@ -473,9 +452,9 @@ button:disabled{
 }
 
 .footer{
-    color:#666;
+    color:#555;
     font-size:9px;
-    margin:18px 0 5px;
+    margin:18px 0;
 }
 
 </style>
@@ -485,9 +464,9 @@ button:disabled{
 <body>
 
 
-<!-- ================================
+<!-- =========================
      HEADER
-================================ -->
+========================= -->
 
 <div class="header">
 
@@ -504,260 +483,261 @@ button:disabled{
 </div>
 
 
-<!-- ================================
+<!-- =========================
      LOGIN
-================================ -->
+========================= -->
 
 <div class="card" id="loginCard">
 
     <h3>📱 अपना कार्ड खोलें</h3>
 
-    <p style="font-size:12px;color:#aaa;margin:5px 0 15px;">
+    <p style="color:#aaa;font-size:12px;margin-top:5px;">
         अपना 10-अंकों का मोबाइल नंबर दर्ज करें
     </p>
 
     <input
+        id="mobile"
         type="tel"
-        id="custMobile"
-        placeholder="Enter Mobile Number"
         maxlength="10"
+        placeholder="Enter Mobile Number"
     >
 
-    <button
-        id="searchBtn"
-        onclick="searchCustomer()"
-    >
+    <button id="searchBtn" onclick="searchCustomer()">
         कार्ड देखें / Open Card
     </button>
 
-    <div id="loginLoader" class="loader-text">
+    <div id="loader" class="loader">
         ⏳ कार्ड खोज रहे हैं...
     </div>
 
 </div>
 
 
-<!-- ================================
+<!-- =========================
      DASHBOARD
-================================ -->
+========================= -->
 
-<div id="mainDashboard" style="display:none;">
+<div id="dashboard" style="display:none;">
 
-    <div class="card">
+<div class="card">
 
-        <div class="user-info">
+    <div class="user-info">
 
-            <p>
-                नाम:
-                <b id="custName">-</b>
-            </p>
+        <p>
+            नाम:
+            <b id="name">-</b>
+        </p>
 
-            <p>
-                कार्ड ID:
-                <span id="custId">-</span>
-            </p>
+        <p>
+            कार्ड ID:
+            <span id="cardId">-</span>
+        </p>
 
-            <p>
-                कुल ख़रीदारी:
-                <b id="custPurchases" style="font-size:18px;">
-                    0
-                </b>
-                / 10
-            </p>
+        <p>
+            कुल ख़रीदारी:
+            <b id="purchaseCount">0</b>
+            / 10
+        </p>
 
+    </div>
+
+
+    <!-- LOYALTY -->
+
+    <div class="loyalty-title">
+        🪪 Loyalty Card
+    </div>
+
+    <div class="loyalty-subtitle">
+        आपकी हर खरीदारी यहाँ live दिखाई देगी
+    </div>
+
+
+    <div class="loyalty-grid">
+
+        <div class="loyalty-box" id="box1">
+            <span class="loyalty-number">1</span>
+            <span class="loyalty-label">Purchase</span>
+            <span class="tick">✓</span>
         </div>
 
-
-        <!-- LOYALTY CARD -->
-
-        <div class="loyalty-title">
-            🪪 Your Loyalty Card
+        <div class="loyalty-box" id="box2">
+            <span class="loyalty-number">2</span>
+            <span class="loyalty-label">Purchase</span>
+            <span class="tick">✓</span>
         </div>
 
-        <div class="loyalty-subtitle">
-            हर खरीदारी पर एक box पूरा करें
+        <div class="loyalty-box" id="box3">
+            <span class="gift-icon">🎁</span>
+            <span class="loyalty-number">3</span>
+            <span class="loyalty-label">Gift</span>
+            <span class="tick">✓</span>
         </div>
 
-
-        <div class="loyalty-grid">
-
-            <div class="purchase-box" id="purchase1">
-                <span class="purchase-number">1</span>
-                <span class="purchase-text">Purchase</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box" id="purchase2">
-                <span class="purchase-number">2</span>
-                <span class="purchase-text">Purchase</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box gift-milestone" id="purchase3">
-                <span class="gift-mark">🎁</span>
-                <span class="purchase-number">3</span>
-                <span class="purchase-text">Gift</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box" id="purchase4">
-                <span class="purchase-number">4</span>
-                <span class="purchase-text">Purchase</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box gift-milestone" id="purchase5">
-                <span class="gift-mark">🎁</span>
-                <span class="purchase-number">5</span>
-                <span class="purchase-text">Gift</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box" id="purchase6">
-                <span class="purchase-number">6</span>
-                <span class="purchase-text">Purchase</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box" id="purchase7">
-                <span class="purchase-number">7</span>
-                <span class="purchase-text">Purchase</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box gift-milestone" id="purchase8">
-                <span class="gift-mark">🎁</span>
-                <span class="purchase-number">8</span>
-                <span class="purchase-text">Gift</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box" id="purchase9">
-                <span class="purchase-number">9</span>
-                <span class="purchase-text">Purchase</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
-            <div class="purchase-box gift-milestone" id="purchase10">
-                <span class="gift-mark">🎁</span>
-                <span class="purchase-number">10</span>
-                <span class="purchase-text">Gift</span>
-                <span class="purchase-check">✓</span>
-            </div>
-
+        <div class="loyalty-box" id="box4">
+            <span class="loyalty-number">4</span>
+            <span class="loyalty-label">Purchase</span>
+            <span class="tick">✓</span>
         </div>
 
-
-        <!-- GIFT AREA -->
-
-        <div id="giftArea" class="gift-area">
-
-            <div id="giftMessage" class="gift-message">
-                🎉 आपका Gift Unlock हो गया!
-            </div>
-
-            <div
-                id="giftBox"
-                class="gift-box shake"
-                onclick="openGift()"
-            >
-                🎁
-            </div>
-
-            <div class="gift-hint">
-                👆 Gift box पर tap करके अपना reward खोलें
-            </div>
-
+        <div class="loyalty-box" id="box5">
+            <span class="gift-icon">🎁</span>
+            <span class="loyalty-number">5</span>
+            <span class="loyalty-label">Gift</span>
+            <span class="tick">✓</span>
         </div>
 
+        <div class="loyalty-box" id="box6">
+            <span class="loyalty-number">6</span>
+            <span class="loyalty-label">Purchase</span>
+            <span class="tick">✓</span>
+        </div>
 
-        <!-- WHATSAPP -->
+        <div class="loyalty-box" id="box7">
+            <span class="loyalty-number">7</span>
+            <span class="loyalty-label">Purchase</span>
+            <span class="tick">✓</span>
+        </div>
 
-        <a
-            href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop"
-            target="_blank"
-            class="whatsapp-btn"
+        <div class="loyalty-box" id="box8">
+            <span class="gift-icon">🎁</span>
+            <span class="loyalty-number">8</span>
+            <span class="loyalty-label">Gift</span>
+            <span class="tick">✓</span>
+        </div>
+
+        <div class="loyalty-box" id="box9">
+            <span class="loyalty-number">9</span>
+            <span class="loyalty-label">Purchase</span>
+            <span class="tick">✓</span>
+        </div>
+
+        <div class="loyalty-box" id="box10">
+            <span class="gift-icon">🎁</span>
+            <span class="loyalty-number">10</span>
+            <span class="loyalty-label">Gift</span>
+            <span class="tick">✓</span>
+        </div>
+
+    </div>
+
+
+    <!-- GIFT -->
+
+    <div id="giftArea" class="gift-area">
+
+        <div id="giftTitle" class="gift-title">
+            🎉 आपका Gift Unlock हो गया!
+        </div>
+
+        <div
+            class="gift-box"
+            onclick="openGift()"
         >
-            👥 WhatsApp Community में Join करें
-        </a>
-
-    </div>
-
-
-    <!-- HISTORY -->
-
-    <div class="history-box">
-
-        <div class="history-title">
-            🎁 आपके मिले हुए उपहार
+            🎁
         </div>
 
-        <div id="historyList">
-
-            <p style="font-size:11px;color:#aaa;">
-                अभी तक कोई उपहार क्लेम नहीं किया गया है।
-            </p>
-
+        <div class="gift-hint">
+            Gift box पर tap करके reward खोलें
         </div>
 
     </div>
+
+
+    <!-- WHATSAPP -->
+
+    <a
+        class="whatsapp"
+        href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop"
+        target="_blank"
+    >
+        👥 WhatsApp Community Join करें
+    </a>
 
 </div>
 
 
-<!-- ================================
-     WHEEL
-================================ -->
+<!-- HISTORY -->
+
+<div class="history">
+
+    <div class="history-title">
+        🎁 Gift Claim History
+    </div>
+
+    <div id="historyList">
+        <p style="color:#aaa;font-size:11px;">
+            अभी तक कोई gift claim नहीं किया गया।
+        </p>
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     WHEEL OVERLAY
+========================= -->
 
 <div id="wheelOverlay">
 
-    <div class="wheel-title">
+    <div class="wheel-heading">
         🎉 आपका Gift तैयार है!
     </div>
 
-    <div class="wheel-subtitle">
-        Spin करें और अपना reward देखें
+    <div class="wheel-subheading">
+        Spin the wheel and win your reward
     </div>
 
-    <div id="wheelContainer" class="wheel-container">
+
+    <div class="wheel-wrap">
 
         <div class="pointer"></div>
 
         <canvas
             id="wheel"
-            width="280"
-            height="280"
+            width="300"
+            height="300"
         ></canvas>
 
     </div>
 
-    <button id="spinBtn" onclick="spinWheel()">
+
+    <button
+        id="spinButton"
+        class="spin-button"
+        onclick="spinWheel()"
+    >
         🎡 SPIN THE WHEEL
     </button>
 
 
     <!-- RESULT -->
 
-    <div id="rewardResult">
+    <div id="result">
 
-        <div class="reward-icon">
+        <div class="result-icon">
             🎁
         </div>
 
-        <div class="reward-small">
+        <div class="result-small">
             CONGRATULATIONS!
         </div>
 
-        <div id="rewardName" class="reward-name">
+        <div
+            id="resultReward"
+            class="result-reward"
+        >
             -
         </div>
 
-        <div class="reward-note">
-            इस reward को पाने के लिए दुकान के counter पर
-            यह screen दिखाएँ।
+        <div class="result-note">
+            अपना reward लेने के लिए दुकान के
+            counter पर यह screen दिखाएँ।
         </div>
 
-        <button onclick="closeReward()">
+        <button onclick="closeResult()">
             ❤️ धन्यवाद
         </button>
 
@@ -767,11 +747,12 @@ button:disabled{
 
 
 <div class="footer">
-    © Maa Kali Vastralaya • Digital Loyalty Rewards
+    Maa Kali Vastralaya • Digital Loyalty Rewards
 </div>
 
 
 <script>
+
 
 /* =========================================
    FIREBASE
@@ -785,7 +766,7 @@ const DB_URL =
    REWARDS
 ========================================= */
 
-const rewardsList = [
+const rewards = [
 
     "Face Towel (₹50)",
 
@@ -802,26 +783,34 @@ const rewardsList = [
 ];
 
 
-const colors = [
-    "#FF5722",
-    "#4CAF50",
-    "#FFEB3B",
-    "#2196F3",
-    "#9C27B0",
-    "#E91E63"
+/*
+ हर slice का अपना अलग color
+*/
+
+const rewardColors = [
+
+    "#ff5722",
+    "#4caf50",
+    "#ffca28",
+    "#2196f3",
+    "#9c27b0",
+    "#e91e63"
+
 ];
 
 
 const milestones = [3,5,8,10];
 
 
-let currentCust = null;
+let currentCustomer = null;
 
 let currentMilestone = null;
 
 let selectedReward = null;
 
-let isSpinning = false;
+let selectedIndex = null;
+
+let spinning = false;
 
 let audioContext = null;
 
@@ -830,7 +819,7 @@ let audioContext = null;
    AUDIO
 ========================================= */
 
-function startAudio(){
+function initAudio(){
 
     try{
 
@@ -850,130 +839,139 @@ function startAudio(){
 
         }
 
-    }catch(e){
-
-        console.log("Audio unavailable");
-
-    }
+    }catch(e){}
 
 }
 
 
-function playSpinSound(){
+/*
+ Continuous tick sound
+*/
 
-    startAudio();
+function spinSound(){
+
+    initAudio();
 
     if(!audioContext) return;
 
     const start =
         audioContext.currentTime;
 
-    for(let i=0;i<50;i++){
 
-        const time =
-            start + i * 0.12;
+    for(let i=0;i<55;i++){
 
-        const oscillator =
+        const osc =
             audioContext.createOscillator();
 
         const gain =
             audioContext.createGain();
 
-        oscillator.type = "square";
+        const t =
+            start + i * .12;
 
-        oscillator.frequency.setValueAtTime(
-            600 + (i % 5) * 70,
-            time
-        );
+
+        osc.type = "square";
+
+        osc.frequency.value =
+            650 + (i % 4) * 90;
+
 
         gain.gain.setValueAtTime(
-            0.0001,
-            time
+            .001,
+            t
         );
 
         gain.gain.exponentialRampToValueAtTime(
-            0.07,
-            time + .01
+            .08,
+            t + .01
         );
 
         gain.gain.exponentialRampToValueAtTime(
-            0.0001,
-            time + .055
+            .001,
+            t + .06
         );
 
-        oscillator.connect(gain);
+
+        osc.connect(gain);
 
         gain.connect(
             audioContext.destination
         );
 
-        oscillator.start(time);
 
-        oscillator.stop(time + .06);
+        osc.start(t);
+
+        osc.stop(t + .07);
 
     }
 
 }
 
 
-function playWinSound(){
+/*
+ Winning sound
+*/
 
-    startAudio();
+function winSound(){
+
+    initAudio();
 
     if(!audioContext) return;
+
 
     const notes = [
         523.25,
         659.25,
         783.99,
-        1046.50
+        1046.5
     ];
 
-    const start =
-        audioContext.currentTime;
 
-    notes.forEach((freq,index)=>{
+    notes.forEach((freq,i)=>{
 
-        const oscillator =
+        const osc =
             audioContext.createOscillator();
 
         const gain =
             audioContext.createGain();
 
-        const time =
-            start + index * .15;
+        const t =
+            audioContext.currentTime +
+            i * .14;
 
-        oscillator.type = "sine";
 
-        oscillator.frequency.setValueAtTime(
-            freq,
-            time
-        );
+        osc.type = "sine";
+
+        osc.frequency.value =
+            freq;
+
 
         gain.gain.setValueAtTime(
-            .0001,
-            time
+            .001,
+            t
         );
 
         gain.gain.exponentialRampToValueAtTime(
             .25,
-            time + .03
+            t + .03
         );
 
         gain.gain.exponentialRampToValueAtTime(
-            .0001,
-            time + .45
+            .001,
+            t + .45
         );
 
-        oscillator.connect(gain);
+
+        osc.connect(gain);
 
         gain.connect(
             audioContext.destination
         );
 
-        oscillator.start(time);
 
-        oscillator.stop(time + .5);
+        osc.start(t);
+
+        osc.stop(t + .5);
 
     });
 
@@ -981,16 +979,19 @@ function playWinSound(){
 
 
 /* =========================================
-   SEARCH CUSTOMER
+   LOGIN
 ========================================= */
 
 function searchCustomer(){
 
-    startAudio();
+    initAudio();
+
 
     const mobile =
-        document.getElementById("custMobile")
-        .value.trim();
+        document.getElementById("mobile")
+        .value
+        .trim();
+
 
     if(!/^\d{10}$/.test(mobile)){
 
@@ -1002,15 +1003,22 @@ function searchCustomer(){
 
     }
 
-    const searchBtn =
-        document.getElementById("searchBtn");
+
+    const btn =
+        document.getElementById(
+            "searchBtn"
+        );
 
     const loader =
-        document.getElementById("loginLoader");
+        document.getElementById(
+            "loader"
+        );
 
-    searchBtn.disabled = true;
+
+    btn.disabled = true;
 
     loader.style.display = "block";
+
 
     fetch(
         `${DB_URL}customers/${mobile}.json`
@@ -1020,64 +1028,65 @@ function searchCustomer(){
 
     .then(data=>{
 
-        searchBtn.disabled = false;
+        btn.disabled = false;
 
         loader.style.display = "none";
+
 
         if(!data){
 
             alert(
-                "आपका कार्ड नहीं मिला! कृपया दुकान पर संपर्क करें।"
+                "आपका loyalty card नहीं मिला!"
             );
 
             return;
 
         }
 
-        currentCust = {
+
+        currentCustomer = {
             ...data,
             mobile:mobile
         };
+
 
         document.getElementById(
             "loginCard"
         ).style.display = "none";
 
-        document.getElementById(
-            "mainDashboard"
-        ).style.display = "block";
 
         document.getElementById(
-            "custName"
+            "dashboard"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "name"
         ).innerText =
             (data.name || "Customer") + " जी";
 
-        document.getElementById(
-            "custId"
-        ).innerText =
-            data.customerId || "MKV-CARD";
 
         document.getElementById(
-            "custPurchases"
+            "cardId"
         ).innerText =
-            data.purchases || 0;
+            data.customerId ||
+            "MKV-CARD";
 
-        updateDashboard(data);
 
-        renderHistory(data);
+        updateCustomerScreen();
+
+        renderHistory();
 
     })
 
-    .catch(error=>{
+    .catch(()=>{
 
-        console.log(error);
-
-        searchBtn.disabled = false;
+        btn.disabled = false;
 
         loader.style.display = "none";
 
         alert(
-            "नेटवर्क समस्या! कृपया दोबारा प्रयास करें।"
+            "Network error! दोबारा try करें।"
         );
 
     });
@@ -1086,62 +1095,52 @@ function searchCustomer(){
 
 
 /* =========================================
-   UPDATE DASHBOARD
+   UPDATE CUSTOMER SCREEN
 ========================================= */
 
-function updateDashboard(data){
+function updateCustomerScreen(){
+
+    if(!currentCustomer) return;
+
 
     const purchases =
-        Number(data.purchases || 0);
+        Number(
+            currentCustomer.purchases || 0
+        );
+
 
     document.getElementById(
-        "custPurchases"
-    ).innerText = purchases;
-
-    updateLoyaltyCard(
-        purchases,
-        data
-    );
-
-    checkRewardEligibility(
-        data
-    );
-
-}
+        "purchaseCount"
+    ).innerText =
+        purchases;
 
 
-/* =========================================
-   LIVE 1-10 CARD
-========================================= */
-
-function updateLoyaltyCard(
-    purchases,
-    data
-){
+    /*
+     LIVE TICK
+    */
 
     for(let i=1;i<=10;i++){
 
         const box =
             document.getElementById(
-                "purchase" + i
+                "box"+i
             );
 
-        if(!box) continue;
 
         box.classList.remove(
             "completed"
         );
 
         box.classList.remove(
-            "current"
+            "next"
         );
 
 
-        /*
-        Purchase completed
-        */
-
         if(i <= purchases){
+
+            /*
+             Purchase completed
+             */
 
             box.classList.add(
                 "completed"
@@ -1149,57 +1148,63 @@ function updateLoyaltyCard(
 
         }
 
-
-        /*
-        Next purchase highlight
-        */
-
         else if(
             i === purchases + 1 &&
             purchases < 10
         ){
 
+            /*
+             अगली purchase
+             */
+
             box.classList.add(
-                "current"
+                "next"
             );
 
         }
 
     }
 
+
+    checkGift();
+
 }
 
 
 /* =========================================
-   CHECK GIFT
+   GIFT CHECK
 ========================================= */
 
-function checkRewardEligibility(data){
+function checkGift(){
 
     const purchases =
-        Number(data.purchases || 0);
+        Number(
+            currentCustomer.purchases || 0
+        );
 
-    let eligibleMilestone = null;
+
+    let available = null;
 
 
-    for(let i=0;i<milestones.length;i++){
+    for(const milestone of milestones){
 
-        const m =
-            milestones[i];
+        const gift =
+            currentCustomer.gifts &&
+            currentCustomer.gifts[milestone];
+
 
         const claimed =
-            data.gifts &&
-            data.gifts[m] &&
-            data.gifts[m].status ===
-            "REDEEMED";
+            gift &&
+            gift.status === "REDEEMED";
 
 
         if(
-            purchases >= m &&
+            purchases >= milestone &&
             !claimed
         ){
 
-            eligibleMilestone = m;
+            available =
+                milestone;
 
             break;
 
@@ -1214,24 +1219,20 @@ function checkRewardEligibility(data){
         );
 
 
-    if(eligibleMilestone){
+    if(available){
 
         currentMilestone =
-            eligibleMilestone;
+            available;
+
 
         giftArea.style.display =
             "block";
 
-        document.getElementById(
-            "giftMessage"
-        ).innerText =
-            `🎉 Purchase ${eligibleMilestone} का Gift Unlock हो गया!`;
 
         document.getElementById(
-            "giftBox"
-        ).classList.add(
-            "shake"
-        );
+            "giftTitle"
+        ).innerText =
+            `🎉 Purchase ${available} का Gift Unlock हो गया!`;
 
     }
 
@@ -1248,106 +1249,72 @@ function checkRewardEligibility(data){
 
 
 /* =========================================
-   OPEN GIFT
-========================================= */
-
-function openGift(){
-
-    if(
-        !currentCust ||
-        !currentMilestone
-    ){
-
-        return;
-
-    }
-
-    startAudio();
-
-    const overlay =
-        document.getElementById(
-            "wheelOverlay"
-        );
-
-    document.getElementById(
-        "giftArea"
-    ).style.display = "none";
-
-    overlay.style.display = "flex";
-
-    const wheel =
-        document.getElementById("wheel");
-
-    wheel.classList.remove("dissolve");
-
-    wheel.style.opacity = "1";
-
-    wheel.style.transform =
-        "rotate(0deg)";
-
-    document.getElementById(
-        "wheelContainer"
-    ).style.display = "block";
-
-    document.getElementById(
-        "spinBtn"
-    ).style.display = "block";
-
-    document.getElementById(
-        "spinBtn"
-    ).disabled = false;
-
-    document.getElementById(
-        "spinBtn"
-    ).innerText =
-        "🎡 SPIN THE WHEEL";
-
-    document.getElementById(
-        "rewardResult"
-    ).style.display = "none";
-
-    drawWheel();
-
-}
-
-
-/* =========================================
    DRAW WHEEL
 ========================================= */
 
 function drawWheel(){
 
     const canvas =
-        document.getElementById("wheel");
+        document.getElementById(
+            "wheel"
+        );
+
 
     const ctx =
         canvas.getContext("2d");
 
-    const center = 140;
 
-    const radius = 134;
+    const size =
+        canvas.width;
+
+
+    const center =
+        size / 2;
+
+
+    const radius =
+        center - 5;
+
 
     ctx.clearRect(
         0,
         0,
-        canvas.width,
-        canvas.height
+        size,
+        size
     );
 
-    const total =
-        rewardsList.length;
 
-    const arc =
-        Math.PI * 2 / total;
+    const slice =
+        Math.PI * 2 /
+        rewards.length;
 
 
-    for(let i=0;i<total;i++){
+    /*
+     IMPORTANT:
+     Slice 0 is positioned at TOP.
+     Therefore pointer will always
+     correspond exactly to reward index.
+    */
+
+
+    for(
+        let i=0;
+        i<rewards.length;
+        i++
+    ){
+
+        /*
+         Start from -90 degrees
+         */
 
         const start =
-            i * arc;
+            -Math.PI / 2 +
+            i * slice;
+
 
         const end =
-            start + arc;
+            start + slice;
+
 
         ctx.beginPath();
 
@@ -1355,6 +1322,7 @@ function drawWheel(){
             center,
             center
         );
+
 
         ctx.arc(
             center,
@@ -1364,12 +1332,16 @@ function drawWheel(){
             end
         );
 
+
         ctx.closePath();
 
+
         ctx.fillStyle =
-            colors[i];
+            rewardColors[i];
+
 
         ctx.fill();
+
 
         ctx.strokeStyle =
             "#111";
@@ -1379,82 +1351,150 @@ function drawWheel(){
         ctx.stroke();
 
 
+        /*
+         TEXT
+        */
+
         ctx.save();
+
 
         ctx.translate(
             center,
             center
         );
 
+
         ctx.rotate(
-            start + arc / 2
+            start +
+            slice / 2
         );
 
-        ctx.textAlign = "right";
+
+        ctx.textAlign =
+            "right";
+
+        ctx.textBaseline =
+            "middle";
+
 
         ctx.fillStyle =
-            i === 2
-            ? "#000"
-            : "#fff";
+            "#fff";
+
 
         ctx.font =
-            "bold 10px Poppins";
+            "bold 11px Arial";
+
 
         let text =
-            rewardsList[i];
+            rewards[i];
 
-        if(text.length > 22){
 
-            if(
-                text === "₹50 OFF (Above ₹500)"
-            ){
-                text = "₹50 OFF";
-            }
+        /*
+         Short text inside wheel
+        */
 
-            if(
-                text === "100% OFF Purchase"
-            ){
-                text = "100% OFF";
-            }
+        if(
+            text ===
+            "Face Towel (₹50)"
+        ){
+
+            text = "Face Towel";
 
         }
 
+        if(
+            text ===
+            "Big Face Towel (₹120)"
+        ){
+
+            text = "Big Towel";
+
+        }
+
+        if(
+            text ===
+            "Handkerchief (₹25)"
+        ){
+
+            text = "Hanky";
+
+        }
+
+        if(
+            text ===
+            "Short Dupatta (₹50)"
+        ){
+
+            text = "Dupatta";
+
+        }
+
+        if(
+            text ===
+            "₹50 OFF (Above ₹500)"
+        ){
+
+            text = "₹50 OFF";
+
+        }
+
+        if(
+            text ===
+            "100% OFF Purchase"
+        ){
+
+            text = "100% OFF";
+
+        }
+
+
         ctx.fillText(
             text,
-            radius - 8,
-            4
+            radius - 14,
+            0
         );
+
 
         ctx.restore();
 
     }
 
 
+    /*
+     Center circle
+    */
+
     ctx.beginPath();
 
     ctx.arc(
         center,
         center,
-        24,
+        27,
         0,
         Math.PI * 2
     );
 
-    ctx.fillStyle = "#111";
+    ctx.fillStyle =
+        "#111";
 
     ctx.fill();
 
-    ctx.strokeStyle = "#ffd700";
+    ctx.strokeStyle =
+        "#ffd700";
 
     ctx.lineWidth = 3;
 
     ctx.stroke();
 
-    ctx.font = "18px Arial";
 
-    ctx.textAlign = "center";
+    ctx.font =
+        "20px Arial";
 
-    ctx.textBaseline = "middle";
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
 
     ctx.fillText(
         "🎁",
@@ -1466,14 +1506,97 @@ function drawWheel(){
 
 
 /* =========================================
-   SPIN
+   OPEN GIFT
+========================================= */
+
+function openGift(){
+
+    if(
+        !currentCustomer ||
+        !currentMilestone ||
+        spinning
+    ){
+
+        return;
+
+    }
+
+
+    initAudio();
+
+
+    const overlay =
+        document.getElementById(
+            "wheelOverlay"
+        );
+
+
+    overlay.style.display =
+        "flex";
+
+
+    const wheel =
+        document.getElementById(
+            "wheel"
+        );
+
+
+    wheel.classList.remove(
+        "dissolve"
+    );
+
+
+    wheel.style.transition =
+        "none";
+
+
+    wheel.style.transform =
+        "rotate(0deg)";
+
+
+    /*
+     Force browser reflow
+     */
+
+    void wheel.offsetWidth;
+
+
+    wheel.style.transition =
+        "transform 7s cubic-bezier(.08,.72,.08,1)";
+
+
+    document.getElementById(
+        "result"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "spinButton"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "spinButton"
+    ).disabled =
+        false;
+
+
+    drawWheel();
+
+}
+
+
+/* =========================================
+   SPIN WHEEL
 ========================================= */
 
 function spinWheel(){
 
     if(
-        isSpinning ||
-        !currentCust ||
+        spinning ||
+        !currentCustomer ||
         !currentMilestone
     ){
 
@@ -1481,132 +1604,209 @@ function spinWheel(){
 
     }
 
-    isSpinning = true;
 
-    const spinBtn =
-        document.getElementById("spinBtn");
+    spinning = true;
 
-    spinBtn.disabled = true;
 
-    spinBtn.innerText =
-        "🎡 Spinning...";
+    const button =
+        document.getElementById(
+            "spinButton"
+        );
 
-    startAudio();
 
-    playSpinSound();
+    button.disabled = true;
+
+    button.innerText =
+        "🎡 Wheel घूम रहा है...";
 
 
     /*
-    Admin selected reward
+     ==============================
+     FIND REWARD
+     ==============================
     */
 
-    const targetReward =
-        currentCust.targetReward;
 
-    let targetIndex;
+    let target;
+
+
+    const adminReward =
+        currentCustomer.targetReward;
 
 
     if(
-        targetReward &&
-        targetReward !== "AUTO" &&
-        rewardsList.includes(targetReward)
+        adminReward &&
+        adminReward !== "AUTO" &&
+        rewards.includes(adminReward)
     ){
 
-        targetIndex =
-            rewardsList.indexOf(
-                targetReward
+        /*
+         Admin panel selected reward
+        */
+
+        target =
+            rewards.indexOf(
+                adminReward
             );
 
     }
 
     else{
 
-        targetIndex =
+        /*
+         Random reward
+        */
+
+        target =
             Math.floor(
                 Math.random() *
-                rewardsList.length
+                rewards.length
             );
 
     }
 
 
+    selectedIndex =
+        target;
+
+
     selectedReward =
-        rewardsList[targetIndex];
+        rewards[target];
 
 
-    const slice =
-        360 / rewardsList.length;
+    /*
+     ==============================
+     EXACT POINTER CALCULATION
+     ==============================
+     
+     Our slice 0 is centered at TOP.
 
-    const centerAngle =
-        targetIndex * slice +
-        slice / 2;
+     Pointer = TOP = -90 degrees.
 
-    const finalAngle =
-        360 - centerAngle;
+     For target index:
+     
+     target center =
+     index * slice + slice/2
 
-    const extraSpins =
-        360 * 7;
+     Wheel must rotate opposite
+     direction so target center
+     reaches TOP.
+    */
+
+
+    const sliceDegrees =
+        360 /
+        rewards.length;
+
+
+    const targetCenter =
+        target *
+        sliceDegrees +
+        sliceDegrees / 2;
+
+
+    /*
+     Base rotation required
+     */
+
+    const finalRotation =
+        360 -
+        targetCenter;
+
+
+    /*
+     7 full spins + exact position
+    */
 
     const totalRotation =
-        extraSpins + finalAngle;
+        360 * 7 +
+        finalRotation;
 
 
     const wheel =
-        document.getElementById("wheel");
+        document.getElementById(
+            "wheel"
+        );
+
+
+    /*
+     Sound
+    */
+
+    spinSound();
+
+
+    /*
+     Start wheel
+    */
 
     wheel.style.transform =
         `rotate(${totalRotation}deg)`;
 
 
     /*
-    6.5 sec slow stop
+     Wait until exact 7 sec animation
     */
 
     setTimeout(()=>{
 
-        showWinningReward();
+        finishSpin();
 
-    },6800);
+    },7100);
 
 }
 
 
 /* =========================================
-   SHOW RESULT
+   FINISH SPIN
 ========================================= */
 
-function showWinningReward(){
+function finishSpin(){
 
-    playWinSound();
+    /*
+     Winning sound
+    */
+
+    winSound();
+
 
     const wheel =
-        document.getElementById("wheel");
+        document.getElementById(
+            "wheel"
+        );
+
+
+    /*
+     Wheel disappears like sand
+    */
 
     wheel.classList.add(
         "dissolve"
     );
 
+
     document.getElementById(
-        "spinBtn"
-    ).style.display = "none";
+        "spinButton"
+    ).style.display =
+        "none";
 
 
     setTimeout(()=>{
 
         document.getElementById(
-            "wheelContainer"
-        ).style.display = "none";
-
-        document.getElementById(
-            "rewardResult"
-        ).style.display = "block";
-
-        document.getElementById(
-            "rewardName"
+            "resultReward"
         ).innerText =
             selectedReward;
 
-        claimReward();
+
+        document.getElementById(
+            "result"
+        ).style.display =
+            "block";
+
+
+        saveReward();
+
 
     },1200);
 
@@ -1617,10 +1817,10 @@ function showWinningReward(){
    SAVE REWARD
 ========================================= */
 
-function claimReward(){
+function saveReward(){
 
     if(
-        !currentCust ||
+        !currentCustomer ||
         !currentMilestone ||
         !selectedReward
     ){
@@ -1630,28 +1830,34 @@ function claimReward(){
     }
 
 
-    const dateStr =
-        new Date().toLocaleDateString(
+    const date =
+        new Date()
+        .toLocaleDateString(
             "hi-IN"
         );
 
 
-    const giftData = {
+    const rewardData = {
 
-        reward:selectedReward,
+        reward:
+            selectedReward,
 
-        status:"REDEEMED",
+        status:
+            "REDEEMED",
 
-        redeemedAt:dateStr
+        redeemedAt:
+            date
 
     };
 
 
     fetch(
-        `${DB_URL}customers/${currentCust.mobile}/gifts/${currentMilestone}.json`,
+        `${DB_URL}customers/${currentCustomer.mobile}/gifts/${currentMilestone}.json`,
         {
             method:"PUT",
-            body:JSON.stringify(giftData)
+            body:JSON.stringify(
+                rewardData
+            )
         }
     )
 
@@ -1660,32 +1866,29 @@ function claimReward(){
         if(!res.ok){
 
             throw new Error(
-                "Reward save failed"
+                "Firebase save failed"
             );
 
         }
 
 
-        if(!currentCust.gifts){
+        if(
+            !currentCustomer.gifts
+        ){
 
-            currentCust.gifts = {};
+            currentCustomer.gifts =
+                {};
 
         }
 
 
-        currentCust.gifts[
+        currentCustomer.gifts[
             currentMilestone
-        ] = giftData;
+        ] =
+            rewardData;
 
 
-        renderHistory(
-            currentCust
-        );
-
-        updateLoyaltyCard(
-            Number(currentCust.purchases || 0),
-            currentCust
-        );
+        renderHistory();
 
     })
 
@@ -1694,7 +1897,7 @@ function claimReward(){
         console.log(error);
 
         alert(
-            "Reward save nahi ho paya. Internet check karein."
+            "Reward save nahi hua. Internet check karein."
         );
 
     });
@@ -1706,25 +1909,35 @@ function claimReward(){
    CLOSE RESULT
 ========================================= */
 
-function closeReward(){
+function closeResult(){
 
     document.getElementById(
         "wheelOverlay"
-    ).style.display = "none";
+    ).style.display =
+        "none";
+
 
     document.getElementById(
-        "rewardResult"
-    ).style.display = "none";
+        "result"
+    ).style.display =
+        "none";
 
-    isSpinning = false;
 
-    if(currentCust){
+    document.getElementById(
+        "wheel"
+    ).classList.remove(
+        "dissolve"
+    );
 
-        updateDashboard(
-            currentCust
-        );
 
-    }
+    spinning = false;
+
+
+    /*
+     Dashboard refresh
+    */
+
+    updateCustomerScreen();
 
 }
 
@@ -1733,72 +1946,86 @@ function closeReward(){
    HISTORY
 ========================================= */
 
-function renderHistory(data){
+function renderHistory(){
 
-    const hList =
+    const list =
         document.getElementById(
             "historyList"
         );
 
 
-    if(!data.gifts){
+    if(
+        !currentCustomer ||
+        !currentCustomer.gifts
+    ){
 
-        hList.innerHTML =
-            '<p style="font-size:11px;color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
+        list.innerHTML =
+            `<p style="color:#aaa;font-size:11px;">
+                अभी तक कोई gift claim नहीं किया गया।
+            </p>`;
 
         return;
 
     }
 
 
-    let items = [];
+    let html = "";
 
 
-    milestones.forEach(key=>{
+    milestones.forEach(m=>{
 
         const gift =
-            data.gifts[key];
+            currentCustomer.gifts[m];
+
 
         if(
             gift &&
             gift.status === "REDEEMED"
         ){
 
-            items.push(`
+            html += `
 
-                <div class="history-item">
+            <div class="history-item">
 
-                    <div>
+                <div>
 
-                        <strong style="color:#fff;">
-                            ${gift.reward}
-                        </strong>
+                    <strong style="color:white;">
+                        ${gift.reward}
+                    </strong>
 
-                        <br>
+                    <br>
 
-                        <small style="color:#ffd700;">
-                            Milestone #${key}
-                        </small>
-
-                    </div>
-
-                    <div style="color:#aaa;font-size:11px;">
-                        ${gift.redeemedAt || "N/A"}
-                    </div>
+                    <span style="color:#ffd700;">
+                        Milestone #${m}
+                    </span>
 
                 </div>
 
-            `);
+                <span style="color:#aaa;">
+                    ${gift.redeemedAt || ""}
+                </span>
+
+            </div>
+
+            `;
 
         }
 
     });
 
 
-    hList.innerHTML =
-        items.length
-        ? items.join("")
-        : '<p style="font-size:11px;color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
+    if(!html){
+
+        html =
+            `<p style="color:#aaa;font-size:11px;">
+                अभी तक कोई gift claim नहीं किया गया।
+            </p>`;
+
+    }
+
+
+    list.innerHTML =
+        html;
 
 }
 
@@ -1808,7 +2035,7 @@ function renderHistory(data){
 ========================================= */
 
 document.getElementById(
-    "custMobile"
+    "mobile"
 ).addEventListener(
     "keydown",
     function(e){
@@ -1823,13 +2050,11 @@ document.getElementById(
 );
 
 
-/* =========================================
-   INITIAL WHEEL
-========================================= */
+/* DRAW INITIAL */
 
 drawWheel();
 
 </script>
 
 </body>
-                      </html>
+                                    </html>
