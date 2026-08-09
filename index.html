@@ -3,454 +3,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maa Kali Vastralaya - Digital Loyalty Card</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>माँ काली वस्त्रालय - Digital Loyalty Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-  body { background: #0f0a10; color: #fff; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+  body { background: #121212; color: #fff; padding: 15px; max-width: 500px; margin: 0 auto; text-align: center; }
   
-  .card {
-    background: linear-gradient(135deg, #1f1225, #3a1523);
-    border: 2px solid #ffd700;
-    border-radius: 20px;
-    width: 100%; max-width: 400px;
-    padding: 20px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-    margin-bottom: 20px;
-  }
+  .header { margin-bottom: 20px; margin-top: 10px; }
+  .header h1 { color: #ffd700; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+  .header p { color: #aaa; font-size: 13px; }
+
+  .card { background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15); }
   
-  /* Shop Logo Styling */
-  .header { text-align: center; border-bottom: 1px dashed rgba(255,215,0,0.3); padding-bottom: 15px; margin-bottom: 15px; }
-  .logo-container {
-    width: 80px; height: 80px; background: #2a1b2d; border: 2px solid #ffd700;
-    border-radius: 50%; margin: 0 auto 10px auto; display: flex;
-    justify-content: center; align-items: center; overflow: hidden;
-    box-shadow: 0 0 12px rgba(255,215,0,0.4);
-  }
-  .logo-container img {
-    width: 100%; height: 100%; object-fit: cover;
-  }
-  .header h2 { color: #ffd700; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-  .header p { color: #d1c4e9; font-size: 12px; margin-top: 2px; }
+  input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; font-size: 15px; text-align: center; margin-bottom: 12px; outline: none; }
+  button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s; }
+  button:active { transform: scale(0.98); }
+  button:disabled { background: #555; color: #aaa; cursor: not-allowed; }
 
-  .user-info { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 10px; }
-  .user-info span { color: #ffd700; font-weight: 700; }
+  .user-info { background: rgba(255, 215, 0, 0.08); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left; border-left: 4px solid #ffd700; }
+  .user-info p { font-size: 14px; margin-bottom: 5px; color: #ddd; }
+  .user-info b { color: #ffd700; font-size: 16px; }
 
-  .progress-box { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
-  .progress-bar-bg { background: #333; height: 14px; border-radius: 7px; overflow: hidden; margin: 8px 0; }
-  .progress-bar-fill { background: linear-gradient(90deg, #ff4500, #ffd700); height: 100%; width: 0%; transition: width 0.5s ease; }
+  .milestone-badge { background: #25d366; color: #fff; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 13px; }
 
-  .milestone-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 15px; }
-  .m-box {
-    background: #2a1b2d; border: 1px solid #555; border-radius: 8px; padding: 10px 4px;
-    text-align: center; font-size: 11px; font-weight: 600; cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .m-box.done { background: #1b5e20; border-color: #81c784; color: #fff; }
-  .m-box.gift-unlocked { background: #e65100; border-color: #ffd700; color: #fff; animation: pulse 1.5s infinite; }
-  .m-box.redeemed { background: #37474f; border-color: #78909c; color: #aaa; }
+  .wheel-container { position: relative; width: 260px; height: 260px; margin: 20px auto; }
+  #wheel { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #ffd700; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+  .pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid #ff0055; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 
-  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  .history-box { background: #1e1e1e; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-top: 20px; text-align: left; }
+  .history-title { color: #ffd700; font-size: 14px; margin-bottom: 10px; font-weight: bold; }
+  .history-item { font-size: 12px; padding: 8px 0; border-bottom: 1px dashed #444; display: flex; justify-content: space-between; align-items: center; }
+  .history-item:last-child { border-bottom: none; }
 
-  .login-box { background: #1f1225; padding: 25px 20px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #ffd700; margin-top: 20px; }
-  input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; margin: 12px 0; font-size: 15px; text-align: center; }
-  button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: 800; font-size: 15px; cursor: pointer; }
-
-  /* WhatsApp Button */
-  .wa-btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    background: #25D366; color: #fff; text-decoration: none; padding: 12px;
-    border-radius: 10px; font-weight: 700; font-size: 14px; margin-top: 15px;
-    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: transform 0.2s;
-  }
-  .wa-btn:active { transform: scale(0.98); }
-
-  /* Modal */
-  .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
-  .modal-content { background: #1f1225; border: 2px solid #ffd700; border-radius: 20px; padding: 20px; text-align: center; width: 90%; max-width: 360px; position: relative; }
-  
-  .wheel-wrapper {
-    position: relative;
-    width: 280px;
-    height: 280px;
-    margin: 15px auto;
-  }
-
-  #wheelCanvas {
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    border: 5px solid #ffd700;
-    box-shadow: 0 0 15px rgba(255,215,0,0.5);
-  }
-
-  .pointer {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 25px solid #ffd700;
-    z-index: 10;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
-  }
-
-  .spin-btn { background: #ff4500; color: #fff; border: none; padding: 12px 25px; font-weight: bold; border-radius: 20px; font-size: 16px; margin-top: 10px; cursor: pointer; }
-  
-  .gift-result-card { display: none; background: #2a1b2d; border: 2px dashed #ffd700; padding: 20px; border-radius: 15px; margin-top: 10px; }
-  .gift-icon-big { font-size: 50px; margin-bottom: 10px; }
-  .ok-btn { background: #2e7d32; color: #fff; margin-top: 15px; font-size: 16px; width: 100%; }
+  .loader-text { color: #ffd700; font-size: 13px; margin-top: 8px; display: none; }
 </style>
 </head>
 <body>
 
-<div id="loginSection" class="login-box">
-  <div class="logo-container">
-    <img src="1786193692481.png" alt="MKV Logo" onerror="this.onerror=null; this.src='1786193692481.jpg';">
-  </div>
-  <h2 style="color:#ffd700; font-size:20px;">Maa Kali Vastralaya</h2>
-  <p style="font-size:12px; color:#aaa; margin-top:4px;">Digital Loyalty Card</p>
-  <input type="tel" id="mobileInput" placeholder="Enter Mobile Number" maxlength="10">
-  <button onclick="startLiveSync()">Open Loyalty Card</button>
-  
-  <a href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop" target="_blank" class="wa-btn">
-    💬 Join WhatsApp Community
-  </a>
+<div class="header">
+  <h1>🌺 माँ काली वस्त्रालय 🌺</h1>
+  <p>Digital Loyalty Rewards Card</p>
 </div>
 
-<div id="dashboardSection" style="display: none; width: 100%; max-width: 400px;">
-  
-  <div class="header">
-    <div class="logo-container">
-      <img src="1786193692481.png" alt="MKV Logo" onerror="this.onerror=null; this.src='1786193692481.jpg';">
-    </div>
-    <h2>Maa Kali Vastralaya</h2>
-    <p>Digital Loyalty & Rewards Program</p>
-  </div>
+<!-- LOGIN / SEARCH AREA -->
+<div class="card" id="loginCard">
+  <h3>📱 अपना कार्ड खोलें</h3>
+  <p style="font-size:12px; color:#aaa; margin-bottom:15px; margin-top:5px;">अपना 10-अंकों का मोबाइल नंबर दर्ज करें</p>
+  <input type="tel" id="custMobile" placeholder="Enter Mobile Number" maxlength="10">
+  <button id="searchBtn" onclick="searchCustomer()">कार्ड देखें / Open Card</button>
+  <div id="loginLoader" class="loader-text">⏳ खोज रहे हैं... कृपया प्रतीक्षा करें</div>
+</div>
 
+<!-- MAIN DASHBOARD -->
+<div id="mainDashboard" style="display:none;">
   <div class="card">
     <div class="user-info">
-      <div>Name: <span id="custName">-</span></div>
-      <div>ID: <span id="custId">-</span></div>
+      <p>नाम: <b id="custName">-</b></p>
+      <p>कार्ड ID: <span id="custId" style="color:#fff;">-</span></p>
+      <p>कुल ख़रीदारी स्कोर: <b id="custPurchases" style="color:#ffd700; font-size:18px;">0</b> / 10 Purchases</p>
     </div>
 
-    <div class="progress-box">
-      <div style="display: flex; justify-content: space-between; font-size: 13px;">
-        <span>Loyalty Progress</span>
-        <span id="purchaseCountText">0 / 10 Purchases</span>
-      </div>
-      <div class="progress-bar-bg">
-        <div id="progressFill" class="progress-bar-fill"></div>
-      </div>
-      <p id="nextRewardMsg" style="font-size: 12px; color: #ffd700; margin-top: 5px; text-align: center;">Next Gift: 3rd Purchase</p>
-    </div>
+    <!-- MILESTONE NOTIFICATION -->
+    <div id="rewardStatusArea"></div>
 
-    <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">🏆 10-Purchase Cycle</div>
-    <div class="milestone-grid" id="gridContainer"></div>
-
-    <a href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop" target="_blank" class="wa-btn">
-      💬 Join WhatsApp Offers Group
-    </a>
-  </div>
-</div>
-
-<!-- MODAL -->
-<div id="rewardModal" class="modal">
-  <div class="modal-content">
-    <div id="wheelContainer">
-      <h3 style="color:#ffd700;" id="wheelTitle">🎁 Spin & Win Gift</h3>
-      <p style="font-size:12px; color:#ddd;">Reward jeetne ke liye Wheel Ghumayein!</p>
-      
-      <div class="wheel-wrapper">
+    <!-- LUCKY WHEEL AREA -->
+    <div id="wheelArea" style="display:none;">
+      <h3 style="color:#ffd700; font-size:16px;">🎉 बधाई हो! लकी व्हील घुमाएं</h3>
+      <div class="wheel-container">
         <div class="pointer"></div>
-        <canvas id="wheelCanvas" width="560" height="560"></canvas>
+        <canvas id="wheel" width="260" height="260"></canvas>
       </div>
-      
-      <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN NOW</button>
+      <button id="spinBtn" onclick="spinWheel()">🎡 Spin the Wheel!</button>
     </div>
+  </div>
 
-    <div id="giftResultSection" class="gift-result-card">
-      <div class="gift-icon-big">🎁</div>
-      <h3 style="color:#ffd700;">Congratulations!</h3>
-      <p style="font-size: 13px; margin-top: 5px; color: #ccc;">Aapne jeeta hai:</p>
-      <div id="finalRewardText" style="font-size: 18px; font-weight: 800; color: #ffd700; margin: 12px 0;">-</div>
-      <button class="ok-btn" onclick="closeAndReturnToMenu()">OK (Back To Menu)</button>
+  <!-- GIFT HISTORY -->
+  <div class="history-box">
+    <div class="history-title">🎁 आपके मिले हुए उपहार (Claimed Rewards)</div>
+    <div id="historyList">
+      <p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>
     </div>
   </div>
 </div>
 
 <script>
 const DB_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
-let activeMobile = "";
-let currentMilestone = null;
-let adminTargetReward = "AUTO";
-let liveTimer = null;
+let currentCust = null;
+let wheelCanvas = document.getElementById("wheel");
+let ctx = wheelCanvas ? wheelCanvas.getContext("2d") : null;
 
-let prizes = [
-  "Face Towel (₹50)", 
-  "Big Face Towel (₹120)", 
-  "Handkerchief (₹25)", 
-  "Short Dupatta (₹50)", 
+const rewardsList = [
+  "Face Towel (₹50)",
+  "Big Face Towel (₹120)",
+  "Handkerchief (₹25)",
+  "Short Dupatta (₹50)",
   "₹50 OFF (Above ₹500)",
   "100% OFF Purchase"
 ];
 
-let isSpinning = false;
-let finalWonGift = "";
-let audioCtx = null;
+const colors = ["#FF5722", "#4CAF50", "#FFEB3B", "#2196F3", "#9C27B0", "#E91E63"];
 
-// Sound Synthesizer Functions
-function initAudio() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-}
-
-function playTickSound() {
-  if (!audioCtx) return;
-  try {
-    let osc = audioCtx.createOscillator();
-    let gain = audioCtx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.05);
-  } catch(e){}
-}
-
-function playWinSound() {
-  if (!audioCtx) return;
-  try {
-    let notes = [261.63, 329.63, 392.00, 523.25];
-    notes.forEach((freq, idx) => {
-      let osc = audioCtx.createOscillator();
-      let gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
-      gain.gain.setValueAtTime(0.2, audioCtx.currentTime + idx * 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.1 + 0.3);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(audioCtx.currentTime + idx * 0.1);
-      osc.stop(audioCtx.currentTime + idx * 0.1 + 0.3);
-    });
-  } catch(e){}
-}
-
-function startLiveSync() {
-  const mobile = document.getElementById("mobileInput").value.trim();
-  if(mobile.length !== 10) { alert("Sahi 10-digit mobile number dalein!"); return; }
-
-  activeMobile = mobile;
-  loadCustomerData();
-
-  if(liveTimer) clearInterval(liveTimer);
-  liveTimer = setInterval(loadCustomerData, 2000);
-}
-
-function loadCustomerData() {
-  if(!activeMobile) return;
-
-  fetch(`${DB_URL}customers/${activeMobile}.json`)
-    .then(res => res.json())
-    .then(data => {
-      if(!data) {
-        if(liveTimer) clearInterval(liveTimer);
-        alert("Aapka account nahi mila! Dukan par registration karayein.");
-        return;
-      }
-
-      document.getElementById("loginSection").style.display = "none";
-      document.getElementById("dashboardSection").style.display = "block";
-
-      document.getElementById("custName").innerText = data.name;
-      document.getElementById("custId").innerText = data.customerId || "MKV-NEW";
-
-      adminTargetReward = data.targetReward || "AUTO";
-
-      const count = data.purchases || 0;
-      const currentCycleCount = count % 10 === 0 && count > 0 ? 10 : count % 10;
-      
-      document.getElementById("purchaseCountText").innerText = `${currentCycleCount} / 10 Purchases`;
-      document.getElementById("progressFill").style.width = `${(currentCycleCount / 10) * 100}%`;
-
-      const grid = document.getElementById("gridContainer");
-      grid.innerHTML = "";
-      
-      const giftsList = [3, 5, 8, 10];
-
-      for(let i = 1; i <= 10; i++) {
-        const box = document.createElement("div");
-        box.className = "m-box";
-        
-        const isGiftSlot = giftsList.includes(i);
-        const isCompleted = i <= currentCycleCount;
-
-        if(isGiftSlot) {
-          const giftData = (data.gifts && data.gifts[i]) ? data.gifts[i] : null;
-          
-          if(isCompleted) {
-            if(giftData && giftData.status === "REDEEMED") {
-              box.classList.add("redeemed");
-              box.innerHTML = `#${i}<br>✅ Claimed`;
-            } else {
-              box.classList.add("gift-unlocked");
-              box.innerHTML = `#${i}<br>🎁 Open Gift`;
-              box.onclick = () => openWheelModal(i);
-            }
-          } else {
-            box.innerHTML = `#${i}<br>🎁 Gift`;
-            box.onclick = () => alert("Pahle " + i + " purchases poore karein!");
-          }
-        } else {
-          if(isCompleted) box.classList.add("done");
-          box.innerHTML = `#${i}<br>${isCompleted ? '✅' : '⚪'}`;
-        }
-
-        grid.appendChild(box);
-      }
-    });
-}
-
-function openWheelModal(milestone) {
-  currentMilestone = milestone;
-  document.getElementById("wheelContainer").style.display = "block";
-  document.getElementById("giftResultSection").style.display = "none";
-  document.getElementById("spinBtn").style.display = "inline-block";
-  document.getElementById("rewardModal").style.display = "flex";
-  drawWheel(0);
-}
-
-function drawWheel(rotationAngle = 0) {
-  const canvas = document.getElementById("wheelCanvas");
-  const ctx = canvas.getContext("2d");
-  const width = canvas.width;
-  const center = width / 2;
-  const radius = center - 15;
-  const numOptions = prizes.length;
+function drawWheel() {
+  if(!ctx) return;
+  const numOptions = rewardsList.length;
   const arcSize = (2 * Math.PI) / numOptions;
-  const colors = ["#d32f2f", "#1976d2", "#388e3c", "#fbc02d", "#e64a19", "#7b1fa2"];
 
-  ctx.clearRect(0, 0, width, width);
-
-  ctx.save();
-  ctx.translate(center, center);
-  ctx.rotate(rotationAngle * Math.PI / 180);
-
-  for(let i = 0; i < numOptions; i++) {
-    const angle = i * arcSize;
+  for (let i = 0; i < numOptions; i++) {
     ctx.beginPath();
     ctx.fillStyle = colors[i % colors.length];
-    ctx.moveTo(0, 0);
-    ctx.arc(0, 0, radius, angle, angle + arcSize);
+    ctx.moveTo(130, 130);
+    ctx.arc(130, 130, 130, i * arcSize, (i + 1) * arcSize);
     ctx.fill();
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = "#ffffff";
-    ctx.stroke();
 
     ctx.save();
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 20px Poppins";
-    ctx.shadowColor = "rgba(0,0,0,0.8)";
-    ctx.shadowBlur = 4;
-    ctx.rotate(angle + arcSize / 2);
+    ctx.fillStyle = (i === 2) ? "#000" : "#FFF"; 
+    ctx.translate(130, 130);
+    ctx.rotate(i * arcSize + arcSize / 2);
     ctx.textAlign = "right";
-    ctx.fillText(prizes[i], radius - 25, 6);
+    ctx.font = "bold 11px Poppins";
+    ctx.fillText(rewardsList[i], 120, 4);
     ctx.restore();
   }
+}
 
-  // Center Circle
-  ctx.beginPath();
-  ctx.arc(0, 0, 30, 0, 2 * Math.PI);
-  ctx.fillStyle = "#ffd700";
-  ctx.fill();
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = "#fff";
-  ctx.stroke();
+function searchCustomer() {
+  const mobile = document.getElementById("custMobile").value.trim();
+  if(mobile.length !== 10) {
+    alert("कृपया सही 10-अंकों का मोबाइल नंबर डालें!");
+    return;
+  }
 
-  ctx.restore();
+  const searchBtn = document.getElementById("searchBtn");
+  const loader = document.getElementById("loginLoader");
+
+  searchBtn.disabled = true;
+  loader.style.display = "block";
+
+  fetch(`${DB_URL}customers/${mobile}.json`)
+    .then(res => res.json())
+    .then(data => {
+      searchBtn.disabled = false;
+      loader.style.display = "none";
+
+      if(!data) {
+        alert("आपका कार्ड नहीं मिला! कृपया दुकान पर संपर्क करें।");
+        return;
+      }
+      currentCust = { ...data, mobile };
+
+      document.getElementById("loginCard").style.display = "none";
+      document.getElementById("mainDashboard").style.display = "block";
+
+      // 👑 कस्टमर नाम के आगे "जी" जोड़ा गया
+      document.getElementById("custName").innerText = data.name + " जी";
+      
+      document.getElementById("custId").innerText = data.customerId || "MKV-CARD";
+      document.getElementById("custPurchases").innerText = data.purchases || 0;
+
+      checkRewardEligibility(data);
+      renderHistory(data);
+      drawWheel();
+    })
+    .catch(() => {
+      searchBtn.disabled = false;
+      loader.style.display = "none";
+      alert("नेटवर्क समस्या! कृपया दोबारा प्रयास करें।");
+    });
+}
+
+function checkRewardEligibility(data) {
+  const p = data.purchases || 0;
+  const milestones = [3, 5, 8, 10];
+  let eligibleMilestone = null;
+
+  for(let m of milestones) {
+    if(p >= m) {
+      if(!data.gifts || !data.gifts[m] || data.gifts[m].status !== "REDEEMED") {
+        eligibleMilestone = m;
+        break;
+      }
+    }
+  }
+
+  const statusArea = document.getElementById("rewardStatusArea");
+  const wheelArea = document.getElementById("wheelArea");
+
+  if(eligibleMilestone) {
+    statusArea.innerHTML = `<div class="milestone-badge">🎉 Milestone #${eligibleMilestone} अनलॉक्ड! उपहार पाने के लिए नीचे लकी व्हील घुमाएं।</div>`;
+    wheelArea.style.display = "block";
+    wheelArea.setAttribute("data-milestone", eligibleMilestone);
+  } else {
+    statusArea.innerHTML = `<p style="font-size:12px; color:#aaa; margin-bottom:10px;">अगला गिफ़्ट अनलॉक करने के लिए और ख़रीदारी करें! (गिफ़्ट माइलस्टोन: 3, 5, 8, 10)</p>`;
+    wheelArea.style.display = "none";
+  }
 }
 
 function spinWheel() {
-  if(isSpinning) return;
-  initAudio();
-  isSpinning = true;
-  document.getElementById("spinBtn").style.display = "none";
+  const wheelArea = document.getElementById("wheelArea");
+  const milestone = wheelArea.getAttribute("data-milestone");
+  if(!milestone || !currentCust) return;
 
-  let winIndex = 0;
-  if(adminTargetReward !== "AUTO") {
-    winIndex = prizes.findIndex(p => p.toLowerCase().includes(adminTargetReward.toLowerCase()) || adminTargetReward.toLowerCase().includes(p.toLowerCase()));
-    if(winIndex === -1) winIndex = 0;
+  const spinBtn = document.getElementById("spinBtn");
+  spinBtn.disabled = true;
+
+  let targetReward = currentCust.targetReward;
+  let targetIndex = 0;
+
+  if(targetReward && targetReward !== "AUTO" && rewardsList.includes(targetReward)) {
+    targetIndex = rewardsList.indexOf(targetReward);
   } else {
-    winIndex = Math.floor(Math.random() * prizes.length);
+    targetIndex = Math.floor(Math.random() * rewardsList.length);
   }
 
-  finalWonGift = prizes[winIndex];
+  const numOptions = rewardsList.length;
+  const arcSize = 360 / numOptions;
+  const targetAngle = 360 - (targetIndex * arcSize + arcSize / 2);
+  const totalRotation = 360 * 5 + targetAngle;
 
-  // Calculate Angle so it stops perfectly under top pointer
-  const sliceAngle = 360 / prizes.length;
-  const targetSliceCenter = (winIndex * sliceAngle) + (sliceAngle / 2);
-  const targetAngle = 270 - targetSliceCenter; 
-  const totalRounds = 5 * 360; 
-  const finalRotation = totalRounds + targetAngle;
+  const wheelElem = document.getElementById("wheel");
+  wheelElem.style.transform = `rotate(${totalRotation}deg)`;
 
-  let startTime = null;
-  const duration = 4500; // 4.5 seconds for smooth slowing down
-  let lastTickSlice = -1;
+  setTimeout(() => {
+    const wonReward = rewardsList[targetIndex];
+    const dateStr = new Date().toLocaleDateString('hi-IN');
 
-  function easeOutCubic(t) {
-    return 1 - Math.pow(1 - t, 3);
-  }
-
-  function animate(timestamp) {
-    if (!startTime) startTime = timestamp;
-    let elapsed = timestamp - startTime;
-    let progress = Math.min(elapsed / duration, 1);
-
-    let currentAngle = easeOutCubic(progress) * finalRotation;
-    drawWheel(currentAngle);
-
-    // Audio Tick Sound Calculation
-    let currentSlice = Math.floor(((currentAngle % 360) + 360) % 360 / sliceAngle);
-    if(currentSlice !== lastTickSlice) {
-      playTickSound();
-      lastTickSlice = currentSlice;
-    }
-
-    if (progress < 1) {
-      requestAnimationFrame(animate);
-    } else {
-      isSpinning = false;
-      playWinSound();
+    // Save Result to Firebase
+    fetch(`${DB_URL}customers/${currentCust.mobile}/gifts/${milestone}.json`, {
+      method: "PUT",
+      body: JSON.stringify({
+        reward: wonReward,
+        status: "REDEEMED",
+        redeemedAt: dateStr
+      })
+    }).then(() => {
+      alert(`🎉 बधाई हो ${currentCust.name} जी!\n\nआपने जीता है: ${wonReward}\n\nकृपया दुकान काउंटर पर यह मेसेज दिखाकर अपना गिफ़्ट प्राप्त करें!`);
       
-      fetch(`${DB_URL}customers/${activeMobile}/gifts/${currentMilestone}.json`, {
-        method: "PUT",
-        body: JSON.stringify({
-          status: "REDEEMED",
-          reward: finalWonGift,
-          redeemedAt: new Date().toLocaleDateString('en-IN')
-        })
-      }).then(() => {
-        setTimeout(() => {
-          document.getElementById("wheelContainer").style.display = "none";
-          document.getElementById("finalRewardText").innerText = finalWonGift;
-          document.getElementById("giftResultSection").style.display = "block";
-        }, 500);
-      });
-    }
-  }
+      if(!currentCust.gifts) currentCust.gifts = {};
+      currentCust.gifts[milestone] = { reward: wonReward, status: "REDEEMED", redeemedAt: dateStr };
+      
+      checkRewardEligibility(currentCust);
+      renderHistory(currentCust);
+    });
 
-  requestAnimationFrame(animate);
+  }, 4000);
 }
 
-function closeAndReturnToMenu() {
-  document.getElementById("rewardModal").style.display = "none";
-  loadCustomerData();
+function renderHistory(data) {
+  const hList = document.getElementById("historyList");
+  if(data.gifts) {
+    let items = [];
+    for(let key in data.gifts) {
+      if(data.gifts[key].status === "REDEEMED") {
+        items.push(`
+          <div class="history-item">
+            <div>
+              <strong style="color:#fff;">${data.gifts[key].reward}</strong><br>
+              <small style="color:#ffd700;">Milestone #${key}</small>
+            </div>
+            <div style="color:#aaa;">${data.gifts[key].redeemedAt || 'N/A'}</div>
+          </div>
+        `);
+      }
+    }
+    hList.innerHTML = items.length > 0 ? items.join('') : '<p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
+  } else {
+    hList.innerHTML = '<p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
+  }
 }
 </script>
 </body>
