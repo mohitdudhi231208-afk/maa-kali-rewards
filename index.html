@@ -41,7 +41,7 @@
   @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
   .login-box { background: #1f1225; padding: 20px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #ffd700; margin-top: 30px; }
-  input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; margin: 10px 0; font-size: 14px; text-align: center; }
+  input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; margin: 10px 0; font-size: 14px; text-align: center; }
   button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: 800; font-size: 15px; cursor: pointer; }
 
   /* Popup Modal */
@@ -101,17 +101,6 @@
     <div id="wheelContainer">
       <h3 style="color:#ffd700;" id="wheelTitle">🎁 Spin & Win Gift</h3>
       <p style="font-size:12px; color:#ddd;">Reward jeetne ke liye Wheel Ghumayein!</p>
-      
-      <!-- Owner Set Gift Selector -->
-      <select id="selectedReward">
-        <option value="AUTO">🎯 Random Lucky Gift</option>
-        <option value="Face Towel (₹50)">🎁 Face Towel (₹50)</option>
-        <option value="Big Face Towel (₹120)">🎁 Big Face Towel (₹120)</option>
-        <option value="Handkerchief (₹25)">🎁 Handkerchief (₹25)</option>
-        <option value="Short Dupatta (₹50)">🎁 Short Dupatta (₹50)</option>
-        <option value="₹50 OFF on Next Purchase">🏷️ ₹50 OFF on Next Purchase</option>
-        <option value="100% OFF (Free Purchase)">🎉 100% OFF (Free Purchase)</option>
-      </select>
 
       <canvas id="wheelCanvas" width="250" height="250"></canvas>
       <br>
@@ -134,8 +123,8 @@
 const DB_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
 let activeMobile = "";
 let currentMilestone = null;
+let adminTargetReward = "AUTO";
 
-// Updated List with 100% OFF
 let prizes = [
   "Face Towel (₹50)", 
   "Big Face Towel (₹120)", 
@@ -168,6 +157,8 @@ function loadCustomerData() {
       document.getElementById("custName").innerText = data.name;
       document.getElementById("custId").innerText = data.customerId || "MKV-NEW";
 
+      adminTargetReward = data.targetReward || "AUTO";
+
       const count = data.purchases || 0;
       const currentCycleCount = count % 10 === 0 && count > 0 ? 10 : count % 10;
       
@@ -190,7 +181,8 @@ function loadCustomerData() {
           const giftData = (data.gifts && data.gifts[i]) ? data.gifts[i] : {};
           const giftState = giftData.status || "LOCKED";
           
-          if(giftState === "REDEEMED") {
+          // CRITICAL FIX: Agar purchase count ghata hai toh gift lock dikhao
+          if(isCompleted && giftState === "REDEEMED") {
             box.classList.add("redeemed");
             box.innerHTML = `#${i}<br>✅ Claimed`;
           } else if(isCompleted) {
@@ -198,6 +190,7 @@ function loadCustomerData() {
             box.innerHTML = `#${i}<br>🎁 Open Gift`;
             box.onclick = () => openWheelModal(i);
           } else {
+            // Re-locked automatically if purchases decreased below requirement
             box.innerHTML = `#${i}<br>🎁 Gift`;
             box.onclick = () => alert("Pahle " + i + " purchases poore karein!");
           }
@@ -259,11 +252,11 @@ function spinWheel() {
   isSpinning = true;
   document.getElementById("spinBtn").style.display = "none";
 
-  const selectedVal = document.getElementById("selectedReward").value;
   let winIndex = 0;
 
-  if(selectedVal !== "AUTO") {
-    winIndex = prizes.findIndex(p => p.toLowerCase().includes(selectedVal.toLowerCase()) || selectedVal.toLowerCase().includes(p.toLowerCase()));
+  // Uses Admin Target Reward if set, else picks randomly
+  if(adminTargetReward !== "AUTO") {
+    winIndex = prizes.findIndex(p => p.toLowerCase().includes(adminTargetReward.toLowerCase()) || adminTargetReward.toLowerCase().includes(p.toLowerCase()));
     if(winIndex === -1) winIndex = 0;
   } else {
     winIndex = Math.floor(Math.random() * prizes.length);
@@ -288,7 +281,7 @@ function spinWheel() {
     } else {
       isSpinning = false;
       
-      // Save Reward to Firebase Database
+      // Save Reward to Firebase
       fetch(`${DB_URL}customers/${activeMobile}/gifts/${currentMilestone}.json`, {
         method: "PUT",
         body: JSON.stringify({
@@ -309,7 +302,7 @@ function spinWheel() {
 
 function closeAndReturnToMenu() {
   document.getElementById("rewardModal").style.display = "none";
-  loadCustomerData(); // Back to Menu
+  loadCustomerData();
 }
 </script>
 </body>
