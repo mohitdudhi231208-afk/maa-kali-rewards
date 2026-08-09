@@ -3,553 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maa Kali Rewards - Spin & Win</title>
+<title>Maa Kali Vastralaya - Digital Loyalty Card</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-  body { 
-    background: radial-gradient(circle at top, #2b0306 0%, #080102 100%);
-    color: #ffffff;
-    text-align: center; 
-    padding: 20px 15px; 
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-  }
-
-  .logo-container {
-    width: 95px;
-    height: 95px;
-    margin: 5px auto 10px;
-    border-radius: 50%;
-    padding: 3px;
-    background: linear-gradient(135deg, #ffd700, #ff4500, #ffd700);
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
-  }
-  .logo-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #000; }
-
-  h1 { color: #ffd700; font-size: 22px; font-weight: 800; text-shadow: 0 2px 10px rgba(255,215,0,0.4); margin-bottom: 3px; }
-  .subtitle { color: #d1c4e9; font-size: 13px; margin-bottom: 10px; }
-
-  /* Wheel Container with Disappear Animation */
-  .wheel-wrapper {
-    transition: opacity 1s ease, transform 1s ease;
-    opacity: 1;
-    transform: scale(1);
-  }
-  .wheel-wrapper.disappear {
-    opacity: 0;
-    transform: scale(0.8) rotate(15deg);
-    pointer-events: none;
-  }
-
-  .wheel-box {
-    position: relative;
-    width: 320px;
-    height: 320px;
-    margin: 20px auto;
-    border-radius: 50%;
-    padding: 6px;
-    background: linear-gradient(145deg, #ffd700, #b8860b, #ff8c00, #ffd700);
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 15px rgba(0,0,0,0.8);
-  }
-
-  .center-cap {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 48px;
-    height: 48px;
-    background: radial-gradient(circle, #ffe066 0%, #d4af37 60%, #8a6d0b 100%);
-    border-radius: 50%;
-    z-index: 8;
-    border: 3px solid #ffffff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-  }
-
-  .pointer {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-top: 32px solid #ff0000;
-    z-index: 10;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
-  }
-  .pointer::after {
-    content: '';
-    position: absolute;
-    top: -32px;
-    left: -8px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 15px solid #ffe066;
-  }
-
-  #wheelCanvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: block;
-  }
-
-  .btn-spin { 
-    background: linear-gradient(135deg, #ff1744, #b71c1c);
-    color: #ffffff; 
-    border: 2px solid #ffd700; 
-    padding: 14px 35px; 
-    font-size: 16px; 
-    font-weight: 800; 
-    border-radius: 50px; 
-    cursor: pointer; 
-    box-shadow: 0 6px 20px rgba(255, 23, 68, 0.6), 0 0 15px rgba(255, 215, 0, 0.4); 
-    width: 100%;
-    max-width: 280px;
-    letter-spacing: 1px;
-    transition: opacity 0.5s ease;
-  }
-  .btn-spin:active { transform: scale(0.95); }
-
-  #rewardDisplay { 
-    margin: 15px auto 0; 
-    width: 100%;
-    max-width: 300px; 
-    font-size: 15px; 
-    font-weight: 600; 
-    padding: 12px; 
-    border-radius: 12px; 
-    display: none; 
-    white-space: pre-line;
-  }
-
-  /* GIFT BOX ANIMATION STYLES */
-  .gift-container {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-    animation: fadeIn 1s ease forwards;
-  }
-
-  .gift-box {
-    position: relative;
-    width: 140px;
-    height: 140px;
-    cursor: pointer;
-    animation: bounce 1.2s infinite alternate ease-in-out;
-  }
-
-  .gift-body {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
-    background: linear-gradient(135deg, #ff1744, #d50000);
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(255, 23, 68, 0.5), 0 0 20px rgba(255, 215, 0, 0.4);
+  body { background: #0f0a10; color: #fff; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+  
+  .card {
+    background: linear-gradient(135deg, #1f1225, #3a1523);
     border: 2px solid #ffd700;
+    border-radius: 20px;
+    width: 100%; max-width: 400px;
+    padding: 20px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    margin-bottom: 20px;
   }
+  
+  .header { text-align: center; border-bottom: 1px dashed rgba(255,215,0,0.3); padding-bottom: 12px; margin-bottom: 15px; }
+  .header h2 { color: #ffd700; font-size: 20px; }
+  .header p { color: #d1c4e9; font-size: 12px; }
 
-  .gift-ribbon-v {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 100%;
-    background: linear-gradient(180deg, #ffe066, #ffd700);
-  }
+  .user-info { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; }
+  .user-info span { color: #ffd700; font-weight: 700; }
 
-  .gift-ribbon-h {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    height: 24px;
-    background: linear-gradient(90deg, #ffe066, #ffd700);
-  }
+  .progress-box { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+  .progress-bar-bg { background: #333; height: 14px; border-radius: 7px; overflow: hidden; margin: 8px 0; }
+  .progress-bar-fill { background: linear-gradient(90deg, #ff4500, #ffd700); height: 100%; width: 0%; transition: width 0.5s ease; }
 
-  .gift-lid {
-    position: absolute;
-    top: 20px;
-    left: -5px;
-    width: 150px;
-    height: 35px;
-    background: linear-gradient(135deg, #ff5252, #ff1744);
-    border-radius: 8px;
-    border: 2px solid #ffd700;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    z-index: 5;
+  .milestone-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 15px; }
+  .m-box {
+    background: #2a1b2d; border: 1px solid #555; border-radius: 8px; padding: 8px 4px;
+    text-align: center; font-size: 11px; font-weight: 600;
   }
+  .m-box.done { background: #1b5e20; border-color: #81c784; color: #fff; }
+  .m-box.gift { background: #e65100; border-color: #ffd700; color: #fff; animation: pulse 1.5s infinite; }
+  .m-box.redeemed { background: #37474f; border-color: #78909c; color: #aaa; }
 
-  .gift-box.open .gift-lid {
-    transform: translateY(-100px) rotate(-25deg);
-    opacity: 0;
-  }
+  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-  .prize-card {
-    display: none;
-    background: rgba(255, 215, 0, 0.15);
-    border: 2px solid #ffd700;
-    padding: 20px;
-    border-radius: 16px;
-    margin-top: 20px;
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-    animation: popUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  }
-
-  @keyframes bounce {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-15px); }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.5); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  @keyframes popUp {
-    0% { opacity: 0; transform: translateY(40px) scale(0.6); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  .whatsapp-card {
-    margin: 20px auto 0;
-    width: 100%;
-    max-width: 300px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 215, 0, 0.3);
-  }
-  .whatsapp-card h3 { color: #25D366; font-size: 14px; margin-bottom: 4px; }
-  .whatsapp-card p { font-size: 11px; color: #ccc; margin-bottom: 10px; }
-  .btn-wa {
-    display: inline-block;
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 50px;
-    font-size: 12px;
-  }
+  .login-box { background: #1f1225; padding: 20px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #ffd700; margin-top: 30px; }
+  input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; margin: 10px 0; font-size: 16px; text-align: center; }
+  button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: 800; font-size: 15px; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<div class="logo-container">
-  <img src="1786193692481.png" alt="Maa Kali Logo" class="logo-img">
+<div class="header">
+  <h2>❤️ Maa Kali Vastralaya</h2>
+  <p>Digital Loyalty & Rewards Program</p>
 </div>
 
-<h1>🎰 Maa Kali Spin & Win</h1>
-<p class="subtitle">Maa Kali Vastralaya - Special Rewards</p>
-
-<!-- Wheel Wrapper (Will disappear) -->
-<div class="wheel-wrapper" id="wheelWrapper">
-  <div class="wheel-box">
-    <div class="pointer"></div>
-    <div class="center-cap"></div>
-    <canvas id="wheelCanvas" width="1000" height="1000"></canvas>
-  </div>
+<div id="loginSection" class="login-box">
+  <h3>📲 Loyalty Card Kholein</h3>
+  <p style="font-size: 12px; color: #aaa; margin-top: 5px;">Registered Mobile Number Dalein:</p>
+  <input type="tel" id="mobileInput" placeholder="10-Digit Mobile Number" maxlength="10">
+  <button onclick="loadCustomerData()">Open Loyalty Card</button>
 </div>
 
-<button class="btn-spin" id="spinBtn" onclick="startSpin()">SPIN THE WHEEL</button>
-
-<div id="rewardDisplay"></div>
-
-<!-- GIFT BOX SECTION -->
-<div class="gift-container" id="giftContainer">
-  <p style="color: #ffd700; font-size: 14px; font-weight: 700; margin-bottom: 10px;">🎁 Aapka Reward Gift Box mein hai!</p>
-  <div class="gift-box" id="giftBox" onclick="openGift()">
-    <div class="gift-lid"></div>
-    <div class="gift-body">
-      <div class="gift-ribbon-v"></div>
-      <div class="gift-ribbon-h"></div>
+<div id="dashboardSection" style="display: none; width: 100%; max-width: 400px;">
+  <div class="card">
+    <div class="user-info">
+      <div>Name: <span id="custName">-</span></div>
+      <div>ID: <span id="custId">-</span></div>
     </div>
-  </div>
 
-  <div class="prize-card" id="prizeCard">
-    <h2 style="color: #ffd700; font-size: 22px; margin-bottom: 5px;">🎉 CONGRATULATIONS!</h2>
-    <p style="color: #ffffff; font-size: 14px;">Aapne Jeeta Hai:</p>
-    <h1 id="prizeTitle" style="color: #81c784; font-size: 24px; margin: 10px 0;">-</h1>
-    <p id="prizeSubtitle" style="color: #ffe066; font-size: 15px; font-weight: 600;">-</p>
-  </div>
-</div>
+    <div class="progress-box">
+      <div style="display: flex; justify-content: space-between; font-size: 13px;">
+        <span>Loyalty Progress</span>
+        <span id="purchaseCountText">0 / 10 Purchases</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="progressFill" class="progress-bar-fill"></div>
+      </div>
+      <p id="nextRewardMsg" style="font-size: 12px; color: #ffd700; margin-top: 5px; text-align: center;">Next Gift: 3rd Purchase</p>
+    </div>
 
-<div class="whatsapp-card">
-  <h3>📲 Offers & Updates</h3>
-  <p>WhatsApp Group se judein aur roz naye discounts paayein!</p>
-  <a href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop" target="_blank" class="btn-wa">
-    💬 Join WhatsApp Group
-  </a>
+    <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">🏆 10-Purchase Cycle</div>
+    <div class="milestone-grid" id="gridContainer"></div>
+  </div>
 </div>
 
 <script>
-const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
-const TARGET_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/targetReward.json";
+const DB_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
 
-const rewardsList = [
-  { name: "Face Towel", worth: "Worth ₹50" },
-  { name: "Big Face Towel", worth: "Worth ₹120" },
-  { name: "Handkerchief", worth: "Worth ₹25" },
-  { name: "Short Dupatta", worth: "Worth ₹50" },
-  { name: "₹50 OFF", worth: "Next Purchase" },
-  { name: "FREE SHOPPING", worth: "Bumper Prize" }
-];
+function loadCustomerData() {
+  const mobile = document.getElementById("mobileInput").value.trim();
+  if(mobile.length !== 10) { alert("Sahi 10-digit mobile number dalein!"); return; }
 
-const colors = ["#d32f2f", "#1976d2", "#f57c00", "#388e3c", "#7b1fa2", "#e65100"];
+  fetch(`${DB_URL}customers/${mobile}.json`)
+    .then(res => res.json())
+    .then(data => {
+      if(!data) {
+        alert("Aapka account nahi mila! Dukan par registration karayein.");
+        return;
+      }
 
-const canvas = document.getElementById("wheelCanvas");
-const ctx = canvas.getContext("2d");
-const numSegments = rewardsList.length;
-const arcSize = (2 * Math.PI) / numSegments;
-let currentRotationAngle = 0;
-let isSpinning = false;
-let lastSegmentIndex = -1;
-let wonReward = null;
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("dashboardSection").style.display = "block";
 
-let audioCtx = null;
+      document.getElementById("custName").innerText = data.name;
+      document.getElementById("custId").innerText = data.customerId || "MKV-NEW";
 
-function initAudio() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-}
-
-function playClickSound() {
-  if (!audioCtx) return;
-  try {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
-    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.05);
-  } catch(e) {}
-}
-
-function playWinSound() {
-  if (!audioCtx) return;
-  try {
-    const notes = [261.63, 329.63, 392.00, 523.25, 659.25];
-    notes.forEach((freq, index) => {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.12);
-      gain.gain.setValueAtTime(0.3, audioCtx.currentTime + index * 0.12);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + index * 0.12 + 0.3);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(audioCtx.currentTime + index * 0.12);
-      osc.stop(audioCtx.currentTime + index * 0.12 + 0.3);
-    });
-  } catch(e) {}
-}
-
-function drawWheel() {
-  ctx.clearRect(0, 0, 1000, 1000);
-
-  for (let i = 0; i < numSegments; i++) {
-    const angle = currentRotationAngle + i * arcSize;
-    
-    ctx.beginPath();
-    ctx.moveTo(500, 500);
-    ctx.arc(500, 500, 480, angle, angle + arcSize);
-    ctx.fillStyle = colors[i % colors.length];
-    ctx.fill();
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = "#ffffff";
-    ctx.stroke();
-
-    const dotAngle = angle;
-    const dotX = 500 + 465 * Math.cos(dotAngle);
-    const dotY = 500 + 465 * Math.sin(dotAngle);
-    ctx.beginPath();
-    ctx.arc(dotX, dotY, 9, 0, 2 * Math.PI);
-    ctx.fillStyle = "#ffffff";
-    ctx.fill();
-
-    ctx.save();
-    ctx.translate(500, 500);
-    ctx.rotate(angle + arcSize / 2);
-    ctx.textAlign = "right";
-    ctx.fillStyle = "#ffffff";
-    
-    ctx.font = "bold 32px Poppins";
-    ctx.shadowColor = "rgba(0,0,0,0.8)";
-    ctx.shadowBlur = 8;
-    ctx.fillText(rewardsList[i].name, 430, -5);
-
-    ctx.font = "600 20px Poppins";
-    ctx.fillStyle = "#ffd700";
-    ctx.fillText(rewardsList[i].worth, 430, 28);
-
-    ctx.restore();
-  }
-
-  const pointerAngle = 3 * Math.PI / 2;
-  const currentAngleOnPointer = (pointerAngle - currentRotationAngle) % (2 * Math.PI);
-  const normalizedAngle = (currentAngleOnPointer + 2 * Math.PI) % (2 * Math.PI);
-  const currentSegment = Math.floor(normalizedAngle / arcSize);
-
-  if (currentSegment !== lastSegmentIndex && isSpinning) {
-    playClickSound();
-    lastSegmentIndex = currentSegment;
-  }
-}
-
-drawWheel();
-
-function startSpin() {
-  if (isSpinning) return;
-  initAudio();
-
-  const display = document.getElementById("rewardDisplay");
-  display.style.display = "block";
-  display.style.color = "#ffd700";
-  display.style.backgroundColor = "rgba(255, 215, 0, 0.1)";
-  display.style.border = "1px solid #ffd700";
-  display.innerText = "⏳ Checking...";
-
-  fetch(STATUS_URL)
-  .then(res => res.json())
-  .then(statusData => {
-    if (statusData && statusData.active === "ON") {
+      const count = data.purchases || 0;
+      const currentCycleCount = count % 10 === 0 && count > 0 ? 10 : count % 10;
       
-      fetch(STATUS_URL, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ active: "OFF" })
-      });
+      document.getElementById("purchaseCountText").innerText = `${currentCycleCount} / 10 Purchases`;
+      document.getElementById("progressFill").style.width = `${(currentCycleCount / 10) * 100}%`;
 
-      fetch(TARGET_URL)
-      .then(res => res.json())
-      .then(targetReward => {
-        const cleanedTarget = String(targetReward).toLowerCase().trim();
+      let nextGift = "3rd Purchase";
+      if(currentCycleCount >= 3 && currentCycleCount < 5) nextGift = "5th Purchase";
+      else if(currentCycleCount >= 5 && currentCycleCount < 8) nextGift = "8th Purchase";
+      else if(currentCycleCount >= 8 && currentCycleCount < 10) nextGift = "10th Special Gift";
+      else if(currentCycleCount === 10) nextGift = "Cycle Complete! 🎉";
+
+      document.getElementById("nextRewardMsg").innerText = `Next Gift: ${nextGift}`;
+
+      const grid = document.getElementById("gridContainer");
+      grid.innerHTML = "";
+      
+      const giftsList = [3, 5, 8, 10];
+
+      for(let i = 1; i <= 10; i++) {
+        const box = document.createElement("div");
+        box.className = "m-box";
         
-        let winIndex = -1;
+        const isGiftSlot = giftsList.includes(i);
+        const isCompleted = i <= currentCycleCount;
 
-        if (cleanedTarget.includes("free shopping")) {
-          winIndex = 5;
-        } else if (cleanedTarget.includes("big face towel")) {
-          winIndex = 1;
-        } else if (cleanedTarget.includes("face towel")) {
-          winIndex = 0;
-        } else if (cleanedTarget.includes("handkerchief")) {
-          winIndex = 2;
-        } else if (cleanedTarget.includes("dupatta")) {
-          winIndex = 3;
-        } else if (cleanedTarget.includes("50 off") || cleanedTarget.includes("purchase")) {
-          winIndex = 4;
-        }
-
-        if (winIndex === -1) winIndex = 0;
-        wonReward = rewardsList[winIndex];
-
-        isSpinning = true;
-        display.innerText = "🎰 Wheel ghoom raha hai...";
-
-        currentRotationAngle = currentRotationAngle % (2 * Math.PI);
-
-        const targetAngleForIndex = (3 * Math.PI / 2) - (winIndex + 0.5) * arcSize;
-        const extraRounds = 5 * 2 * Math.PI;
-        
-        let targetRotation = targetAngleForIndex;
-        while (targetRotation <= currentRotationAngle) {
-          targetRotation += 2 * Math.PI;
-        }
-        targetRotation += extraRounds;
-
-        const startRad = currentRotationAngle;
-        let startTime = null;
-        const duration = 5000;
-
-        function easeOutCubic(t) {
-          return 1 - Math.pow(1 - t, 3);
-        }
-
-        function animateWheel(timestamp) {
-          if (!startTime) startTime = timestamp;
-          const elapsed = timestamp - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-
-          const easeProgress = easeOutCubic(progress);
-          currentRotationAngle = startRad + (targetRotation - startRad) * easeProgress;
-
-          drawWheel();
-
-          if (progress < 1) {
-            requestAnimationFrame(animateWheel);
+        if(isGiftSlot) {
+          const giftState = (data.gifts && data.gifts[i]) ? data.gifts[i].status : "LOCKED";
+          
+          if(giftState === "REDEEMED") {
+            box.classList.add("redeemed");
+            box.innerHTML = `#${i}<br>✅`;
+          } else if(isCompleted) {
+            box.classList.add("gift");
+            box.innerHTML = `#${i}<br>🎁 Unlocked`;
           } else {
-            isSpinning = false;
-            currentRotationAngle = targetRotation % (2 * Math.PI);
-            drawWheel();
-            
-            // DISAPPEAR & SHOW GIFT BOX LOGIC
-            setTimeout(() => {
-              display.style.display = "none";
-              document.getElementById("spinBtn").style.display = "none";
-              
-              const wheelWrapper = document.getElementById("wheelWrapper");
-              wheelWrapper.classList.add("disappear");
-
-              setTimeout(() => {
-                wheelWrapper.style.display = "none";
-                document.getElementById("giftContainer").style.display = "flex";
-              }, 1000);
-
-            }, 800);
+            box.innerHTML = `#${i}<br>🎁 Gift`;
           }
+        } else {
+          if(isCompleted) box.classList.add("done");
+          box.innerHTML = `#${i}<br>${isCompleted ? '✅' : '⚪'}`;
         }
 
-        requestAnimationFrame(animateWheel);
-      });
-
-    } else {
-      display.style.color = "#ff8a80";
-      display.style.backgroundColor = "rgba(198, 40, 40, 0.2)";
-      display.style.border = "1px solid #ff8a80";
-      display.innerText = "🛍️ Wheel ghumane ke liye pehle kharidari karein!";
-    }
-  })
-  .catch(err => {
-    display.style.color = "#ff8a80";
-    display.style.backgroundColor = "rgba(198, 40, 40, 0.2)";
-    display.innerText = "❌ Network Error! Internet check karein.";
-  });
-}
-
-function openGift() {
-  const giftBox = document.getElementById("giftBox");
-  if (giftBox.classList.contains("open")) return;
-
-  giftBox.classList.add("open");
-  playWinSound();
-
-  setTimeout(() => {
-    document.getElementById("prizeTitle").innerText = wonReward.name;
-    document.getElementById("prizeSubtitle").innerText = `(${wonReward.worth})`;
-    document.getElementById("prizeCard").style.display = "block";
-  }, 400);
+        grid.appendChild(box);
+      }
+    });
 }
 </script>
-
 </body>
 </html>
