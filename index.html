@@ -171,16 +171,17 @@
 const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
 const TARGET_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/targetReward.json";
 
-// Admin Panel ke buttons ke sath exact sync:
+// Admin Panel ke saare 6 Items yaha exact sync hain:
 const rewardsList = [
-  { name: "Face Towel", worth: "Worth ₹50", keywords: ["face towel", "worth ₹50"] },
-  { name: "Big Face Towel", worth: "Worth ₹120", keywords: ["big face towel", "worth ₹120"] },
-  { name: "Handkerchief", worth: "Worth ₹25", keywords: ["handkerchief", "worth ₹25"] },
-  { name: "Short Dupatta", worth: "Worth ₹50", keywords: ["short dupatta"] },
-  { name: "₹50 OFF", worth: "Next Purchase", keywords: ["50 off", "next purchase", "above ₹500"] }
+  { name: "Face Towel", worth: "Worth ₹50" },
+  { name: "Big Face Towel", worth: "Worth ₹120" },
+  { name: "Handkerchief", worth: "Worth ₹25" },
+  { name: "Short Dupatta", worth: "Worth ₹50" },
+  { name: "₹50 OFF", worth: "Next Purchase" },
+  { name: "FREE SHOPPING", worth: "Bumper Prize" }
 ];
 
-const colors = ["#d32f2f", "#1976d2", "#f57c00", "#388e3c", "#7b1fa2"];
+const colors = ["#d32f2f", "#1976d2", "#f57c00", "#388e3c", "#7b1fa2", "#e65100"];
 
 const canvas = document.getElementById("wheelCanvas");
 const ctx = canvas.getContext("2d");
@@ -263,12 +264,12 @@ function drawWheel() {
     ctx.textAlign = "right";
     ctx.fillStyle = "#ffffff";
     
-    ctx.font = "bold 34px Poppins";
+    ctx.font = "bold 32px Poppins";
     ctx.shadowColor = "rgba(0,0,0,0.8)";
     ctx.shadowBlur = 8;
     ctx.fillText(rewardsList[i].name, 430, -5);
 
-    ctx.font = "600 22px Poppins";
+    ctx.font = "600 20px Poppins";
     ctx.fillStyle = "#ffd700";
     ctx.fillText(rewardsList[i].worth, 430, 28);
 
@@ -317,8 +318,9 @@ function startSpin() {
         
         let winIndex = -1;
 
-        // Smart keyword search for exact matching with admin panel
-        if (cleanedTarget.includes("big face towel")) {
+        if (cleanedTarget.includes("free shopping")) {
+          winIndex = 5;
+        } else if (cleanedTarget.includes("big face towel")) {
           winIndex = 1;
         } else if (cleanedTarget.includes("face towel")) {
           winIndex = 0;
@@ -335,7 +337,6 @@ function startSpin() {
         isSpinning = true;
         display.innerText = "🎰 Wheel ghoom raha hai...";
 
-        // Normalize current angle to 0 - 2PI to prevent calculation bugs
         currentRotationAngle = currentRotationAngle % (2 * Math.PI);
 
         const targetAngleForIndex = (3 * Math.PI / 2) - (winIndex + 0.5) * arcSize;
@@ -369,7 +370,6 @@ function startSpin() {
             requestAnimationFrame(animateWheel);
           } else {
             isSpinning = false;
-            // Angle reset for smooth next spin
             currentRotationAngle = targetRotation % (2 * Math.PI);
             drawWheel();
             playWinSound();
