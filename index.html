@@ -93,6 +93,7 @@ button{
     color:#000;
     font-weight:700;
     font-size:15px;
+    cursor:pointer;
 }
 
 button:disabled{
@@ -332,13 +333,6 @@ button:disabled{
     margin-bottom:12px;
 }
 
-
-/*
- IMPORTANT:
- Canvas itself will rotate.
- Pointer stays fixed.
-*/
-
 .wheel-wrap{
     position:relative;
     width:300px;
@@ -360,7 +354,7 @@ button:disabled{
 }
 
 
-/* FIXED POINTER */
+/* POINTER */
 
 .pointer{
     position:absolute;
@@ -377,7 +371,7 @@ button:disabled{
 }
 
 
-/* CENTER */
+/* SPIN BUTTON */
 
 .spin-button{
     width:300px;
@@ -502,7 +496,10 @@ button:disabled{
         placeholder="Enter Mobile Number"
     >
 
-    <button id="searchBtn" onclick="searchCustomer()">
+    <button
+        id="searchBtn"
+        onclick="searchCustomer()"
+    >
         कार्ड देखें / Open Card
     </button>
 
@@ -514,10 +511,13 @@ button:disabled{
 
 
 <!-- =========================
-     DASHBOARD
+     CUSTOMER DASHBOARD
 ========================= -->
 
-<div id="dashboard" style="display:none;">
+<div
+    id="dashboard"
+    style="display:none;"
+>
 
 <div class="card">
 
@@ -624,9 +624,15 @@ button:disabled{
 
     <!-- GIFT -->
 
-    <div id="giftArea" class="gift-area">
+    <div
+        id="giftArea"
+        class="gift-area"
+    >
 
-        <div id="giftTitle" class="gift-title">
+        <div
+            id="giftTitle"
+            class="gift-title"
+        >
             🎉 आपका Gift Unlock हो गया!
         </div>
 
@@ -666,9 +672,11 @@ button:disabled{
     </div>
 
     <div id="historyList">
+
         <p style="color:#aaa;font-size:11px;">
             अभी तक कोई gift claim नहीं किया गया।
         </p>
+
     </div>
 
 </div>
@@ -755,7 +763,7 @@ button:disabled{
 
 
 /* =========================================
-   FIREBASE
+   FIREBASE DATABASE
 ========================================= */
 
 const DB_URL =
@@ -763,7 +771,7 @@ const DB_URL =
 
 
 /* =========================================
-   REWARDS
+   NORMAL WHEEL REWARDS
 ========================================= */
 
 const rewards = [
@@ -783,9 +791,9 @@ const rewards = [
 ];
 
 
-/*
- हर slice का अपना अलग color
-*/
+/* =========================================
+   WHEEL COLORS
+========================================= */
 
 const rewardColors = [
 
@@ -844,9 +852,9 @@ function initAudio(){
 }
 
 
-/*
- Continuous tick sound
-*/
+/* =========================================
+   SPIN SOUND
+========================================= */
 
 function spinSound(){
 
@@ -908,9 +916,9 @@ function spinSound(){
 }
 
 
-/*
- Winning sound
-*/
+/* =========================================
+   WIN SOUND
+========================================= */
 
 function winSound(){
 
@@ -979,7 +987,7 @@ function winSound(){
 
 
 /* =========================================
-   LOGIN
+   CUSTOMER LOGIN
 ========================================= */
 
 function searchCustomer(){
@@ -1024,9 +1032,21 @@ function searchCustomer(){
         `${DB_URL}customers/${mobile}.json`
     )
 
-    .then(res=>res.json())
+    .then(res => {
 
-    .then(data=>{
+        if(!res.ok){
+
+            throw new Error(
+                "Firebase error"
+            );
+
+        }
+
+        return res.json();
+
+    })
+
+    .then(data => {
 
         btn.disabled = false;
 
@@ -1044,20 +1064,36 @@ function searchCustomer(){
         }
 
 
+        /*
+         IMPORTANT:
+
+         targetReward Firebase data में रहेगा,
+         लेकिन customer screen पर कभी display
+         नहीं किया जाएगा।
+
+         यह केवल spinWheel() में internally
+         इस्तेमाल होगा।
+        */
+
         currentCustomer = {
+
             ...data,
+
             mobile:mobile
+
         };
 
 
         document.getElementById(
             "loginCard"
-        ).style.display = "none";
+        ).style.display =
+            "none";
 
 
         document.getElementById(
             "dashboard"
-        ).style.display = "block";
+        ).style.display =
+            "block";
 
 
         document.getElementById(
@@ -1079,7 +1115,9 @@ function searchCustomer(){
 
     })
 
-    .catch(()=>{
+    .catch(error => {
+
+        console.log(error);
 
         btn.disabled = false;
 
@@ -1123,7 +1161,7 @@ function updateCustomerScreen(){
 
         const box =
             document.getElementById(
-                "box"+i
+                "box" + i
             );
 
 
@@ -1138,10 +1176,6 @@ function updateCustomerScreen(){
 
         if(i <= purchases){
 
-            /*
-             Purchase completed
-             */
-
             box.classList.add(
                 "completed"
             );
@@ -1152,10 +1186,6 @@ function updateCustomerScreen(){
             i === purchases + 1 &&
             purchases < 10
         ){
-
-            /*
-             अगली purchase
-             */
 
             box.classList.add(
                 "next"
@@ -1172,10 +1202,13 @@ function updateCustomerScreen(){
 
 
 /* =========================================
-   GIFT CHECK
+   CHECK GIFT
 ========================================= */
 
 function checkGift(){
+
+    if(!currentCustomer) return;
+
 
     const purchases =
         Number(
@@ -1186,7 +1219,13 @@ function checkGift(){
     let available = null;
 
 
-    for(const milestone of milestones){
+    /*
+     सबसे पहले पुराने milestones check होंगे
+    */
+
+    for(
+        const milestone of milestones
+    ){
 
         const gift =
             currentCustomer.gifts &&
@@ -1238,7 +1277,9 @@ function checkGift(){
 
     else{
 
-        currentMilestone = null;
+        currentMilestone =
+            null;
+
 
         giftArea.style.display =
             "none";
@@ -1289,23 +1330,11 @@ function drawWheel(){
         rewards.length;
 
 
-    /*
-     IMPORTANT:
-     Slice 0 is positioned at TOP.
-     Therefore pointer will always
-     correspond exactly to reward index.
-    */
-
-
     for(
         let i=0;
         i<rewards.length;
         i++
     ){
-
-        /*
-         Start from -90 degrees
-         */
 
         const start =
             -Math.PI / 2 +
@@ -1317,6 +1346,7 @@ function drawWheel(){
 
 
         ctx.beginPath();
+
 
         ctx.moveTo(
             center,
@@ -1389,13 +1419,8 @@ function drawWheel(){
             rewards[i];
 
 
-        /*
-         Short text inside wheel
-        */
-
         if(
-            text ===
-            "Face Towel (₹50)"
+            text === "Face Towel (₹50)"
         ){
 
             text = "Face Towel";
@@ -1403,8 +1428,7 @@ function drawWheel(){
         }
 
         if(
-            text ===
-            "Big Face Towel (₹120)"
+            text === "Big Face Towel (₹120)"
         ){
 
             text = "Big Towel";
@@ -1412,8 +1436,7 @@ function drawWheel(){
         }
 
         if(
-            text ===
-            "Handkerchief (₹25)"
+            text === "Handkerchief (₹25)"
         ){
 
             text = "Hanky";
@@ -1421,8 +1444,7 @@ function drawWheel(){
         }
 
         if(
-            text ===
-            "Short Dupatta (₹50)"
+            text === "Short Dupatta (₹50)"
         ){
 
             text = "Dupatta";
@@ -1430,8 +1452,7 @@ function drawWheel(){
         }
 
         if(
-            text ===
-            "₹50 OFF (Above ₹500)"
+            text === "₹50 OFF (Above ₹500)"
         ){
 
             text = "₹50 OFF";
@@ -1439,8 +1460,7 @@ function drawWheel(){
         }
 
         if(
-            text ===
-            "100% OFF Purchase"
+            text === "100% OFF Purchase"
         ){
 
             text = "100% OFF";
@@ -1461,10 +1481,11 @@ function drawWheel(){
 
 
     /*
-     Center circle
+     CENTER CIRCLE
     */
 
     ctx.beginPath();
+
 
     ctx.arc(
         center,
@@ -1474,15 +1495,20 @@ function drawWheel(){
         Math.PI * 2
     );
 
+
     ctx.fillStyle =
         "#111";
 
+
     ctx.fill();
+
 
     ctx.strokeStyle =
         "#ffd700";
 
+
     ctx.lineWidth = 3;
+
 
     ctx.stroke();
 
@@ -1490,11 +1516,14 @@ function drawWheel(){
     ctx.font =
         "20px Arial";
 
+
     ctx.textAlign =
         "center";
 
+
     ctx.textBaseline =
         "middle";
+
 
     ctx.fillText(
         "🎁",
@@ -1555,8 +1584,8 @@ function openGift(){
 
 
     /*
-     Force browser reflow
-     */
+     Browser reflow
+    */
 
     void wheel.offsetWidth;
 
@@ -1581,6 +1610,12 @@ function openGift(){
         "spinButton"
     ).disabled =
         false;
+
+
+    document.getElementById(
+        "spinButton"
+    ).innerText =
+        "🎡 SPIN THE WHEEL";
 
 
     drawWheel();
@@ -1616,14 +1651,23 @@ function spinWheel(){
 
     button.disabled = true;
 
+
     button.innerText =
         "🎡 Wheel घूम रहा है...";
 
 
     /*
-     ==============================
-     FIND REWARD
-     ==============================
+     ========================================
+     IMPORTANT REWARD RULE
+
+     1. AUTO / empty / invalid
+        = RANDOM REWARD
+
+     2. Admin ने valid reward set किया
+        = ONLY THAT REWARD
+
+     Customer को यह setting दिखाई नहीं जाती।
+     ========================================
     */
 
 
@@ -1635,13 +1679,14 @@ function spinWheel(){
 
 
     if(
-        adminReward &&
+        typeof adminReward === "string" &&
+        adminReward.trim() !== "" &&
         adminReward !== "AUTO" &&
         rewards.includes(adminReward)
     ){
 
         /*
-         Admin panel selected reward
+         Admin selected reward
         */
 
         target =
@@ -1654,7 +1699,7 @@ function spinWheel(){
     else{
 
         /*
-         Random reward
+         Normal random wheel
         */
 
         target =
@@ -1675,24 +1720,10 @@ function spinWheel(){
 
 
     /*
-     ==============================
-     EXACT POINTER CALCULATION
-     ==============================
-     
-     Our slice 0 is centered at TOP.
-
-     Pointer = TOP = -90 degrees.
-
-     For target index:
-     
-     target center =
-     index * slice + slice/2
-
-     Wheel must rotate opposite
-     direction so target center
-     reaches TOP.
+     ========================================
+     EXACT POINTER POSITION
+     ========================================
     */
-
 
     const sliceDegrees =
         360 /
@@ -1705,17 +1736,13 @@ function spinWheel(){
         sliceDegrees / 2;
 
 
-    /*
-     Base rotation required
-     */
-
     const finalRotation =
         360 -
         targetCenter;
 
 
     /*
-     7 full spins + exact position
+     7 full rotations
     */
 
     const totalRotation =
@@ -1729,24 +1756,12 @@ function spinWheel(){
         );
 
 
-    /*
-     Sound
-    */
-
     spinSound();
 
-
-    /*
-     Start wheel
-    */
 
     wheel.style.transform =
         `rotate(${totalRotation}deg)`;
 
-
-    /*
-     Wait until exact 7 sec animation
-    */
 
     setTimeout(()=>{
 
@@ -1763,10 +1778,6 @@ function spinWheel(){
 
 function finishSpin(){
 
-    /*
-     Winning sound
-    */
-
     winSound();
 
 
@@ -1775,10 +1786,6 @@ function finishSpin(){
             "wheel"
         );
 
-
-    /*
-     Wheel disappears like sand
-    */
 
     wheel.classList.add(
         "dissolve"
@@ -1807,7 +1814,6 @@ function finishSpin(){
 
         saveReward();
 
-
     },1200);
 
 }
@@ -1830,10 +1836,23 @@ function saveReward(){
     }
 
 
+    const now =
+        new Date();
+
+
     const date =
-        new Date()
-        .toLocaleDateString(
+        now.toLocaleDateString(
             "hi-IN"
+        );
+
+
+    const time =
+        now.toLocaleTimeString(
+            "hi-IN",
+            {
+                hour:"2-digit",
+                minute:"2-digit"
+            }
         );
 
 
@@ -1846,7 +1865,10 @@ function saveReward(){
             "REDEEMED",
 
         redeemedAt:
-            date
+            date,
+
+        redeemedTime:
+            time
 
     };
 
@@ -1855,9 +1877,11 @@ function saveReward(){
         `${DB_URL}customers/${currentCustomer.mobile}/gifts/${currentMilestone}.json`,
         {
             method:"PUT",
+
             body:JSON.stringify(
                 rewardData
             )
+
         }
     )
 
@@ -1871,6 +1895,10 @@ function saveReward(){
 
         }
 
+
+        /*
+         Local customer data update
+        */
 
         if(
             !currentCustomer.gifts
@@ -1933,9 +1961,10 @@ function closeResult(){
     spinning = false;
 
 
-    /*
-     Dashboard refresh
-    */
+    selectedReward = null;
+
+    selectedIndex = null;
+
 
     updateCustomerScreen();
 
@@ -1943,7 +1972,7 @@ function closeResult(){
 
 
 /* =========================================
-   HISTORY
+   RENDER HISTORY
 ========================================= */
 
 function renderHistory(){
@@ -1960,9 +1989,11 @@ function renderHistory(){
     ){
 
         list.innerHTML =
-            `<p style="color:#aaa;font-size:11px;">
+            `
+            <p style="color:#aaa;font-size:11px;">
                 अभी तक कोई gift claim नहीं किया गया।
-            </p>`;
+            </p>
+            `;
 
         return;
 
@@ -1972,54 +2003,82 @@ function renderHistory(){
     let html = "";
 
 
-    milestones.forEach(m=>{
+    milestones.forEach(
+        milestone => {
 
-        const gift =
-            currentCustomer.gifts[m];
+            const gift =
+                currentCustomer.gifts[
+                    milestone
+                ];
 
 
-        if(
-            gift &&
-            gift.status === "REDEEMED"
-        ){
+            if(
+                gift &&
+                gift.status === "REDEEMED"
+            ){
 
-            html += `
+                html += `
 
-            <div class="history-item">
+                <div class="history-item">
 
-                <div>
+                    <div>
 
-                    <strong style="color:white;">
-                        ${gift.reward}
-                    </strong>
+                        <strong
+                            style="color:white;"
+                        >
+                            ${escapeHTML(
+                                gift.reward ||
+                                "Gift"
+                            )}
+                        </strong>
 
-                    <br>
+                        <br>
 
-                    <span style="color:#ffd700;">
-                        Milestone #${m}
+                        <span
+                            style="color:#ffd700;"
+                        >
+                            Milestone #${milestone}
+                        </span>
+
+                    </div>
+
+                    <span
+                        style="color:#aaa;text-align:right;"
+                    >
+                        ${escapeHTML(
+                            gift.redeemedAt ||
+                            ""
+                        )}
+
+                        ${
+                            gift.redeemedTime
+                            ? "<br>" +
+                              escapeHTML(
+                                gift.redeemedTime
+                              )
+                            : ""
+                        }
+
                     </span>
 
                 </div>
 
-                <span style="color:#aaa;">
-                    ${gift.redeemedAt || ""}
-                </span>
+                `;
 
-            </div>
-
-            `;
+            }
 
         }
-
-    });
+    );
 
 
     if(!html){
 
         html =
-            `<p style="color:#aaa;font-size:11px;">
+            `
+            <p style="color:#aaa;font-size:11px;">
                 अभी तक कोई gift claim नहीं किया गया।
-            </p>`;
+            </p>
+            `;
 
     }
 
@@ -2031,7 +2090,23 @@ function renderHistory(){
 
 
 /* =========================================
-   ENTER KEY
+   BASIC HTML ESCAPE
+========================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   ENTER KEY LOGIN
 ========================================= */
 
 document.getElementById(
@@ -2050,7 +2125,9 @@ document.getElementById(
 );
 
 
-/* DRAW INITIAL */
+/* =========================================
+   INITIAL WHEEL
+========================================= */
 
 drawWheel();
 
