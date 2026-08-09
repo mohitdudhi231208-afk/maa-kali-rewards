@@ -1,23 +1,14 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<title>Maa Kali Vastralaya - Digital Loyalty Card</title>
 
-<title>माँ काली वस्त्रालय - Digital Loyalty Card</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================================
-   BASIC
-========================================= */
 
 *{
     box-sizing:border-box;
@@ -27,964 +18,503 @@
 }
 
 body{
-
     background:
-    radial-gradient(
-        circle at top,
-        #2a1700 0%,
-        #121212 45%,
-        #080808 100%
-    );
-
+    radial-gradient(circle at top,#2b1d00 0%,#121212 45%,#080808 100%);
     color:#fff;
-
     min-height:100vh;
-
     padding:15px;
-
     max-width:500px;
-
     margin:auto;
-
     text-align:center;
-
-    overflow-x:hidden;
 }
 
-
-/* =========================================
-   HEADER
-========================================= */
-
 .header{
-
     margin-top:8px;
-
     margin-bottom:18px;
-
 }
 
 .logo{
-
     width:82px;
-
     height:82px;
-
     object-fit:contain;
-
     border-radius:50%;
-
     border:2px solid #ffd700;
-
     padding:4px;
-
     background:#000;
-
-    box-shadow:
-    0 0 20px rgba(255,215,0,.25);
-
+    box-shadow:0 0 20px rgba(255,215,0,.25);
     margin-bottom:8px;
 }
 
-
 .header h1{
-
     color:#ffd700;
-
-    font-size:22px;
-
+    font-size:23px;
     font-weight:700;
-
 }
 
 .header p{
-
     color:#aaa;
-
     font-size:12px;
-
     margin-top:3px;
 }
 
-
-/* =========================================
-   CARD
-========================================= */
-
 .card{
-
-    background:
-    linear-gradient(
-        145deg,
-        #242424,
-        #171717
-    );
-
+    background:linear-gradient(145deg,#242424,#171717);
     padding:18px;
-
     border-radius:18px;
-
     border:1px solid #ffd700;
-
     margin-bottom:16px;
-
-    box-shadow:
-    0 5px 25px rgba(255,215,0,.12);
-
+    box-shadow:0 5px 25px rgba(255,215,0,.12);
 }
-
-
-/* =========================================
-   INPUT
-========================================= */
 
 input{
-
     width:100%;
-
     padding:13px;
-
     border-radius:9px;
-
     border:1px solid #ffd700;
-
     background:#000;
-
     color:#fff;
-
     font-size:15px;
-
     text-align:center;
-
     margin-bottom:12px;
-
     outline:none;
-
 }
-
-input:focus{
-
-    box-shadow:
-    0 0 10px rgba(255,215,0,.25);
-
-}
-
-
-/* =========================================
-   BUTTON
-========================================= */
 
 button{
-
     width:100%;
-
     padding:13px;
-
     border-radius:9px;
-
     border:none;
-
     background:#ffd700;
-
     color:#000;
-
     font-weight:700;
-
     font-size:15px;
-
     cursor:pointer;
-
-}
-
-button:active{
-
-    transform:scale(.98);
-
 }
 
 button:disabled{
-
     background:#555;
-
     color:#aaa;
-
 }
 
-
-/* =========================================
-   USER INFO
-========================================= */
+.loader-text{
+    color:#ffd700;
+    font-size:12px;
+    margin-top:8px;
+    display:none;
+}
 
 .user-info{
-
-    background:
-    rgba(255,215,0,.07);
-
+    background:rgba(255,215,0,.07);
     padding:14px;
-
     border-radius:12px;
-
     margin-bottom:15px;
-
     text-align:left;
-
     border-left:4px solid #ffd700;
-
 }
 
 .user-info p{
-
     font-size:13px;
-
     margin-bottom:5px;
-
     color:#ddd;
-
 }
 
 .user-info b{
-
     color:#ffd700;
-
 }
 
 
-/* =========================================
-   PURCHASE PROGRESS
-========================================= */
+/* ================================
+   LOYALTY CARD
+================================ */
 
-.progress-title{
-
-    font-size:12px;
-
-    color:#aaa;
-
-    margin-bottom:7px;
-
-}
-
-.progress-bar{
-
-    width:100%;
-
-    height:11px;
-
-    background:#333;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    margin-bottom:18px;
-
-}
-
-.progress-fill{
-
-    height:100%;
-
-    width:0%;
-
-    background:
-    linear-gradient(
-        90deg,
-        #ff9800,
-        #ffd700
-    );
-
-    border-radius:20px;
-
-    transition:width .7s ease;
-
-}
-
-
-/* =========================================
-   MILESTONES
-========================================= */
-
-.milestones{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin:12px 0 18px;
-
-}
-
-.milestone{
-
-    width:22%;
-
-    position:relative;
-
-}
-
-.milestone-circle{
-
-    width:42px;
-
-    height:42px;
-
-    margin:auto;
-
-    border-radius:50%;
-
-    background:#222;
-
-    border:2px solid #555;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
+.loyalty-title{
+    color:#ffd700;
     font-size:16px;
-
+    font-weight:700;
+    margin-bottom:5px;
 }
 
-.milestone.unlocked .milestone-circle{
-
-    background:#ffd700;
-
-    color:#000;
-
-    border-color:#ffd700;
-
-    box-shadow:
-    0 0 15px rgba(255,215,0,.55);
-
-}
-
-.milestone.done .milestone-circle{
-
-    background:#25d366;
-
-    color:#fff;
-
-    border-color:#25d366;
-
-}
-
-.milestone-label{
-
-    font-size:9px;
-
+.loyalty-subtitle{
     color:#aaa;
-
-    margin-top:5px;
-
-}
-
-.milestone.unlocked .milestone-label{
-
-    color:#ffd700;
-
+    font-size:11px;
+    margin-bottom:15px;
 }
 
 
-/* =========================================
-   GIFT BOX
-========================================= */
+/* 10 boxes */
+
+.loyalty-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:9px;
+    margin-top:10px;
+}
+
+.purchase-box{
+    position:relative;
+    min-height:72px;
+    border-radius:12px;
+    background:#202020;
+    border:1px solid #444;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transition:.35s;
+    overflow:hidden;
+}
+
+.purchase-number{
+    font-size:20px;
+    font-weight:700;
+    color:#777;
+}
+
+.purchase-text{
+    font-size:8px;
+    color:#777;
+    margin-top:2px;
+}
+
+.purchase-check{
+    display:none;
+    font-size:20px;
+    color:#fff;
+    font-weight:700;
+}
+
+.purchase-box.completed{
+    background:#25d366;
+    border-color:#25d366;
+    box-shadow:0 0 12px rgba(37,211,102,.35);
+}
+
+.purchase-box.completed .purchase-number,
+.purchase-box.completed .purchase-text{
+    display:none;
+}
+
+.purchase-box.completed .purchase-check{
+    display:block;
+}
+
+.purchase-box.current{
+    border-color:#ffd700;
+    box-shadow:0 0 13px rgba(255,215,0,.35);
+    animation:currentPulse 1.4s infinite;
+}
+
+.purchase-box.gift-milestone{
+    border-color:#ff9800;
+}
+
+.purchase-box.gift-milestone.completed{
+    background:#25d366;
+    border-color:#25d366;
+}
+
+.gift-mark{
+    position:absolute;
+    top:3px;
+    right:5px;
+    font-size:12px;
+}
+
+@keyframes currentPulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.04);
+    }
+}
+
+
+/* ================================
+   GIFT AREA
+================================ */
 
 .gift-area{
-
     display:none;
-
-    margin:10px auto 15px;
-
+    margin:15px auto 5px;
 }
 
 .gift-message{
-
     color:#ffd700;
-
     font-size:14px;
-
     font-weight:700;
-
-    margin-bottom:8px;
-
+    margin-bottom:7px;
 }
-
 
 .gift-box{
-
     width:100px;
-
     height:100px;
-
-    margin:10px auto;
-
+    margin:8px auto;
     cursor:pointer;
-
-    position:relative;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
-    font-size:58px;
-
-    filter:
-    drop-shadow(
-        0 0 12px
-        rgba(255,215,0,.35)
-    );
-
+    font-size:60px;
+    filter:drop-shadow(0 0 13px rgba(255,215,0,.4));
 }
-
-
-/* Shake animation */
 
 .shake{
-
-    animation:
-
-    giftShake
-    0.65s
-    infinite;
-
+    animation:giftShake .65s infinite;
 }
-
 
 @keyframes giftShake{
-
-    0%{
-        transform:rotate(0deg) scale(1);
-    }
-
-    20%{
-        transform:rotate(-9deg) scale(1.05);
-    }
-
-    40%{
-        transform:rotate(9deg) scale(1.05);
-    }
-
-    60%{
-        transform:rotate(-7deg) scale(1.05);
-    }
-
-    80%{
-        transform:rotate(7deg) scale(1.05);
-    }
-
-    100%{
-        transform:rotate(0deg) scale(1);
-    }
-
+    0%{transform:rotate(0) scale(1);}
+    20%{transform:rotate(-9deg) scale(1.05);}
+    40%{transform:rotate(9deg) scale(1.05);}
+    60%{transform:rotate(-7deg) scale(1.05);}
+    80%{transform:rotate(7deg) scale(1.05);}
+    100%{transform:rotate(0) scale(1);}
 }
-
 
 .gift-hint{
-
-    font-size:11px;
-
     color:#aaa;
-
+    font-size:10px;
 }
 
 
-/* =========================================
-   WHEEL OVERLAY
-========================================= */
+/* ================================
+   WHATSAPP
+================================ */
 
-#wheelOverlay{
-
-    display:none;
-
-    position:fixed;
-
-    inset:0;
-
-    background:
-    rgba(0,0,0,.92);
-
-    z-index:9999;
-
-    padding:20px;
-
+.whatsapp-btn{
+    display:flex;
     align-items:center;
-
     justify-content:center;
-
-    flex-direction:column;
-
-}
-
-
-.wheel-title{
-
-    color:#ffd700;
-
-    font-size:20px;
-
-    font-weight:700;
-
-    margin-bottom:12px;
-
-}
-
-
-.wheel-subtitle{
-
-    color:#aaa;
-
-    font-size:11px;
-
-    margin-bottom:15px;
-
-}
-
-
-/* =========================================
-   WHEEL
-========================================= */
-
-.wheel-container{
-
-    position:relative;
-
-    width:280px;
-
-    height:280px;
-
-    margin:10px auto 20px;
-
-}
-
-
-#wheel{
-
-    width:280px;
-
-    height:280px;
-
-    border-radius:50%;
-
-    border:6px solid #ffd700;
-
-    background:#222;
-
-    box-shadow:
-    0 0 35px
-    rgba(255,215,0,.35);
-
-    transition:
-    transform
-    6s cubic-bezier(
-        .12,
-        .75,
-        .08,
-        1
-    );
-
-}
-
-
-.pointer{
-
-    position:absolute;
-
-    top:-15px;
-
-    left:50%;
-
-    transform:
-    translateX(-50%);
-
-    width:0;
-
-    height:0;
-
-    border-left:
-    14px solid transparent;
-
-    border-right:
-    14px solid transparent;
-
-    border-top:
-    28px solid #ff0055;
-
-    z-index:10;
-
-    filter:
-    drop-shadow(
-        0 2px 4px
-        rgba(0,0,0,.7)
-    );
-
-}
-
-
-/* Wheel dissolve */
-
-.dissolve{
-
-    animation:
-    wheelDissolve
-    1.2s
-    forwards;
-
-}
-
-
-@keyframes wheelDissolve{
-
-    0%{
-
-        opacity:1;
-
-        transform:
-        scale(1)
-        rotate(0deg);
-
-        filter:
-        blur(0);
-
-    }
-
-    45%{
-
-        opacity:.7;
-
-        transform:
-        scale(1.08)
-        rotate(8deg);
-
-        filter:
-        blur(2px);
-
-    }
-
-    100%{
-
-        opacity:0;
-
-        transform:
-        scale(.25)
-        rotate(25deg);
-
-        filter:
-        blur(12px);
-
-    }
-
-}
-
-
-/* =========================================
-   SPIN BUTTON
-========================================= */
-
-#spinBtn{
-
-    max-width:280px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #ffd700,
-        #ff9800
-    );
-
-}
-
-
-/* =========================================
-   REWARD RESULT
-========================================= */
-
-#rewardResult{
-
-    display:none;
-
-    max-width:340px;
-
+    gap:8px;
     width:100%;
-
-    background:
-    linear-gradient(
-        145deg,
-        #332300,
-        #171717
-    );
-
-    border:2px solid #ffd700;
-
-    border-radius:18px;
-
-    padding:22px;
-
-    box-shadow:
-    0 0 35px
-    rgba(255,215,0,.3);
-
-    animation:
-    rewardAppear
-    .7s ease;
-
-}
-
-
-@keyframes rewardAppear{
-
-    from{
-
-        opacity:0;
-
-        transform:
-        scale(.5)
-        translateY(20px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:
-        scale(1)
-        translateY(0);
-
-    }
-
-}
-
-
-.reward-icon{
-
-    font-size:50px;
-
-    margin-bottom:8px;
-
-}
-
-.reward-small{
-
-    color:#aaa;
-
-    font-size:11px;
-
-    margin-bottom:5px;
-
-}
-
-.reward-name{
-
-    color:#ffd700;
-
-    font-size:20px;
-
+    padding:13px;
+    border-radius:9px;
+    background:#25D366;
+    color:#fff;
+    text-decoration:none;
     font-weight:700;
-
-    margin-bottom:14px;
-
-}
-
-.reward-note{
-
-    color:#ddd;
-
-    font-size:11px;
-
-    line-height:1.5;
-
-    margin-bottom:15px;
-
+    font-size:14px;
+    margin-top:15px;
 }
 
 
-/* =========================================
+/* ================================
    HISTORY
-========================================= */
+================================ */
 
 .history-box{
-
     background:#1e1e1e;
-
     padding:15px;
-
     border-radius:12px;
-
     border:1px solid #333;
-
     margin-top:18px;
-
     text-align:left;
-
 }
 
 .history-title{
-
     color:#ffd700;
-
     font-size:14px;
-
     margin-bottom:10px;
-
     font-weight:bold;
-
 }
 
 .history-item{
-
     font-size:12px;
-
     padding:9px 0;
-
     border-bottom:1px dashed #444;
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
 }
 
 .history-item:last-child{
-
     border-bottom:none;
-
 }
 
 
-/* =========================================
-   WHATSAPP
-========================================= */
+/* ================================
+   WHEEL OVERLAY
+================================ */
 
-.whatsapp-btn{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:8px;
-
-    width:100%;
-
-    padding:13px;
-
-    border-radius:9px;
-
-    background:#25D366;
-
-    color:#fff;
-
-    text-decoration:none;
-
-    font-weight:700;
-
-    font-size:14px;
-
-    margin-top:15px;
-
-    box-shadow:
-    0 5px 15px
-    rgba(37,211,102,.2);
-
-}
-
-
-/* =========================================
-   LOADER
-========================================= */
-
-.loader-text{
-
-    color:#ffd700;
-
-    font-size:12px;
-
-    margin-top:8px;
-
+#wheelOverlay{
     display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.94);
+    z-index:9999;
+    padding:20px;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
 
+.wheel-title{
+    color:#ffd700;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.wheel-subtitle{
+    color:#aaa;
+    font-size:11px;
+    margin-bottom:10px;
+}
+
+.wheel-container{
+    position:relative;
+    width:280px;
+    height:280px;
+    margin:10px auto 20px;
+}
+
+#wheel{
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    border:6px solid #ffd700;
+    background:#222;
+    box-shadow:0 0 35px rgba(255,215,0,.35);
+    transition:transform 6.5s cubic-bezier(.10,.75,.08,1);
+}
+
+.pointer{
+    position:absolute;
+    top:-15px;
+    left:50%;
+    transform:translateX(-50%);
+    width:0;
+    height:0;
+    border-left:14px solid transparent;
+    border-right:14px solid transparent;
+    border-top:28px solid #ff0055;
+    z-index:10;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.7));
+}
+
+#spinBtn{
+    max-width:280px;
+    background:linear-gradient(135deg,#ffd700,#ff9800);
+}
+
+.dissolve{
+    animation:wheelDissolve 1.2s forwards;
+}
+
+@keyframes wheelDissolve{
+    0%{
+        opacity:1;
+        transform:scale(1) rotate(0);
+        filter:blur(0);
+    }
+    45%{
+        opacity:.7;
+        transform:scale(1.08) rotate(8deg);
+        filter:blur(2px);
+    }
+    100%{
+        opacity:0;
+        transform:scale(.2) rotate(25deg);
+        filter:blur(13px);
+    }
 }
 
 
-/* =========================================
-   FOOTER
-========================================= */
+/* ================================
+   REWARD RESULT
+================================ */
+
+#rewardResult{
+    display:none;
+    max-width:340px;
+    width:100%;
+    background:linear-gradient(145deg,#332300,#171717);
+    border:2px solid #ffd700;
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 0 35px rgba(255,215,0,.3);
+    animation:rewardAppear .7s ease;
+}
+
+@keyframes rewardAppear{
+    from{
+        opacity:0;
+        transform:scale(.5) translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
+}
+
+.reward-icon{
+    font-size:50px;
+    margin-bottom:8px;
+}
+
+.reward-small{
+    color:#aaa;
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.reward-name{
+    color:#ffd700;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:14px;
+}
+
+.reward-note{
+    color:#ddd;
+    font-size:11px;
+    line-height:1.5;
+    margin-bottom:15px;
+}
 
 .footer{
-
     color:#666;
-
     font-size:9px;
-
     margin:18px 0 5px;
-
 }
 
 </style>
-
 </head>
 
 
 <body>
 
 
-<!-- =========================================
+<!-- ================================
      HEADER
-========================================= -->
+================================ -->
 
 <div class="header">
-
-    <!--
-      IMPORTANT:
-      1786193692481.png ko isi folder me rakho
-    -->
 
     <img
         src="1786193692481.png"
         class="logo"
-        alt="माँ काली वस्त्रालय"
+        alt="Maa Kali Vastralaya"
     >
 
-    <h1>
-        🌺 माँ काली वस्त्रालय 🌺
-    </h1>
+    <h1>Maa Kali Vastralaya</h1>
 
-    <p>
-        Digital Loyalty Rewards Card
-    </p>
+    <p>Digital Loyalty Rewards Card</p>
 
 </div>
 
 
-
-<!-- =========================================
+<!-- ================================
      LOGIN
-========================================= -->
+================================ -->
 
-<div
-    class="card"
-    id="loginCard"
->
+<div class="card" id="loginCard">
 
-    <h3>
-        📱 अपना कार्ड खोलें
-    </h3>
+    <h3>📱 अपना कार्ड खोलें</h3>
 
-    <p
-        style="
-        font-size:12px;
-        color:#aaa;
-        margin:5px 0 15px;
-        "
-    >
+    <p style="font-size:12px;color:#aaa;margin:5px 0 15px;">
         अपना 10-अंकों का मोबाइल नंबर दर्ज करें
     </p>
-
 
     <input
         type="tel"
@@ -993,7 +523,6 @@ button:disabled{
         maxlength="10"
     >
 
-
     <button
         id="searchBtn"
         onclick="searchCustomer()"
@@ -1001,33 +530,20 @@ button:disabled{
         कार्ड देखें / Open Card
     </button>
 
-
-    <div
-        id="loginLoader"
-        class="loader-text"
-    >
+    <div id="loginLoader" class="loader-text">
         ⏳ कार्ड खोज रहे हैं...
     </div>
-
 
 </div>
 
 
+<!-- ================================
+     DASHBOARD
+================================ -->
 
-<!-- =========================================
-     MAIN DASHBOARD
-========================================= -->
-
-<div
-    id="mainDashboard"
-    style="display:none;"
->
-
+<div id="mainDashboard" style="display:none;">
 
     <div class="card">
-
-
-        <!-- CUSTOMER INFO -->
 
         <div class="user-info">
 
@@ -1043,10 +559,7 @@ button:disabled{
 
             <p>
                 कुल ख़रीदारी:
-                <b
-                    id="custPurchases"
-                    style="font-size:18px;"
-                >
+                <b id="custPurchases" style="font-size:18px;">
                     0
                 </b>
                 / 10
@@ -1055,130 +568,93 @@ button:disabled{
         </div>
 
 
+        <!-- LOYALTY CARD -->
 
-        <!-- =====================================
-             PROGRESS
-        ====================================== -->
+        <div class="loyalty-title">
+            🪪 Your Loyalty Card
+        </div>
 
-        <div class="progress-title">
-
-            Loyalty Progress
-
+        <div class="loyalty-subtitle">
+            हर खरीदारी पर एक box पूरा करें
         </div>
 
 
-        <div class="progress-bar">
+        <div class="loyalty-grid">
 
-            <div
-                id="progressFill"
-                class="progress-fill"
-            ></div>
-
-        </div>
-
-
-
-        <!-- =====================================
-             MILESTONES
-        ====================================== -->
-
-        <div class="milestones">
-
-
-            <div
-                id="milestone3"
-                class="milestone"
-            >
-
-                <div class="milestone-circle">
-                    🎁
-                </div>
-
-                <div class="milestone-label">
-                    3rd
-                </div>
-
+            <div class="purchase-box" id="purchase1">
+                <span class="purchase-number">1</span>
+                <span class="purchase-text">Purchase</span>
+                <span class="purchase-check">✓</span>
             </div>
 
-
-
-            <div
-                id="milestone5"
-                class="milestone"
-            >
-
-                <div class="milestone-circle">
-                    🎁
-                </div>
-
-                <div class="milestone-label">
-                    5th
-                </div>
-
+            <div class="purchase-box" id="purchase2">
+                <span class="purchase-number">2</span>
+                <span class="purchase-text">Purchase</span>
+                <span class="purchase-check">✓</span>
             </div>
 
-
-
-            <div
-                id="milestone8"
-                class="milestone"
-            >
-
-                <div class="milestone-circle">
-                    🎁
-                </div>
-
-                <div class="milestone-label">
-                    8th
-                </div>
-
+            <div class="purchase-box gift-milestone" id="purchase3">
+                <span class="gift-mark">🎁</span>
+                <span class="purchase-number">3</span>
+                <span class="purchase-text">Gift</span>
+                <span class="purchase-check">✓</span>
             </div>
 
+            <div class="purchase-box" id="purchase4">
+                <span class="purchase-number">4</span>
+                <span class="purchase-text">Purchase</span>
+                <span class="purchase-check">✓</span>
+            </div>
 
+            <div class="purchase-box gift-milestone" id="purchase5">
+                <span class="gift-mark">🎁</span>
+                <span class="purchase-number">5</span>
+                <span class="purchase-text">Gift</span>
+                <span class="purchase-check">✓</span>
+            </div>
 
-            <div
-                id="milestone10"
-                class="milestone"
-            >
+            <div class="purchase-box" id="purchase6">
+                <span class="purchase-number">6</span>
+                <span class="purchase-text">Purchase</span>
+                <span class="purchase-check">✓</span>
+            </div>
 
-                <div class="milestone-circle">
-                    🎁
-                </div>
+            <div class="purchase-box" id="purchase7">
+                <span class="purchase-number">7</span>
+                <span class="purchase-text">Purchase</span>
+                <span class="purchase-check">✓</span>
+            </div>
 
-                <div class="milestone-label">
-                    10th
-                </div>
+            <div class="purchase-box gift-milestone" id="purchase8">
+                <span class="gift-mark">🎁</span>
+                <span class="purchase-number">8</span>
+                <span class="purchase-text">Gift</span>
+                <span class="purchase-check">✓</span>
+            </div>
 
+            <div class="purchase-box" id="purchase9">
+                <span class="purchase-number">9</span>
+                <span class="purchase-text">Purchase</span>
+                <span class="purchase-check">✓</span>
+            </div>
+
+            <div class="purchase-box gift-milestone" id="purchase10">
+                <span class="gift-mark">🎁</span>
+                <span class="purchase-number">10</span>
+                <span class="purchase-text">Gift</span>
+                <span class="purchase-check">✓</span>
             </div>
 
         </div>
 
 
+        <!-- GIFT AREA -->
 
-        <!-- =====================================
-             REWARD STATUS
-        ====================================== -->
+        <div id="giftArea" class="gift-area">
 
-        <div id="rewardStatusArea"></div>
-
-
-
-        <!-- =====================================
-             MOVING GIFT BOX
-        ====================================== -->
-
-        <div
-            id="giftArea"
-            class="gift-area"
-        >
-
-            <div
-                id="giftMessage"
-                class="gift-message"
-            >
+            <div id="giftMessage" class="gift-message">
                 🎉 आपका Gift Unlock हो गया!
             </div>
-
 
             <div
                 id="giftBox"
@@ -1188,57 +664,37 @@ button:disabled{
                 🎁
             </div>
 
-
             <div class="gift-hint">
-
                 👆 Gift box पर tap करके अपना reward खोलें
-
             </div>
 
         </div>
 
 
-
-        <!-- =====================================
-             WHATSAPP COMMUNITY
-        ====================================== -->
+        <!-- WHATSAPP -->
 
         <a
             href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop"
             target="_blank"
             class="whatsapp-btn"
         >
-
             👥 WhatsApp Community में Join करें
-
         </a>
-
 
     </div>
 
 
-
-    <!-- =====================================
-         GIFT HISTORY
-    ====================================== -->
+    <!-- HISTORY -->
 
     <div class="history-box">
 
         <div class="history-title">
-
             🎁 आपके मिले हुए उपहार
-
         </div>
-
 
         <div id="historyList">
 
-            <p
-                style="
-                font-size:11px;
-                color:#aaa;
-                "
-            >
+            <p style="font-size:11px;color:#aaa;">
                 अभी तक कोई उपहार क्लेम नहीं किया गया है।
             </p>
 
@@ -1246,37 +702,24 @@ button:disabled{
 
     </div>
 
-
 </div>
 
 
-
-<!-- =========================================
-     WHEEL OVERLAY
-========================================= -->
+<!-- ================================
+     WHEEL
+================================ -->
 
 <div id="wheelOverlay">
 
-
     <div class="wheel-title">
-
         🎉 आपका Gift तैयार है!
-
     </div>
-
 
     <div class="wheel-subtitle">
-
         Spin करें और अपना reward देखें
-
     </div>
 
-
-
-    <div
-        id="wheelContainer"
-        class="wheel-container"
-    >
+    <div id="wheelContainer" class="wheel-container">
 
         <div class="pointer"></div>
 
@@ -1288,17 +731,9 @@ button:disabled{
 
     </div>
 
-
-
-    <button
-        id="spinBtn"
-        onclick="spinWheel()"
-    >
-
+    <button id="spinBtn" onclick="spinWheel()">
         🎡 SPIN THE WHEEL
-
     </button>
-
 
 
     <!-- RESULT -->
@@ -1313,43 +748,30 @@ button:disabled{
             CONGRATULATIONS!
         </div>
 
-        <div
-            id="rewardName"
-            class="reward-name"
-        >
+        <div id="rewardName" class="reward-name">
             -
         </div>
 
         <div class="reward-note">
-
-            इस reward को पाने के लिए
-            दुकान के counter पर यह screen दिखाएँ।
-
+            इस reward को पाने के लिए दुकान के counter पर
+            यह screen दिखाएँ।
         </div>
 
-        <button
-            onclick="closeReward()"
-        >
+        <button onclick="closeReward()">
             ❤️ धन्यवाद
         </button>
 
     </div>
 
-
 </div>
-
 
 
 <div class="footer">
-
-    © माँ काली वस्त्रालय • Digital Loyalty Rewards
-
+    © Maa Kali Vastralaya • Digital Loyalty Rewards
 </div>
 
 
-
 <script>
-
 
 /* =========================================
    FIREBASE
@@ -1357,16 +779,6 @@ button:disabled{
 
 const DB_URL =
 "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
-
-
-
-/* =========================================
-   WHATSAPP
-========================================= */
-
-const WHATSAPP_COMMUNITY =
-"https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop";
-
 
 
 /* =========================================
@@ -1391,21 +803,13 @@ const rewardsList = [
 
 
 const colors = [
-
     "#FF5722",
-
     "#4CAF50",
-
     "#FFEB3B",
-
     "#2196F3",
-
     "#9C27B0",
-
     "#E91E63"
-
 ];
-
 
 
 const milestones = [3,5,8,10];
@@ -1419,14 +823,12 @@ let selectedReward = null;
 
 let isSpinning = false;
 
+let audioContext = null;
 
 
 /* =========================================
-   AUDIO SYSTEM
+   AUDIO
 ========================================= */
-
-let audioContext = null;
-
 
 function startAudio(){
 
@@ -1442,10 +844,7 @@ function startAudio(){
 
         }
 
-        if(
-            audioContext.state ===
-            "suspended"
-        ){
+        if(audioContext.state === "suspended"){
 
             audioContext.resume();
 
@@ -1460,24 +859,19 @@ function startAudio(){
 }
 
 
-/* Tick / spinning sound */
-
 function playSpinSound(){
 
     startAudio();
 
     if(!audioContext) return;
 
-
     const start =
         audioContext.currentTime;
 
-
-    for(let i=0;i<45;i++){
+    for(let i=0;i<50;i++){
 
         const time =
-            start +
-            i * 0.11;
+            start + i * 0.12;
 
         const oscillator =
             audioContext.createOscillator();
@@ -1485,34 +879,27 @@ function playSpinSound(){
         const gain =
             audioContext.createGain();
 
-
-        oscillator.type =
-            "square";
-
+        oscillator.type = "square";
 
         oscillator.frequency.setValueAtTime(
-            650 + (i % 4) * 80,
+            600 + (i % 5) * 70,
             time
         );
-
 
         gain.gain.setValueAtTime(
             0.0001,
             time
         );
 
-
         gain.gain.exponentialRampToValueAtTime(
-            0.08,
-            time + 0.01
+            0.07,
+            time + .01
         );
-
 
         gain.gain.exponentialRampToValueAtTime(
             0.0001,
-            time + 0.055
+            time + .055
         );
-
 
         oscillator.connect(gain);
 
@@ -1520,26 +907,20 @@ function playSpinSound(){
             audioContext.destination
         );
 
-
         oscillator.start(time);
 
-        oscillator.stop(
-            time + 0.06
-        );
+        oscillator.stop(time + .06);
 
     }
 
 }
 
 
-/* Charming winning sound */
-
 function playWinSound(){
 
     startAudio();
 
     if(!audioContext) return;
-
 
     const notes = [
         523.25,
@@ -1548,89 +929,68 @@ function playWinSound(){
         1046.50
     ];
 
-
     const start =
         audioContext.currentTime;
 
+    notes.forEach((freq,index)=>{
 
-    notes.forEach(
-        (freq,index)=>{
+        const oscillator =
+            audioContext.createOscillator();
 
-            const oscillator =
-                audioContext.createOscillator();
+        const gain =
+            audioContext.createGain();
 
-            const gain =
-                audioContext.createGain();
+        const time =
+            start + index * .15;
 
+        oscillator.type = "sine";
 
-            const time =
-                start +
-                index * 0.15;
+        oscillator.frequency.setValueAtTime(
+            freq,
+            time
+        );
 
+        gain.gain.setValueAtTime(
+            .0001,
+            time
+        );
 
-            oscillator.type =
-                "sine";
+        gain.gain.exponentialRampToValueAtTime(
+            .25,
+            time + .03
+        );
 
+        gain.gain.exponentialRampToValueAtTime(
+            .0001,
+            time + .45
+        );
 
-            oscillator.frequency.setValueAtTime(
-                freq,
-                time
-            );
+        oscillator.connect(gain);
 
+        gain.connect(
+            audioContext.destination
+        );
 
-            gain.gain.setValueAtTime(
-                0.0001,
-                time
-            );
+        oscillator.start(time);
 
+        oscillator.stop(time + .5);
 
-            gain.gain.exponentialRampToValueAtTime(
-                0.25,
-                time + 0.03
-            );
-
-
-            gain.gain.exponentialRampToValueAtTime(
-                0.0001,
-                time + 0.45
-            );
-
-
-            oscillator.connect(gain);
-
-            gain.connect(
-                audioContext.destination
-            );
-
-
-            oscillator.start(time);
-
-            oscillator.stop(
-                time + 0.5
-            );
-
-        }
-    );
+    });
 
 }
 
 
-
 /* =========================================
-   LOGIN
+   SEARCH CUSTOMER
 ========================================= */
 
 function searchCustomer(){
 
     startAudio();
 
-
     const mobile =
-        document
-        .getElementById("custMobile")
-        .value
-        .trim();
-
+        document.getElementById("custMobile")
+        .value.trim();
 
     if(!/^\d{10}$/.test(mobile)){
 
@@ -1642,48 +1002,27 @@ function searchCustomer(){
 
     }
 
-
     const searchBtn =
-        document.getElementById(
-            "searchBtn"
-        );
-
+        document.getElementById("searchBtn");
 
     const loader =
-        document.getElementById(
-            "loginLoader"
-        );
-
+        document.getElementById("loginLoader");
 
     searchBtn.disabled = true;
 
     loader.style.display = "block";
 
-
     fetch(
         `${DB_URL}customers/${mobile}.json`
     )
 
-    .then(res => {
+    .then(res=>res.json())
 
-        if(!res.ok){
-
-            throw new Error(
-                "Network error"
-            );
-
-        }
-
-        return res.json();
-
-    })
-
-    .then(data => {
+    .then(data=>{
 
         searchBtn.disabled = false;
 
         loader.style.display = "none";
-
 
         if(!data){
 
@@ -1695,45 +1034,33 @@ function searchCustomer(){
 
         }
 
-
         currentCust = {
-
             ...data,
-
             mobile:mobile
-
         };
-
 
         document.getElementById(
             "loginCard"
         ).style.display = "none";
 
-
         document.getElementById(
             "mainDashboard"
         ).style.display = "block";
 
-
         document.getElementById(
             "custName"
         ).innerText =
-            (data.name || "Customer") +
-            " जी";
-
+            (data.name || "Customer") + " जी";
 
         document.getElementById(
             "custId"
         ).innerText =
-            data.customerId ||
-            "MKV-CARD";
-
+            data.customerId || "MKV-CARD";
 
         document.getElementById(
             "custPurchases"
         ).innerText =
             data.purchases || 0;
-
 
         updateDashboard(data);
 
@@ -1741,14 +1068,13 @@ function searchCustomer(){
 
     })
 
-    .catch(error => {
+    .catch(error=>{
 
         console.log(error);
 
         searchBtn.disabled = false;
 
         loader.style.display = "none";
-
 
         alert(
             "नेटवर्क समस्या! कृपया दोबारा प्रयास करें।"
@@ -1759,9 +1085,8 @@ function searchCustomer(){
 }
 
 
-
 /* =========================================
-   DASHBOARD
+   UPDATE DASHBOARD
 ========================================= */
 
 function updateDashboard(data){
@@ -1769,24 +1094,14 @@ function updateDashboard(data){
     const purchases =
         Number(data.purchases || 0);
 
-
-    const progress =
-        Math.min(
-            purchases / 10 * 100,
-            100
-        );
-
-
     document.getElementById(
-        "progressFill"
-    ).style.width =
-        progress + "%";
+        "custPurchases"
+    ).innerText = purchases;
 
-
-    updateMilestones(
+    updateLoyaltyCard(
+        purchases,
         data
     );
-
 
     checkRewardEligibility(
         data
@@ -1795,71 +1110,68 @@ function updateDashboard(data){
 }
 
 
-
 /* =========================================
-   MILESTONES UI
+   LIVE 1-10 CARD
 ========================================= */
 
-function updateMilestones(data){
+function updateLoyaltyCard(
+    purchases,
+    data
+){
 
-    const purchases =
-        Number(data.purchases || 0);
+    for(let i=1;i<=10;i++){
 
-
-    milestones.forEach(
-        milestone => {
-
-            const element =
-                document.getElementById(
-                    "milestone" +
-                    milestone
-                );
-
-
-            if(!element) return;
-
-
-            element.classList.remove(
-                "unlocked"
+        const box =
+            document.getElementById(
+                "purchase" + i
             );
 
-            element.classList.remove(
-                "done"
+        if(!box) continue;
+
+        box.classList.remove(
+            "completed"
+        );
+
+        box.classList.remove(
+            "current"
+        );
+
+
+        /*
+        Purchase completed
+        */
+
+        if(i <= purchases){
+
+            box.classList.add(
+                "completed"
             );
-
-
-            if(
-                data.gifts &&
-                data.gifts[milestone] &&
-                data.gifts[milestone].status ===
-                "REDEEMED"
-            ){
-
-                element.classList.add(
-                    "done"
-                );
-
-            }
-
-            else if(
-                purchases >= milestone
-            ){
-
-                element.classList.add(
-                    "unlocked"
-                );
-
-            }
 
         }
-    );
+
+
+        /*
+        Next purchase highlight
+        */
+
+        else if(
+            i === purchases + 1 &&
+            purchases < 10
+        ){
+
+            box.classList.add(
+                "current"
+            );
+
+        }
+
+    }
 
 }
 
 
-
 /* =========================================
-   FIND NEXT ELIGIBLE GIFT
+   CHECK GIFT
 ========================================= */
 
 function checkRewardEligibility(data){
@@ -1867,21 +1179,15 @@ function checkRewardEligibility(data){
     const purchases =
         Number(data.purchases || 0);
 
-
     let eligibleMilestone = null;
 
 
-    for(
-        let i=0;
-        i<milestones.length;
-        i++
-    ){
+    for(let i=0;i<milestones.length;i++){
 
         const m =
             milestones[i];
 
-
-        const alreadyClaimed =
+        const claimed =
             data.gifts &&
             data.gifts[m] &&
             data.gifts[m].status ===
@@ -1890,7 +1196,7 @@ function checkRewardEligibility(data){
 
         if(
             purchases >= m &&
-            !alreadyClaimed
+            !claimed
         ){
 
             eligibleMilestone = m;
@@ -1908,54 +1214,22 @@ function checkRewardEligibility(data){
         );
 
 
-    const statusArea =
-        document.getElementById(
-            "rewardStatusArea"
-        );
-
-
     if(eligibleMilestone){
 
         currentMilestone =
             eligibleMilestone;
 
-
-        statusArea.innerHTML = `
-
-            <div
-                style="
-                color:#25d366;
-                font-weight:bold;
-                font-size:13px;
-                margin-bottom:5px;
-                "
-            >
-
-                🎉 Milestone #${eligibleMilestone}
-                Unlock हो गया!
-
-            </div>
-
-        `;
-
-
         giftArea.style.display =
             "block";
-
 
         document.getElementById(
             "giftMessage"
         ).innerText =
-            `🎁 Milestone #${eligibleMilestone} का Gift तैयार है!`;
+            `🎉 Purchase ${eligibleMilestone} का Gift Unlock हो गया!`;
 
-
-        const giftBox =
-            document.getElementById(
-                "giftBox"
-            );
-
-
-        giftBox.classList.add(
+        document.getElementById(
+            "giftBox"
+        ).classList.add(
             "shake"
         );
 
@@ -1965,37 +1239,12 @@ function checkRewardEligibility(data){
 
         currentMilestone = null;
 
-
         giftArea.style.display =
             "none";
-
-
-        statusArea.innerHTML = `
-
-            <div
-                style="
-                color:#aaa;
-                font-size:11px;
-                margin-bottom:5px;
-                "
-            >
-
-                🎁 अगला Gift पाने के लिए
-                और खरीदारी करें।
-
-                <br>
-
-                Gift Milestones:
-                3 • 5 • 8 • 10
-
-            </div>
-
-        `;
 
     }
 
 }
-
 
 
 /* =========================================
@@ -2013,77 +1262,53 @@ function openGift(){
 
     }
 
-
     startAudio();
-
 
     const overlay =
         document.getElementById(
             "wheelOverlay"
         );
 
+    document.getElementById(
+        "giftArea"
+    ).style.display = "none";
 
-    const giftArea =
-        document.getElementById(
-            "giftArea"
-        );
-
-
-    giftArea.style.display =
-        "none";
-
-
-    overlay.style.display =
-        "flex";
-
+    overlay.style.display = "flex";
 
     const wheel =
-        document.getElementById(
-            "wheel"
-        );
+        document.getElementById("wheel");
 
-
-    wheel.classList.remove(
-        "dissolve"
-    );
-
+    wheel.classList.remove("dissolve");
 
     wheel.style.opacity = "1";
 
     wheel.style.transform =
         "rotate(0deg)";
 
-
     document.getElementById(
         "wheelContainer"
-    ).style.display =
-        "block";
-
+    ).style.display = "block";
 
     document.getElementById(
         "spinBtn"
-    ).style.display =
-        "block";
-
+    ).style.display = "block";
 
     document.getElementById(
         "spinBtn"
     ).disabled = false;
 
+    document.getElementById(
+        "spinBtn"
+    ).innerText =
+        "🎡 SPIN THE WHEEL";
 
     document.getElementById(
         "rewardResult"
-    ).style.display =
-        "none";
-
-
-    selectedReward = null;
-
+    ).style.display = "none";
 
     drawWheel();
 
 }
-
 
 
 /* =========================================
@@ -2093,19 +1318,14 @@ function openGift(){
 function drawWheel(){
 
     const canvas =
-        document.getElementById(
-            "wheel"
-        );
-
+        document.getElementById("wheel");
 
     const ctx =
         canvas.getContext("2d");
 
-
     const center = 140;
 
     const radius = 134;
-
 
     ctx.clearRect(
         0,
@@ -2114,38 +1334,27 @@ function drawWheel(){
         canvas.height
     );
 
-
     const total =
         rewardsList.length;
 
-
     const arc =
-        (Math.PI * 2) /
-        total;
+        Math.PI * 2 / total;
 
 
-    for(
-        let i=0;
-        i<total;
-        i++
-    ){
+    for(let i=0;i<total;i++){
 
         const start =
             i * arc;
 
-
         const end =
             start + arc;
 
-
         ctx.beginPath();
-
 
         ctx.moveTo(
             center,
             center
         );
-
 
         ctx.arc(
             center,
@@ -2155,92 +1364,60 @@ function drawWheel(){
             end
         );
 
-
         ctx.closePath();
-
 
         ctx.fillStyle =
             colors[i];
 
-
         ctx.fill();
-
 
         ctx.strokeStyle =
             "#111";
-
 
         ctx.lineWidth = 2;
 
         ctx.stroke();
 
 
-
-        /* Text */
-
         ctx.save();
-
 
         ctx.translate(
             center,
             center
         );
 
-
         ctx.rotate(
-            start +
-            arc / 2
+            start + arc / 2
         );
 
-
-        ctx.textAlign =
-            "right";
-
+        ctx.textAlign = "right";
 
         ctx.fillStyle =
             i === 2
             ? "#000"
             : "#fff";
 
-
         ctx.font =
             "bold 10px Poppins";
-
 
         let text =
             rewardsList[i];
 
-
-        /*
-        Long reward text
-        */
-
-        if(
-            text.length > 22
-        ){
+        if(text.length > 22){
 
             if(
-                text ===
-                "₹50 OFF (Above ₹500)"
+                text === "₹50 OFF (Above ₹500)"
             ){
-
-                text =
-                "₹50 OFF";
-
+                text = "₹50 OFF";
             }
 
-            else if(
-                text ===
-                "100% OFF Purchase"
+            if(
+                text === "100% OFF Purchase"
             ){
-
-                text =
-                "100% OFF";
-
+                text = "100% OFF";
             }
 
         }
-
 
         ctx.fillText(
             text,
@@ -2248,13 +1425,10 @@ function drawWheel(){
             4
         );
 
-
         ctx.restore();
 
     }
 
-
-    /* Center circle */
 
     ctx.beginPath();
 
@@ -2266,28 +1440,21 @@ function drawWheel(){
         Math.PI * 2
     );
 
-    ctx.fillStyle =
-        "#111";
+    ctx.fillStyle = "#111";
 
     ctx.fill();
 
-
-    ctx.strokeStyle =
-        "#ffd700";
+    ctx.strokeStyle = "#ffd700";
 
     ctx.lineWidth = 3;
 
     ctx.stroke();
 
+    ctx.font = "18px Arial";
 
-    ctx.font =
-        "18px Arial";
+    ctx.textAlign = "center";
 
-    ctx.textAlign =
-        "center";
-
-    ctx.textBaseline =
-        "middle";
+    ctx.textBaseline = "middle";
 
     ctx.fillText(
         "🎁",
@@ -2298,9 +1465,8 @@ function drawWheel(){
 }
 
 
-
 /* =========================================
-   SPIN WHEEL
+   SPIN
 ========================================= */
 
 function spinWheel(){
@@ -2315,43 +1481,27 @@ function spinWheel(){
 
     }
 
-
     isSpinning = true;
 
-
     const spinBtn =
-        document.getElementById(
-            "spinBtn"
-        );
-
+        document.getElementById("spinBtn");
 
     spinBtn.disabled = true;
 
     spinBtn.innerText =
         "🎡 Spinning...";
 
-
     startAudio();
 
     playSpinSound();
 
 
-
     /*
-    =========================================
-    ADMIN TARGET REWARD
-    =========================================
-
-    AUTO = Random
-
-    Otherwise exactly the reward
-    selected in Admin Panel.
+    Admin selected reward
     */
-
 
     const targetReward =
         currentCust.targetReward;
-
 
     let targetIndex;
 
@@ -2359,9 +1509,7 @@ function spinWheel(){
     if(
         targetReward &&
         targetReward !== "AUTO" &&
-        rewardsList.includes(
-            targetReward
-        )
+        rewardsList.includes(targetReward)
     ){
 
         targetIndex =
@@ -2386,156 +1534,87 @@ function spinWheel(){
         rewardsList[targetIndex];
 
 
-
-    /*
-    =========================================
-    CALCULATE ROTATION
-    =========================================
-    */
-
-
     const slice =
-        360 /
-        rewardsList.length;
-
+        360 / rewardsList.length;
 
     const centerAngle =
         targetIndex * slice +
         slice / 2;
 
-
     const finalAngle =
-        360 -
-        centerAngle;
-
+        360 - centerAngle;
 
     const extraSpins =
         360 * 7;
 
-
     const totalRotation =
-        extraSpins +
-        finalAngle;
+        extraSpins + finalAngle;
 
 
     const wheel =
-        document.getElementById(
-            "wheel"
-        );
-
+        document.getElementById("wheel");
 
     wheel.style.transform =
         `rotate(${totalRotation}deg)`;
 
 
-
     /*
-    =========================================
-    WAIT FOR WHEEL
-    =========================================
+    6.5 sec slow stop
     */
 
-    setTimeout(
-        () => {
+    setTimeout(()=>{
 
-            /*
-            Wheel धीरे-धीरे already
-            CSS easing से रुक चुका होगा.
-            */
+        showWinningReward();
 
-
-            setTimeout(
-                () => {
-
-                    showWinningReward();
-
-                },
-                300
-            );
-
-        },
-        6300
-    );
+    },6800);
 
 }
 
 
-
 /* =========================================
-   SHOW WINNING REWARD
+   SHOW RESULT
 ========================================= */
 
 function showWinningReward(){
 
-    const wheel =
-        document.getElementById(
-            "wheel"
-        );
-
-
-    /*
-    Winning sound
-    */
-
     playWinSound();
 
-
-    /*
-    Wheel dissolve
-    */
+    const wheel =
+        document.getElementById("wheel");
 
     wheel.classList.add(
         "dissolve"
     );
 
-
     document.getElementById(
         "spinBtn"
-    ).style.display =
-        "none";
+    ).style.display = "none";
 
 
-    /*
-    Wait for dissolve
-    */
+    setTimeout(()=>{
 
-    setTimeout(
-        () => {
+        document.getElementById(
+            "wheelContainer"
+        ).style.display = "none";
 
-            document.getElementById(
-                "wheelContainer"
-            ).style.display =
-                "none";
+        document.getElementById(
+            "rewardResult"
+        ).style.display = "block";
 
+        document.getElementById(
+            "rewardName"
+        ).innerText =
+            selectedReward;
 
-            document.getElementById(
-                "rewardResult"
-            ).style.display =
-                "block";
+        claimReward();
 
-
-            document.getElementById(
-                "rewardName"
-            ).innerText =
-                selectedReward;
-
-
-            /*
-            Save reward to Firebase
-            */
-
-            claimReward();
-
-        },
-        1200
-    );
+    },1200);
 
 }
 
 
-
 /* =========================================
-   CLAIM REWARD
+   SAVE REWARD
 ========================================= */
 
 function claimReward(){
@@ -2572,15 +1651,11 @@ function claimReward(){
         `${DB_URL}customers/${currentCust.mobile}/gifts/${currentMilestone}.json`,
         {
             method:"PUT",
-
-            body:
-                JSON.stringify(
-                    giftData
-                )
+            body:JSON.stringify(giftData)
         }
     )
 
-    .then(res => {
+    .then(res=>{
 
         if(!res.ok){
 
@@ -2590,13 +1665,8 @@ function claimReward(){
 
         }
 
-        /*
-        Local data update
-        */
 
-        if(
-            !currentCust.gifts
-        ){
+        if(!currentCust.gifts){
 
             currentCust.gifts = {};
 
@@ -2605,29 +1675,23 @@ function claimReward(){
 
         currentCust.gifts[
             currentMilestone
-        ] =
-            giftData;
+        ] = giftData;
 
 
         renderHistory(
             currentCust
         );
 
-
-        /*
-        Update milestone UI
-        */
-
-        updateMilestones(
+        updateLoyaltyCard(
+            Number(currentCust.purchases || 0),
             currentCust
         );
 
     })
 
-    .catch(error => {
+    .catch(error=>{
 
         console.log(error);
-
 
         alert(
             "Reward save nahi ho paya. Internet check karein."
@@ -2638,31 +1702,21 @@ function claimReward(){
 }
 
 
-
 /* =========================================
-   CLOSE REWARD
+   CLOSE RESULT
 ========================================= */
 
 function closeReward(){
 
     document.getElementById(
         "wheelOverlay"
-    ).style.display =
-        "none";
-
+    ).style.display = "none";
 
     document.getElementById(
         "rewardResult"
-    ).style.display =
-        "none";
-
+    ).style.display = "none";
 
     isSpinning = false;
-
-
-    /*
-    Dashboard refresh
-    */
 
     if(currentCust){
 
@@ -2673,7 +1727,6 @@ function closeReward(){
     }
 
 }
-
 
 
 /* =========================================
@@ -2688,9 +1741,7 @@ function renderHistory(data){
         );
 
 
-    if(
-        !data.gifts
-    ){
+    if(!data.gifts){
 
         hList.innerHTML =
             '<p style="font-size:11px;color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
@@ -2703,93 +1754,66 @@ function renderHistory(data){
     let items = [];
 
 
-    /*
-    Correct order:
-    3, 5, 8, 10
-    */
+    milestones.forEach(key=>{
 
-    milestones.forEach(
-        key => {
+        const gift =
+            data.gifts[key];
 
-            const gift =
-                data.gifts[key];
+        if(
+            gift &&
+            gift.status === "REDEEMED"
+        ){
 
+            items.push(`
 
-            if(
-                gift &&
-                gift.status ===
-                "REDEEMED"
-            ){
+                <div class="history-item">
 
-                items.push(`
+                    <div>
 
-                    <div class="history-item">
+                        <strong style="color:#fff;">
+                            ${gift.reward}
+                        </strong>
 
-                        <div>
+                        <br>
 
-                            <strong
-                                style="color:#fff;"
-                            >
-                                ${gift.reward}
-                            </strong>
-
-                            <br>
-
-                            <small
-                                style="color:#ffd700;"
-                            >
-                                Milestone #${key}
-                            </small>
-
-                        </div>
-
-                        <div
-                            style="
-                            color:#aaa;
-                            font-size:11px;
-                            "
-                        >
-                            ${
-                                gift.redeemedAt ||
-                                "N/A"
-                            }
-                        </div>
+                        <small style="color:#ffd700;">
+                            Milestone #${key}
+                        </small>
 
                     </div>
 
-                `);
+                    <div style="color:#aaa;font-size:11px;">
+                        ${gift.redeemedAt || "N/A"}
+                    </div>
 
-            }
+                </div>
+
+            `);
 
         }
-    );
+
+    });
 
 
     hList.innerHTML =
-        items.length > 0
-
+        items.length
         ? items.join("")
-
         : '<p style="font-size:11px;color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
 
 }
 
 
-
 /* =========================================
-   MOBILE ENTER BUTTON
+   ENTER KEY
 ========================================= */
 
 document.getElementById(
     "custMobile"
 ).addEventListener(
     "keydown",
-    function(event){
+    function(e){
 
-        if(
-            event.key ===
-            "Enter"
-        ){
+        if(e.key === "Enter"){
 
             searchCustomer();
 
@@ -2800,7 +1824,7 @@ document.getElementById(
 
 
 /* =========================================
-   DRAW INITIAL WHEEL
+   INITIAL WHEEL
 ========================================= */
 
 drawWheel();
@@ -2808,4 +1832,4 @@ drawWheel();
 </script>
 
 </body>
- </html>
+                      </html>
