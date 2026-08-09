@@ -16,6 +16,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
   }
 
   .logo-container {
@@ -31,6 +32,18 @@
 
   h1 { color: #ffd700; font-size: 22px; font-weight: 800; text-shadow: 0 2px 10px rgba(255,215,0,0.4); margin-bottom: 3px; }
   .subtitle { color: #d1c4e9; font-size: 13px; margin-bottom: 10px; }
+
+  /* Wheel Container with Disappear Animation */
+  .wheel-wrapper {
+    transition: opacity 1s ease, transform 1s ease;
+    opacity: 1;
+    transform: scale(1);
+  }
+  .wheel-wrapper.disappear {
+    opacity: 0;
+    transform: scale(0.8) rotate(15deg);
+    pointer-events: none;
+  }
 
   .wheel-box {
     position: relative;
@@ -102,19 +115,112 @@
     width: 100%;
     max-width: 280px;
     letter-spacing: 1px;
+    transition: opacity 0.5s ease;
   }
   .btn-spin:active { transform: scale(0.95); }
 
   #rewardDisplay { 
-    margin: 20px auto 0; 
+    margin: 15px auto 0; 
     width: 100%;
     max-width: 300px; 
     font-size: 15px; 
     font-weight: 600; 
-    padding: 15px; 
+    padding: 12px; 
     border-radius: 12px; 
     display: none; 
     white-space: pre-line;
+  }
+
+  /* GIFT BOX ANIMATION STYLES */
+  .gift-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  .gift-box {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    cursor: pointer;
+    animation: bounce 1.2s infinite alternate ease-in-out;
+  }
+
+  .gift-body {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(135deg, #ff1744, #d50000);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(255, 23, 68, 0.5), 0 0 20px rgba(255, 215, 0, 0.4);
+    border: 2px solid #ffd700;
+  }
+
+  .gift-ribbon-v {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 100%;
+    background: linear-gradient(180deg, #ffe066, #ffd700);
+  }
+
+  .gift-ribbon-h {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 24px;
+    background: linear-gradient(90deg, #ffe066, #ffd700);
+  }
+
+  .gift-lid {
+    position: absolute;
+    top: 20px;
+    left: -5px;
+    width: 150px;
+    height: 35px;
+    background: linear-gradient(135deg, #ff5252, #ff1744);
+    border-radius: 8px;
+    border: 2px solid #ffd700;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    z-index: 5;
+  }
+
+  .gift-box.open .gift-lid {
+    transform: translateY(-100px) rotate(-25deg);
+    opacity: 0;
+  }
+
+  .prize-card {
+    display: none;
+    background: rgba(255, 215, 0, 0.15);
+    border: 2px solid #ffd700;
+    padding: 20px;
+    border-radius: 16px;
+    margin-top: 20px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    animation: popUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  @keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-15px); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes popUp {
+    0% { opacity: 0; transform: translateY(40px) scale(0.6); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
   }
 
   .whatsapp-card {
@@ -149,15 +255,37 @@
 <h1>🎰 Maa Kali Spin & Win</h1>
 <p class="subtitle">Maa Kali Vastralaya - Special Rewards</p>
 
-<div class="wheel-box">
-  <div class="pointer"></div>
-  <div class="center-cap"></div>
-  <canvas id="wheelCanvas" width="1000" height="1000"></canvas>
+<!-- Wheel Wrapper (Will disappear) -->
+<div class="wheel-wrapper" id="wheelWrapper">
+  <div class="wheel-box">
+    <div class="pointer"></div>
+    <div class="center-cap"></div>
+    <canvas id="wheelCanvas" width="1000" height="1000"></canvas>
+  </div>
 </div>
 
-<button class="btn-spin" onclick="startSpin()">SPIN THE WHEEL</button>
+<button class="btn-spin" id="spinBtn" onclick="startSpin()">SPIN THE WHEEL</button>
 
 <div id="rewardDisplay"></div>
+
+<!-- GIFT BOX SECTION -->
+<div class="gift-container" id="giftContainer">
+  <p style="color: #ffd700; font-size: 14px; font-weight: 700; margin-bottom: 10px;">🎁 Aapka Reward Gift Box mein hai!</p>
+  <div class="gift-box" id="giftBox" onclick="openGift()">
+    <div class="gift-lid"></div>
+    <div class="gift-body">
+      <div class="gift-ribbon-v"></div>
+      <div class="gift-ribbon-h"></div>
+    </div>
+  </div>
+
+  <div class="prize-card" id="prizeCard">
+    <h2 style="color: #ffd700; font-size: 22px; margin-bottom: 5px;">🎉 CONGRATULATIONS!</h2>
+    <p style="color: #ffffff; font-size: 14px;">Aapne Jeeta Hai:</p>
+    <h1 id="prizeTitle" style="color: #81c784; font-size: 24px; margin: 10px 0;">-</h1>
+    <p id="prizeSubtitle" style="color: #ffe066; font-size: 15px; font-weight: 600;">-</p>
+  </div>
+</div>
 
 <div class="whatsapp-card">
   <h3>📲 Offers & Updates</h3>
@@ -171,7 +299,6 @@
 const STATUS_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/status.json";
 const TARGET_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/targetReward.json";
 
-// Admin Panel ke saare 6 Items yaha exact sync hain:
 const rewardsList = [
   { name: "Face Towel", worth: "Worth ₹50" },
   { name: "Big Face Towel", worth: "Worth ₹120" },
@@ -190,6 +317,7 @@ const arcSize = (2 * Math.PI) / numSegments;
 let currentRotationAngle = 0;
 let isSpinning = false;
 let lastSegmentIndex = -1;
+let wonReward = null;
 
 let audioCtx = null;
 
@@ -219,7 +347,7 @@ function playClickSound() {
 function playWinSound() {
   if (!audioCtx) return;
   try {
-    const notes = [261.63, 329.63, 392.00, 523.25];
+    const notes = [261.63, 329.63, 392.00, 523.25, 659.25];
     notes.forEach((freq, index) => {
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
@@ -333,6 +461,7 @@ function startSpin() {
         }
 
         if (winIndex === -1) winIndex = 0;
+        wonReward = rewardsList[winIndex];
 
         isSpinning = true;
         display.innerText = "🎰 Wheel ghoom raha hai...";
@@ -372,12 +501,21 @@ function startSpin() {
             isSpinning = false;
             currentRotationAngle = targetRotation % (2 * Math.PI);
             drawWheel();
-            playWinSound();
             
-            display.style.color = "#81c784";
-            display.style.backgroundColor = "rgba(46, 125, 50, 0.2)";
-            display.style.border = "1px solid #81c784";
-            display.innerText = `🎉 CONGRATULATIONS!\n\nAapne jeeta hai:\n${rewardsList[winIndex].name}\n(${rewardsList[winIndex].worth})`;
+            // DISAPPEAR & SHOW GIFT BOX LOGIC
+            setTimeout(() => {
+              display.style.display = "none";
+              document.getElementById("spinBtn").style.display = "none";
+              
+              const wheelWrapper = document.getElementById("wheelWrapper");
+              wheelWrapper.classList.add("disappear");
+
+              setTimeout(() => {
+                wheelWrapper.style.display = "none";
+                document.getElementById("giftContainer").style.display = "flex";
+              }, 1000);
+
+            }, 800);
           }
         }
 
@@ -396,6 +534,20 @@ function startSpin() {
     display.style.backgroundColor = "rgba(198, 40, 40, 0.2)";
     display.innerText = "❌ Network Error! Internet check karein.";
   });
+}
+
+function openGift() {
+  const giftBox = document.getElementById("giftBox");
+  if (giftBox.classList.contains("open")) return;
+
+  giftBox.classList.add("open");
+  playWinSound();
+
+  setTimeout(() => {
+    document.getElementById("prizeTitle").innerText = wonReward.name;
+    document.getElementById("prizeSubtitle").innerText = `(${wonReward.worth})`;
+    document.getElementById("prizeCard").style.display = "block";
+  }, 400);
 }
 </script>
 
