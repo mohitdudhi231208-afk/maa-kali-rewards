@@ -68,19 +68,45 @@
   .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
   .modal-content { background: #1f1225; border: 2px solid #ffd700; border-radius: 20px; padding: 20px; text-align: center; width: 90%; max-width: 360px; position: relative; }
   
-  #wheelCanvas { margin: 15px 0; border-radius: 50%; border: 4px solid #ffd700; }
-  .spin-btn { background: #ff4500; color: #fff; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; font-size: 16px; margin-top: 10px; }
+  .wheel-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 15px auto;
+  }
+
+  #wheelCanvas {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 5px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255,215,0,0.5);
+  }
+
+  .pointer {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 25px solid #ffd700;
+    z-index: 10;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+  }
+
+  .spin-btn { background: #ff4500; color: #fff; border: none; padding: 12px 25px; font-weight: bold; border-radius: 20px; font-size: 16px; margin-top: 10px; cursor: pointer; }
   
   .gift-result-card { display: none; background: #2a1b2d; border: 2px dashed #ffd700; padding: 20px; border-radius: 15px; margin-top: 10px; }
   .gift-icon-big { font-size: 50px; margin-bottom: 10px; }
-  .ok-btn { background: #2e7d32; color: #fff; margin-top: 15px; font-size: 16px; }
+  .ok-btn { background: #2e7d32; color: #fff; margin-top: 15px; font-size: 16px; width: 100%; }
 </style>
 </head>
 <body>
 
 <div id="loginSection" class="login-box">
   <div class="logo-container">
-    <!-- PNG Image ID linked here -->
     <img src="1786193692481.png" alt="MKV Logo" onerror="this.onerror=null; this.src='1786193692481.jpg';">
   </div>
   <h2 style="color:#ffd700; font-size:20px;">Maa Kali Vastralaya</h2>
@@ -97,7 +123,6 @@
   
   <div class="header">
     <div class="logo-container">
-      <!-- PNG Image ID linked here -->
       <img src="1786193692481.png" alt="MKV Logo" onerror="this.onerror=null; this.src='1786193692481.jpg';">
     </div>
     <h2>Maa Kali Vastralaya</h2>
@@ -136,8 +161,12 @@
     <div id="wheelContainer">
       <h3 style="color:#ffd700;" id="wheelTitle">🎁 Spin & Win Gift</h3>
       <p style="font-size:12px; color:#ddd;">Reward jeetne ke liye Wheel Ghumayein!</p>
-      <canvas id="wheelCanvas" width="250" height="250"></canvas>
-      <br>
+      
+      <div class="wheel-wrapper">
+        <div class="pointer"></div>
+        <canvas id="wheelCanvas" width="560" height="560"></canvas>
+      </div>
+      
       <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN NOW</button>
     </div>
 
@@ -169,13 +198,55 @@ let prizes = [
 
 let isSpinning = false;
 let finalWonGift = "";
+let audioCtx = null;
+
+// Sound Synthesizer Functions
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+
+function playTickSound() {
+  if (!audioCtx) return;
+  try {
+    let osc = audioCtx.createOscillator();
+    let gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.05);
+  } catch(e){}
+}
+
+function playWinSound() {
+  if (!audioCtx) return;
+  try {
+    let notes = [261.63, 329.63, 392.00, 523.25];
+    notes.forEach((freq, idx) => {
+      let osc = audioCtx.createOscillator();
+      let gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime + idx * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.1 + 0.3);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime + idx * 0.1);
+      osc.stop(audioCtx.currentTime + idx * 0.1 + 0.3);
+    });
+  } catch(e){}
+}
 
 function startLiveSync() {
   const mobile = document.getElementById("mobileInput").value.trim();
   if(mobile.length !== 10) { alert("Sahi 10-digit mobile number dalein!"); return; }
 
   activeMobile = mobile;
-  
   loadCustomerData();
 
   if(liveTimer) clearInterval(liveTimer);
@@ -252,49 +323,66 @@ function openWheelModal(milestone) {
   document.getElementById("giftResultSection").style.display = "none";
   document.getElementById("spinBtn").style.display = "inline-block";
   document.getElementById("rewardModal").style.display = "flex";
-  drawWheel();
+  drawWheel(0);
 }
 
-function drawWheel() {
+function drawWheel(rotationAngle = 0) {
   const canvas = document.getElementById("wheelCanvas");
   const ctx = canvas.getContext("2d");
+  const width = canvas.width;
+  const center = width / 2;
+  const radius = center - 15;
   const numOptions = prizes.length;
   const arcSize = (2 * Math.PI) / numOptions;
   const colors = ["#d32f2f", "#1976d2", "#388e3c", "#fbc02d", "#e64a19", "#7b1fa2"];
 
-  ctx.clearRect(0, 0, 250, 250);
+  ctx.clearRect(0, 0, width, width);
+
+  ctx.save();
+  ctx.translate(center, center);
+  ctx.rotate(rotationAngle * Math.PI / 180);
 
   for(let i = 0; i < numOptions; i++) {
+    const angle = i * arcSize;
     ctx.beginPath();
     ctx.fillStyle = colors[i % colors.length];
-    ctx.moveTo(125, 125);
-    ctx.arc(125, 125, 115, i * arcSize, (i + 1) * arcSize);
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, radius, angle, angle + arcSize);
     ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#ffffff";
+    ctx.stroke();
 
     ctx.save();
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 10px Poppins";
-    ctx.translate(125, 125);
-    ctx.rotate(i * arcSize + arcSize / 2);
-    ctx.fillText(prizes[i].substring(0, 15), 28, 4);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 20px Poppins";
+    ctx.shadowColor = "rgba(0,0,0,0.8)";
+    ctx.shadowBlur = 4;
+    ctx.rotate(angle + arcSize / 2);
+    ctx.textAlign = "right";
+    ctx.fillText(prizes[i], radius - 25, 6);
     ctx.restore();
   }
 
-  ctx.fillStyle = "#ffd700";
+  // Center Circle
   ctx.beginPath();
-  ctx.moveTo(125, 0);
-  ctx.lineTo(115, 18);
-  ctx.lineTo(135, 18);
+  ctx.arc(0, 0, 30, 0, 2 * Math.PI);
+  ctx.fillStyle = "#ffd700";
   ctx.fill();
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#fff";
+  ctx.stroke();
+
+  ctx.restore();
 }
 
 function spinWheel() {
   if(isSpinning) return;
+  initAudio();
   isSpinning = true;
   document.getElementById("spinBtn").style.display = "none";
 
   let winIndex = 0;
-
   if(adminTargetReward !== "AUTO") {
     winIndex = prizes.findIndex(p => p.toLowerCase().includes(adminTargetReward.toLowerCase()) || adminTargetReward.toLowerCase().includes(p.toLowerCase()));
     if(winIndex === -1) winIndex = 0;
@@ -304,22 +392,41 @@ function spinWheel() {
 
   finalWonGift = prizes[winIndex];
 
-  let totalRotation = 360 * 5 + (360 - (winIndex * (360 / prizes.length)) - 30);
-  let duration = 3000;
+  // Calculate Angle so it stops perfectly under top pointer
+  const sliceAngle = 360 / prizes.length;
+  const targetSliceCenter = (winIndex * sliceAngle) + (sliceAngle / 2);
+  const targetAngle = 270 - targetSliceCenter; 
+  const totalRounds = 5 * 360; 
+  const finalRotation = totalRounds + targetAngle;
+
   let startTime = null;
+  const duration = 4500; // 4.5 seconds for smooth slowing down
+  let lastTickSlice = -1;
 
-  function animateWheel(timestamp) {
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function animate(timestamp) {
     if (!startTime) startTime = timestamp;
-    let progress = timestamp - startTime;
-    let rotation = (progress / duration) * totalRotation;
+    let elapsed = timestamp - startTime;
+    let progress = Math.min(elapsed / duration, 1);
 
-    if (progress < duration) {
-      const canvas = document.getElementById("wheelCanvas");
-      canvas.style.transform = `rotate(${rotation}deg)`;
-      canvas.style.transition = "transform 0.05s linear";
-      requestAnimationFrame(animateWheel);
+    let currentAngle = easeOutCubic(progress) * finalRotation;
+    drawWheel(currentAngle);
+
+    // Audio Tick Sound Calculation
+    let currentSlice = Math.floor(((currentAngle % 360) + 360) % 360 / sliceAngle);
+    if(currentSlice !== lastTickSlice) {
+      playTickSound();
+      lastTickSlice = currentSlice;
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
     } else {
       isSpinning = false;
+      playWinSound();
       
       fetch(`${DB_URL}customers/${activeMobile}/gifts/${currentMilestone}.json`, {
         method: "PUT",
@@ -329,14 +436,16 @@ function spinWheel() {
           redeemedAt: new Date().toLocaleDateString('en-IN')
         })
       }).then(() => {
-        document.getElementById("wheelContainer").style.display = "none";
-        document.getElementById("finalRewardText").innerText = finalWonGift;
-        document.getElementById("giftResultSection").style.display = "block";
+        setTimeout(() => {
+          document.getElementById("wheelContainer").style.display = "none";
+          document.getElementById("finalRewardText").innerText = finalWonGift;
+          document.getElementById("giftResultSection").style.display = "block";
+        }, 500);
       });
     }
   }
 
-  requestAnimationFrame(animateWheel);
+  requestAnimationFrame(animate);
 }
 
 function closeAndReturnToMenu() {
