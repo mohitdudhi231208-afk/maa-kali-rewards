@@ -1,285 +1,258 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>माँ काली वस्त्रालय - Digital Loyalty Card</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-  body { background: #121212; color: #fff; padding: 15px; max-width: 500px; margin: 0 auto; text-align: center; }
-  
-  .header { margin-bottom: 20px; margin-top: 10px; }
-  .header h1 { color: #ffd700; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
-  .header p { color: #aaa; font-size: 13px; }
+<!DOCTYPE html>  <html lang="hi">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>माँ काली वस्त्रालय - Digital Loyalty Card</title>  
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">  
+<style>  
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }  
+  body { background: #121212; color: #fff; padding: 15px; max-width: 500px; margin: 0 auto; text-align: center; }  .header { margin-bottom: 20px; margin-top: 10px; }
+.header h1 { color: #ffd700; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+.header p { color: #aaa; font-size: 13px; }
 
-  .card { background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15); }
-  
-  input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; font-size: 15px; text-align: center; margin-bottom: 12px; outline: none; }
-  button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s; }
-  button:active { transform: scale(0.98); }
-  button:disabled { background: #555; color: #aaa; cursor: not-allowed; }
+.card { background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15); }
 
-  .user-info { background: rgba(255, 215, 0, 0.08); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left; border-left: 4px solid #ffd700; }
-  .user-info p { font-size: 14px; margin-bottom: 5px; color: #ddd; }
-  .user-info b { color: #ffd700; font-size: 16px; }
+input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; font-size: 15px; text-align: center; margin-bottom: 12px; outline: none; }
+button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s; }
+button:active { transform: scale(0.98); }
+button:disabled { background: #555; color: #aaa; cursor: not-allowed; }
 
-  .milestone-badge { background: #25d366; color: #fff; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 13px; }
+.user-info { background: rgba(255, 215, 0, 0.08); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left; border-left: 4px solid #ffd700; }
+.user-info p { font-size: 14px; margin-bottom: 5px; color: #ddd; }
+.user-info b { color: #ffd700; font-size: 16px; }
 
-  .wheel-container { position: relative; width: 260px; height: 260px; margin: 20px auto; }
-  #wheel { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #ffd700; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-  .pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid #ff0055; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.milestone-badge { background: #25d366; color: #fff; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 13px; }
 
-  .history-box { background: #1e1e1e; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-top: 20px; text-align: left; }
-  .history-title { color: #ffd700; font-size: 14px; margin-bottom: 10px; font-weight: bold; }
-  .history-item { font-size: 12px; padding: 8px 0; border-bottom: 1px dashed #444; display: flex; justify-content: space-between; align-items: center; }
-  .history-item:last-child { border-bottom: none; }
+.wheel-container { position: relative; width: 260px; height: 260px; margin: 20px auto; }
+#wheel { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #ffd700; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+.pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid #ff0055; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 
-  .loader-text { color: #ffd700; font-size: 13px; margin-top: 8px; display: none; }
+.history-box { background: #1e1e1e; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-top: 20px; text-align: left; }
+.history-title { color: #ffd700; font-size: 14px; margin-bottom: 10px; font-weight: bold; }
+.history-item { font-size: 12px; padding: 8px 0; border-bottom: 1px dashed #444; display: flex; justify-content: space-between; align-items: center; }
+.history-item:last-child { border-bottom: none; }
+
+.loader-text { color: #ffd700; font-size: 13px; margin-top: 8px; display: none; }
 </style>
-</head>
-<body>
 
-<div class="header">
-  <h1>🌺 माँ काली वस्त्रालय 🌺</h1>
-  <p>Digital Loyalty Rewards Card</p>
+</head>  
+<body>  <div class="header">  
+  <h1>🌺 माँ काली वस्त्रालय 🌺</h1>  
+  <p>Digital Loyalty Rewards Card</p>  
+</div>  <!-- LOGIN / SEARCH AREA -->  <div class="card" id="loginCard">  
+  <h3>📱 अपना कार्ड खोलें</h3>  
+  <p style="font-size:12px; color:#aaa; margin-bottom:15px; margin-top:5px;">अपना 10-अंकों का मोबाइल नंबर दर्ज करें</p>  
+  <input type="tel" id="custMobile" placeholder="Enter Mobile Number" maxlength="10">  
+  <button id="searchBtn" onclick="searchCustomer()">कार्ड देखें / Open Card</button>  
+  <div id="loginLoader" class="loader-text">⏳ खोज रहे हैं... कृपया प्रतीक्षा करें</div>  
+</div>  <!-- MAIN DASHBOARD -->  <div id="mainDashboard" style="display:none;">  
+  <div class="card">  
+    <div class="user-info">  
+      <p>नाम: <b id="custName">-</b></p>  
+      <p>कार्ड ID: <span id="custId" style="color:#fff;">-</span></p>  
+      <p>कुल ख़रीदारी स्कोर: <b id="custPurchases" style="color:#ffd700; font-size:18px;">0</b> / 10 Purchases</p>  
+    </div>  <!-- MILESTONE NOTIFICATION -->  
+<div id="rewardStatusArea"></div>  
+
+<!-- LUCKY WHEEL AREA -->  
+<div id="wheelArea" style="display:none;">  
+  <h3 style="color:#ffd700; font-size:16px;">🎉 बधाई हो! लकी व्हील घुमाएं</h3>  
+  <div class="wheel-container">  
+    <div class="pointer"></div>  
+    <canvas id="wheel" width="260" height="260"></canvas>  
+  </div>  
+  <button id="spinBtn" onclick="spinWheel()">🎡 Spin the Wheel!</button>  
 </div>
 
-<!-- LOGIN / SEARCH AREA -->
-<div class="card" id="loginCard">
-  <h3>📱 अपना कार्ड खोलें</h3>
-  <p style="font-size:12px; color:#aaa; margin-bottom:15px; margin-top:5px;">अपना 10-अंकों का मोबाइल नंबर दर्ज करें</p>
-  <input type="tel" id="custMobile" placeholder="Enter Mobile Number" maxlength="10">
-  <button id="searchBtn" onclick="searchCustomer()">कार्ड देखें / Open Card</button>
-  <div id="loginLoader" class="loader-text">⏳ खोज रहे हैं... कृपया प्रतीक्षा करें</div>
-</div>
-
-<!-- MAIN DASHBOARD -->
-<div id="mainDashboard" style="display:none;">
-  <div class="card">
-    <div class="user-info">
-      <p>नाम: <b id="custName">-</b></p>
-      <p>कार्ड ID: <span id="custId" style="color:#fff;">-</span></p>
-      <p>कुल ख़रीदारी स्कोर: <b id="custPurchases" style="color:#ffd700; font-size:18px;">0</b> / 10 Purchases</p>
-    </div>
-
-    <!-- MILESTONE NOTIFICATION -->
-    <div id="rewardStatusArea"></div>
-
-    <!-- LUCKY WHEEL AREA -->
-    <div id="wheelArea" style="display:none;">
-      <h3 style="color:#ffd700; font-size:16px;">🎉 बधाई हो! लकी व्हील घुमाएं</h3>
-      <div class="wheel-container">
-        <div class="pointer"></div>
-        <canvas id="wheel" width="260" height="260"></canvas>
-      </div>
-      <button id="spinBtn" onclick="spinWheel()">🎡 Spin the Wheel!</button>
-    </div>
-  </div>
-
-  <!-- GIFT HISTORY -->
-  <div class="history-box">
-    <div class="history-title">🎁 आपके मिले हुए उपहार (Claimed Rewards)</div>
-    <div id="historyList">
-      <p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>
-    </div>
-  </div>
-</div>
-
-<script>
-const DB_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
-let currentCust = null;
-let wheelCanvas = document.getElementById("wheel");
-let ctx = wheelCanvas ? wheelCanvas.getContext("2d") : null;
-
-const rewardsList = [
-  "Face Towel (₹50)",
-  "Big Face Towel (₹120)",
-  "Handkerchief (₹25)",
-  "Short Dupatta (₹50)",
-  "₹50 OFF (Above ₹500)",
-  "100% OFF Purchase"
-];
-
-const colors = ["#FF5722", "#4CAF50", "#FFEB3B", "#2196F3", "#9C27B0", "#E91E63"];
-
-function drawWheel() {
-  if(!ctx) return;
-  const numOptions = rewardsList.length;
-  const arcSize = (2 * Math.PI) / numOptions;
-
-  for (let i = 0; i < numOptions; i++) {
-    ctx.beginPath();
-    ctx.fillStyle = colors[i % colors.length];
-    ctx.moveTo(130, 130);
-    ctx.arc(130, 130, 130, i * arcSize, (i + 1) * arcSize);
-    ctx.fill();
-
-    ctx.save();
-    ctx.fillStyle = (i === 2) ? "#000" : "#FFF"; 
-    ctx.translate(130, 130);
-    ctx.rotate(i * arcSize + arcSize / 2);
-    ctx.textAlign = "right";
-    ctx.font = "bold 11px Poppins";
-    ctx.fillText(rewardsList[i], 120, 4);
-    ctx.restore();
-  }
-}
-
-function searchCustomer() {
-  const mobile = document.getElementById("custMobile").value.trim();
-  if(mobile.length !== 10) {
-    alert("कृपया सही 10-अंकों का मोबाइल नंबर डालें!");
-    return;
-  }
-
-  const searchBtn = document.getElementById("searchBtn");
-  const loader = document.getElementById("loginLoader");
-
-  searchBtn.disabled = true;
-  loader.style.display = "block";
-
-  fetch(`${DB_URL}customers/${mobile}.json`)
-    .then(res => res.json())
-    .then(data => {
-      searchBtn.disabled = false;
-      loader.style.display = "none";
-
-      if(!data) {
-        alert("आपका कार्ड नहीं मिला! कृपया दुकान पर संपर्क करें।");
-        return;
-      }
-      currentCust = { ...data, mobile };
-
-      document.getElementById("loginCard").style.display = "none";
-      document.getElementById("mainDashboard").style.display = "block";
-
-      document.getElementById("custName").innerText = data.name + " जी";
-      
-      document.getElementById("custId").innerText = data.customerId || "MKV-CARD";
-      document.getElementById("custPurchases").innerText = data.purchases || 0;
-
-      checkRewardEligibility(data);
-      renderHistory(data);
-      drawWheel();
-    })
-    .catch(() => {
-      searchBtn.disabled = false;
-      loader.style.display = "none";
-      alert("नेटवर्क समस्या! कृपया दोबारा प्रयास करें।");
-    });
-}
-
-// 🔧 ISSUE FIXED HERE: Purchase Minus & Add Logic Handled Properly
-function checkRewardEligibility(data) {
-  const p = data.purchases || 0;
-  const milestones = [3, 5, 8, 10];
-  let eligibleMilestone = null;
-
-  for(let m of milestones) {
-    if(p >= m) {
-      if(!data.gifts || !data.gifts[m] || data.gifts[m].status !== "REDEEMED") {
-        eligibleMilestone = m;
-        break;
-      }
-    } else {
-      // Purchase minus hone par gift status delete ho jaye
-      if(data.gifts && data.gifts[m]) {
-        delete data.gifts[m];
-        fetch(`${DB_URL}customers/${data.mobile}/gifts/${m}.json`, { method: "DELETE" });
-      }
-    }
-  }
-
-  const statusArea = document.getElementById("rewardStatusArea");
-  const wheelArea = document.getElementById("wheelArea");
-  const spinBtn = document.getElementById("spinBtn");
-
-  if(eligibleMilestone) {
-    statusArea.innerHTML = `<div class="milestone-badge">🎉 Milestone #${eligibleMilestone} अनलॉक्ड! उपहार पाने के लिए नीचे लकी व्हील घुमाएं।</div>`;
-    wheelArea.style.display = "block";
-    wheelArea.setAttribute("data-milestone", eligibleMilestone);
-    
-    document.getElementById("wheel").style.transform = "rotate(0deg)";
-    if(spinBtn) spinBtn.disabled = false;
-  } else {
-    statusArea.innerHTML = `<p style="font-size:12px; color:#aaa; margin-bottom:10px;">अगला गिफ़्ट अनलॉक करने के लिए और ख़रीदारी करें! (गिफ़्ट माइलस्टोन: 3, 5, 8, 10)</p>`;
-    wheelArea.style.display = "none";
-  }
-}
-
-function spinWheel() {
-  const wheelArea = document.getElementById("wheelArea");
-  const milestone = wheelArea.getAttribute("data-milestone");
-  if(!milestone || !currentCust) return;
-
-  const spinBtn = document.getElementById("spinBtn");
-  spinBtn.disabled = true;
-
-  let targetReward = currentCust.targetReward;
-  let targetIndex = 0;
-
-  if(targetReward && targetReward !== "AUTO" && rewardsList.includes(targetReward)) {
-    targetIndex = rewardsList.indexOf(targetReward);
-  } else {
-    targetIndex = Math.floor(Math.random() * rewardsList.length);
-  }
-
-  const numOptions = rewardsList.length;
-  const arcSize = 360 / numOptions;
-  const targetAngle = 360 - (targetIndex * arcSize + arcSize / 2);
-  const totalRotation = 360 * 5 + targetAngle;
-
-  const wheelElem = document.getElementById("wheel");
-  wheelElem.style.transform = `rotate(${totalRotation}deg)`;
-
-  setTimeout(() => {
-    const wonReward = rewardsList[targetIndex];
-    const dateStr = new Date().toLocaleDateString('hi-IN');
-
-    // Save Result to Firebase
-    fetch(`${DB_URL}customers/${currentCust.mobile}/gifts/${milestone}.json`, {
-      method: "PUT",
-      body: JSON.stringify({
-        reward: wonReward,
-        status: "REDEEMED",
-        redeemedAt: dateStr
-      })
-    }).then(() => {
-      alert(`🎉 बधाई हो ${currentCust.name} जी!\n\nआपने जीता है: ${wonReward}\n\nकृपया दुकान काउंटर पर यह मेसेज दिखाकर अपना गिफ़्ट प्राप्त करें!`);
-      
-      if(!currentCust.gifts) currentCust.gifts = {};
-      currentCust.gifts[milestone] = { reward: wonReward, status: "REDEEMED", redeemedAt: dateStr };
-      
-      checkRewardEligibility(currentCust);
-      renderHistory(currentCust);
-    });
-
-  }, 4000);
-}
-
-function renderHistory(data) {
-  const hList = document.getElementById("historyList");
-  if(data.gifts) {
-    let items = [];
-    for(let key in data.gifts) {
-      if(data.gifts[key].status === "REDEEMED") {
-        items.push(`
-          <div class="history-item">
-            <div>
-              <strong style="color:#fff;">${data.gifts[key].reward}</strong><br>
-              <small style="color:#ffd700;">Milestone #${key}</small>
-            </div>
-            <div style="color:#aaa;">${data.gifts[key].redeemedAt || 'N/A'}</div>
-          </div>
-        `);
-      }
-    }
-    hList.innerHTML = items.length > 0 ? items.join('') : '<p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
-  } else {
-    hList.innerHTML = '<p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
-  }
-}
-</script>
-</body>
+  </div>    <!-- GIFT HISTORY -->    <div class="history-box">  
+    <div class="history-title">🎁 आपके मिले हुए उपहार (Claimed Rewards)</div>  
+    <div id="historyList">  
+      <p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>  
+    </div>  
+  </div>  
+</div>  <script>  
+const DB_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/";  
+let currentCust = null;  
+let wheelCanvas = document.getElementById("wheel");  
+let ctx = wheelCanvas ? wheelCanvas.getContext("2d") : null;  
+  
+const rewardsList = [  
+  "Face Towel (₹50)",  
+  "Big Face Towel (₹120)",  
+  "Handkerchief (₹25)",  
+  "Short Dupatta (₹50)",  
+  "₹50 OFF (Above ₹500)",  
+  "100% OFF Purchase"  
+];  
+  
+const colors = ["#FF5722", "#4CAF50", "#FFEB3B", "#2196F3", "#9C27B0", "#E91E63"];  
+  
+function drawWheel() {  
+  if(!ctx) return;  
+  const numOptions = rewardsList.length;  
+  const arcSize = (2 * Math.PI) / numOptions;  
+  
+  for (let i = 0; i < numOptions; i++) {  
+    ctx.beginPath();  
+    ctx.fillStyle = colors[i % colors.length];  
+    ctx.moveTo(130, 130);  
+    ctx.arc(130, 130, 130, i * arcSize, (i + 1) * arcSize);  
+    ctx.fill();  
+  
+    ctx.save();  
+    ctx.fillStyle = (i === 2) ? "#000" : "#FFF";   
+    ctx.translate(130, 130);  
+    ctx.rotate(i * arcSize + arcSize / 2);  
+    ctx.textAlign = "right";  
+    ctx.font = "bold 11px Poppins";  
+    ctx.fillText(rewardsList[i], 120, 4);  
+    ctx.restore();  
+  }  
+}  
+  
+function searchCustomer() {  
+  const mobile = document.getElementById("custMobile").value.trim();  
+  if(mobile.length !== 10) {  
+    alert("कृपया सही 10-अंकों का मोबाइल नंबर डालें!");  
+    return;  
+  }  
+  
+  const searchBtn = document.getElementById("searchBtn");  
+  const loader = document.getElementById("loginLoader");  
+  
+  searchBtn.disabled = true;  
+  loader.style.display = "block";  
+  
+  fetch(`${DB_URL}customers/${mobile}.json`)  
+    .then(res => res.json())  
+    .then(data => {  
+      searchBtn.disabled = false;  
+      loader.style.display = "none";  
+  
+      if(!data) {  
+        alert("आपका कार्ड नहीं मिला! कृपया दुकान पर संपर्क करें।");  
+        return;  
+      }  
+      currentCust = { ...data, mobile };  
+  
+      document.getElementById("loginCard").style.display = "none";  
+      document.getElementById("mainDashboard").style.display = "block";  
+  
+      // 👑 कस्टमर नाम के आगे "जी" जोड़ा गया  
+      document.getElementById("custName").innerText = data.name + " जी";  
+        
+      document.getElementById("custId").innerText = data.customerId || "MKV-CARD";  
+      document.getElementById("custPurchases").innerText = data.purchases || 0;  
+  
+      checkRewardEligibility(data);  
+      renderHistory(data);  
+      drawWheel();  
+    })  
+    .catch(() => {  
+      searchBtn.disabled = false;  
+      loader.style.display = "none";  
+      alert("नेटवर्क समस्या! कृपया दोबारा प्रयास करें।");  
+    });  
+}  
+  
+function checkRewardEligibility(data) {  
+  const p = data.purchases || 0;  
+  const milestones = [3, 5, 8, 10];  
+  let eligibleMilestone = null;  
+  
+  for(let m of milestones) {  
+    if(p >= m) {  
+      if(!data.gifts || !data.gifts[m] || data.gifts[m].status !== "REDEEMED") {  
+        eligibleMilestone = m;  
+        break;  
+      }  
+    }  
+  }  
+  
+  const statusArea = document.getElementById("rewardStatusArea");  
+  const wheelArea = document.getElementById("wheelArea");  
+  
+  if(eligibleMilestone) {  
+    statusArea.innerHTML = `<div class="milestone-badge">🎉 Milestone #${eligibleMilestone} अनलॉक्ड! उपहार पाने के लिए नीचे लकी व्हील घुमाएं।</div>`;  
+    wheelArea.style.display = "block";  
+    wheelArea.setAttribute("data-milestone", eligibleMilestone);  
+  } else {  
+    statusArea.innerHTML = `<p style="font-size:12px; color:#aaa; margin-bottom:10px;">अगला गिफ़्ट अनलॉक करने के लिए और ख़रीदारी करें! (गिफ़्ट माइलस्टोन: 3, 5, 8, 10)</p>`;  
+    wheelArea.style.display = "none";  
+  }  
+}  
+  
+function spinWheel() {  
+  const wheelArea = document.getElementById("wheelArea");  
+  const milestone = wheelArea.getAttribute("data-milestone");  
+  if(!milestone || !currentCust) return;  
+  
+  const spinBtn = document.getElementById("spinBtn");  
+  spinBtn.disabled = true;  
+  
+  let targetReward = currentCust.targetReward;  
+  let targetIndex = 0;  
+  
+  if(targetReward && targetReward !== "AUTO" && rewardsList.includes(targetReward)) {  
+    targetIndex = rewardsList.indexOf(targetReward);  
+  } else {  
+    targetIndex = Math.floor(Math.random() * rewardsList.length);  
+  }  
+  
+  const numOptions = rewardsList.length;  
+  const arcSize = 360 / numOptions;  
+  const targetAngle = 360 - (targetIndex * arcSize + arcSize / 2);  
+  const totalRotation = 360 * 5 + targetAngle;  
+  
+  const wheelElem = document.getElementById("wheel");  
+  wheelElem.style.transform = `rotate(${totalRotation}deg)`;  
+  
+  setTimeout(() => {  
+    const wonReward = rewardsList[targetIndex];  
+    const dateStr = new Date().toLocaleDateString('hi-IN');  
+  
+    // Save Result to Firebase  
+    fetch(`${DB_URL}customers/${currentCust.mobile}/gifts/${milestone}.json`, {  
+      method: "PUT",  
+      body: JSON.stringify({  
+        reward: wonReward,  
+        status: "REDEEMED",  
+        redeemedAt: dateStr  
+      })  
+    }).then(() => {  
+      alert(`🎉 बधाई हो ${currentCust.name} जी!\n\nआपने जीता है: ${wonReward}\n\nकृपया दुकान काउंटर पर यह मेसेज दिखाकर अपना गिफ़्ट प्राप्त करें!`);  
+        
+      if(!currentCust.gifts) currentCust.gifts = {};  
+      currentCust.gifts[milestone] = { reward: wonReward, status: "REDEEMED", redeemedAt: dateStr };  
+        
+      checkRewardEligibility(currentCust);  
+      renderHistory(currentCust);  
+    });  
+  
+  }, 4000);  
+}  
+  
+function renderHistory(data) {  
+  const hList = document.getElementById("historyList");  
+  if(data.gifts) {  
+    let items = [];  
+    for(let key in data.gifts) {  
+      if(data.gifts[key].status === "REDEEMED") {  
+        items.push(`  
+          <div class="history-item">  
+            <div>  
+              <strong style="color:#fff;">${data.gifts[key].reward}</strong><br>  
+              <small style="color:#ffd700;">Milestone #${key}</small>  
+            </div>  
+            <div style="color:#aaa;">${data.gifts[key].redeemedAt || 'N/A'}</div>  
+          </div>  
+        `);  
+      }  
+    }  
+    hList.innerHTML = items.length > 0 ? items.join('') : '<p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';  
+  } else {  
+    hList.innerHTML = '<p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';  
+  }  
+}  
+</script>  </body>  
 </html>
