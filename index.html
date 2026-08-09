@@ -18,13 +18,16 @@
     margin-bottom: 20px;
   }
   
-  /* Shop Logo & Header Styling */
+  /* Shop Logo Styling */
   .header { text-align: center; border-bottom: 1px dashed rgba(255,215,0,0.3); padding-bottom: 15px; margin-bottom: 15px; }
   .logo-container {
-    width: 70px; height: 70px; background: #2a1b2d; border: 2px solid #ffd700;
+    width: 80px; height: 80px; background: #2a1b2d; border: 2px solid #ffd700;
     border-radius: 50%; margin: 0 auto 10px auto; display: flex;
-    justify-content: center; align-items: center; font-size: 32px;
-    box-shadow: 0 0 10px rgba(255,215,0,0.4);
+    justify-content: center; align-items: center; overflow: hidden;
+    box-shadow: 0 0 12px rgba(255,215,0,0.4);
+  }
+  .logo-container img {
+    width: 100%; height: 100%; object-fit: cover;
   }
   .header h2 { color: #ffd700; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
   .header p { color: #d1c4e9; font-size: 12px; margin-top: 2px; }
@@ -40,6 +43,7 @@
   .m-box {
     background: #2a1b2d; border: 1px solid #555; border-radius: 8px; padding: 10px 4px;
     text-align: center; font-size: 11px; font-weight: 600; cursor: pointer;
+    transition: all 0.3s ease;
   }
   .m-box.done { background: #1b5e20; border-color: #81c784; color: #fff; }
   .m-box.gift-unlocked { background: #e65100; border-color: #ffd700; color: #fff; animation: pulse 1.5s infinite; }
@@ -51,7 +55,7 @@
   input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; margin: 12px 0; font-size: 15px; text-align: center; }
   button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: 800; font-size: 15px; cursor: pointer; }
 
-  /* WhatsApp Community Button */
+  /* WhatsApp Button */
   .wa-btn {
     display: flex; align-items: center; justify-content: center; gap: 8px;
     background: #25D366; color: #fff; text-decoration: none; padding: 12px;
@@ -60,7 +64,7 @@
   }
   .wa-btn:active { transform: scale(0.98); }
 
-  /* Popup Modal */
+  /* Modal */
   .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
   .modal-content { background: #1f1225; border: 2px solid #ffd700; border-radius: 20px; padding: 20px; text-align: center; width: 90%; max-width: 360px; position: relative; }
   
@@ -75,13 +79,14 @@
 <body>
 
 <div id="loginSection" class="login-box">
-  <div class="logo-container">🛍️</div>
+  <div class="logo-container">
+    <img src="1786193692481.png" alt="MKV Logo" onerror="this.onerror=null; this.src='1786193692481.jpg';">
+  </div>
   <h2 style="color:#ffd700; font-size:20px;">Maa Kali Vastralaya</h2>
   <p style="font-size:12px; color:#aaa; margin-top:4px;">Digital Loyalty Card</p>
   <input type="tel" id="mobileInput" placeholder="Enter Mobile Number" maxlength="10">
-  <button onclick="loadCustomerData()">Open Loyalty Card</button>
+  <button onclick="startLiveSync()">Open Loyalty Card</button>
   
-  <!-- WhatsApp Group Link on Login Screen -->
   <a href="https://chat.whatsapp.com/YOUR_COMMUNITY_LINK_HERE" target="_blank" class="wa-btn">
     💬 Join WhatsApp Community
   </a>
@@ -89,9 +94,10 @@
 
 <div id="dashboardSection" style="display: none; width: 100%; max-width: 400px;">
   
-  <!-- Header with Shop Logo -->
   <div class="header">
-    <div class="logo-container">🛍️</div>
+    <div class="logo-container">
+      <img src="1786193692481.png" alt="MKV Logo" onerror="this.onerror=null; this.src='1786193692481.jpg';">
+    </div>
     <h2>Maa Kali Vastralaya</h2>
     <p>Digital Loyalty & Rewards Program</p>
   </div>
@@ -116,28 +122,23 @@
     <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">🏆 10-Purchase Cycle</div>
     <div class="milestone-grid" id="gridContainer"></div>
 
-    <!-- WhatsApp Community Button Inside Card -->
     <a href="https://chat.whatsapp.com/YOUR_COMMUNITY_LINK_HERE" target="_blank" class="wa-btn">
       💬 Join WhatsApp Offers Group
     </a>
   </div>
 </div>
 
-<!-- POPUP FOR WHEEL & GIFT RESULT -->
+<!-- MODAL -->
 <div id="rewardModal" class="modal">
   <div class="modal-content">
-    
-    <!-- SECTION 1: SPIN WHEEL -->
     <div id="wheelContainer">
       <h3 style="color:#ffd700;" id="wheelTitle">🎁 Spin & Win Gift</h3>
       <p style="font-size:12px; color:#ddd;">Reward jeetne ke liye Wheel Ghumayein!</p>
-
       <canvas id="wheelCanvas" width="250" height="250"></canvas>
       <br>
       <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN NOW</button>
     </div>
 
-    <!-- SECTION 2: GIFT DISPLAY AFTER SPIN -->
     <div id="giftResultSection" class="gift-result-card">
       <div class="gift-icon-big">🎁</div>
       <h3 style="color:#ffd700;">Congratulations!</h3>
@@ -145,7 +146,6 @@
       <div id="finalRewardText" style="font-size: 18px; font-weight: 800; color: #ffd700; margin: 12px 0;">-</div>
       <button class="ok-btn" onclick="closeAndReturnToMenu()">OK (Back To Menu)</button>
     </div>
-
   </div>
 </div>
 
@@ -154,6 +154,7 @@ const DB_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
 let activeMobile = "";
 let currentMilestone = null;
 let adminTargetReward = "AUTO";
+let liveTimer = null;
 
 let prizes = [
   "Face Towel (₹50)", 
@@ -167,16 +168,26 @@ let prizes = [
 let isSpinning = false;
 let finalWonGift = "";
 
-function loadCustomerData() {
+function startLiveSync() {
   const mobile = document.getElementById("mobileInput").value.trim();
   if(mobile.length !== 10) { alert("Sahi 10-digit mobile number dalein!"); return; }
 
   activeMobile = mobile;
+  
+  loadCustomerData();
 
-  fetch(`${DB_URL}customers/${mobile}.json`)
+  if(liveTimer) clearInterval(liveTimer);
+  liveTimer = setInterval(loadCustomerData, 2000);
+}
+
+function loadCustomerData() {
+  if(!activeMobile) return;
+
+  fetch(`${DB_URL}customers/${activeMobile}.json`)
     .then(res => res.json())
     .then(data => {
       if(!data) {
+        if(liveTimer) clearInterval(liveTimer);
         alert("Aapka account nahi mila! Dukan par registration karayein.");
         return;
       }
@@ -211,18 +222,15 @@ function loadCustomerData() {
           const giftData = (data.gifts && data.gifts[i]) ? data.gifts[i] : null;
           
           if(isCompleted) {
-            // Check if gift status is REDEEMED
             if(giftData && giftData.status === "REDEEMED") {
               box.classList.add("redeemed");
               box.innerHTML = `#${i}<br>✅ Claimed`;
             } else {
-              // UNLOCKED: Ready to spin
               box.classList.add("gift-unlocked");
               box.innerHTML = `#${i}<br>🎁 Open Gift`;
               box.onclick = () => openWheelModal(i);
             }
           } else {
-            // Locked Slot
             box.innerHTML = `#${i}<br>🎁 Gift`;
             box.onclick = () => alert("Pahle " + i + " purchases poore karein!");
           }
@@ -270,7 +278,6 @@ function drawWheel() {
     ctx.restore();
   }
 
-  // Arrow Pointer
   ctx.fillStyle = "#ffd700";
   ctx.beginPath();
   ctx.moveTo(125, 0);
@@ -312,7 +319,6 @@ function spinWheel() {
     } else {
       isSpinning = false;
       
-      // Save Reward Status
       fetch(`${DB_URL}customers/${activeMobile}/gifts/${currentMilestone}.json`, {
         method: "PUT",
         body: JSON.stringify({
