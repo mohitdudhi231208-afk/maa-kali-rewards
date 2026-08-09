@@ -1,258 +1,2811 @@
-<!DOCTYPE html>  <html lang="hi">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>माँ काली वस्त्रालय - Digital Loyalty Card</title>  
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">  
-<style>  
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }  
-  body { background: #121212; color: #fff; padding: 15px; max-width: 500px; margin: 0 auto; text-align: center; }  .header { margin-bottom: 20px; margin-top: 10px; }
-.header h1 { color: #ffd700; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
-.header p { color: #aaa; font-size: 13px; }
+<!DOCTYPE html>
+<html lang="hi">
+<head>
 
-.card { background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15); }
+<meta charset="UTF-8">
 
-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; font-size: 15px; text-align: center; margin-bottom: 12px; outline: none; }
-button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s; }
-button:active { transform: scale(0.98); }
-button:disabled { background: #555; color: #aaa; cursor: not-allowed; }
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-.user-info { background: rgba(255, 215, 0, 0.08); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left; border-left: 4px solid #ffd700; }
-.user-info p { font-size: 14px; margin-bottom: 5px; color: #ddd; }
-.user-info b { color: #ffd700; font-size: 16px; }
+<title>माँ काली वस्त्रालय - Digital Loyalty Card</title>
 
-.milestone-badge { background: #25d366; color: #fff; padding: 10px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 13px; }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
 
-.wheel-container { position: relative; width: 260px; height: 260px; margin: 20px auto; }
-#wheel { width: 100%; height: 100%; border-radius: 50%; border: 5px solid #ffd700; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
-.pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid #ff0055; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
 
-.history-box { background: #1e1e1e; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-top: 20px; text-align: left; }
-.history-title { color: #ffd700; font-size: 14px; margin-bottom: 10px; font-weight: bold; }
-.history-item { font-size: 12px; padding: 8px 0; border-bottom: 1px dashed #444; display: flex; justify-content: space-between; align-items: center; }
-.history-item:last-child { border-bottom: none; }
+<style>
 
-.loader-text { color: #ffd700; font-size: 13px; margin-top: 8px; display: none; }
+/* =========================================
+   BASIC
+========================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:
+    radial-gradient(
+        circle at top,
+        #2a1700 0%,
+        #121212 45%,
+        #080808 100%
+    );
+
+    color:#fff;
+
+    min-height:100vh;
+
+    padding:15px;
+
+    max-width:500px;
+
+    margin:auto;
+
+    text-align:center;
+
+    overflow-x:hidden;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header{
+
+    margin-top:8px;
+
+    margin-bottom:18px;
+
+}
+
+.logo{
+
+    width:82px;
+
+    height:82px;
+
+    object-fit:contain;
+
+    border-radius:50%;
+
+    border:2px solid #ffd700;
+
+    padding:4px;
+
+    background:#000;
+
+    box-shadow:
+    0 0 20px rgba(255,215,0,.25);
+
+    margin-bottom:8px;
+}
+
+
+.header h1{
+
+    color:#ffd700;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+.header p{
+
+    color:#aaa;
+
+    font-size:12px;
+
+    margin-top:3px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.card{
+
+    background:
+    linear-gradient(
+        145deg,
+        #242424,
+        #171717
+    );
+
+    padding:18px;
+
+    border-radius:18px;
+
+    border:1px solid #ffd700;
+
+    margin-bottom:16px;
+
+    box-shadow:
+    0 5px 25px rgba(255,215,0,.12);
+
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+input{
+
+    width:100%;
+
+    padding:13px;
+
+    border-radius:9px;
+
+    border:1px solid #ffd700;
+
+    background:#000;
+
+    color:#fff;
+
+    font-size:15px;
+
+    text-align:center;
+
+    margin-bottom:12px;
+
+    outline:none;
+
+}
+
+input:focus{
+
+    box-shadow:
+    0 0 10px rgba(255,215,0,.25);
+
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+button{
+
+    width:100%;
+
+    padding:13px;
+
+    border-radius:9px;
+
+    border:none;
+
+    background:#ffd700;
+
+    color:#000;
+
+    font-weight:700;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+button:disabled{
+
+    background:#555;
+
+    color:#aaa;
+
+}
+
+
+/* =========================================
+   USER INFO
+========================================= */
+
+.user-info{
+
+    background:
+    rgba(255,215,0,.07);
+
+    padding:14px;
+
+    border-radius:12px;
+
+    margin-bottom:15px;
+
+    text-align:left;
+
+    border-left:4px solid #ffd700;
+
+}
+
+.user-info p{
+
+    font-size:13px;
+
+    margin-bottom:5px;
+
+    color:#ddd;
+
+}
+
+.user-info b{
+
+    color:#ffd700;
+
+}
+
+
+/* =========================================
+   PURCHASE PROGRESS
+========================================= */
+
+.progress-title{
+
+    font-size:12px;
+
+    color:#aaa;
+
+    margin-bottom:7px;
+
+}
+
+.progress-bar{
+
+    width:100%;
+
+    height:11px;
+
+    background:#333;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-bottom:18px;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    width:0%;
+
+    background:
+    linear-gradient(
+        90deg,
+        #ff9800,
+        #ffd700
+    );
+
+    border-radius:20px;
+
+    transition:width .7s ease;
+
+}
+
+
+/* =========================================
+   MILESTONES
+========================================= */
+
+.milestones{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:12px 0 18px;
+
+}
+
+.milestone{
+
+    width:22%;
+
+    position:relative;
+
+}
+
+.milestone-circle{
+
+    width:42px;
+
+    height:42px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:#222;
+
+    border:2px solid #555;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:16px;
+
+}
+
+.milestone.unlocked .milestone-circle{
+
+    background:#ffd700;
+
+    color:#000;
+
+    border-color:#ffd700;
+
+    box-shadow:
+    0 0 15px rgba(255,215,0,.55);
+
+}
+
+.milestone.done .milestone-circle{
+
+    background:#25d366;
+
+    color:#fff;
+
+    border-color:#25d366;
+
+}
+
+.milestone-label{
+
+    font-size:9px;
+
+    color:#aaa;
+
+    margin-top:5px;
+
+}
+
+.milestone.unlocked .milestone-label{
+
+    color:#ffd700;
+
+}
+
+
+/* =========================================
+   GIFT BOX
+========================================= */
+
+.gift-area{
+
+    display:none;
+
+    margin:10px auto 15px;
+
+}
+
+.gift-message{
+
+    color:#ffd700;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+
+.gift-box{
+
+    width:100px;
+
+    height:100px;
+
+    margin:10px auto;
+
+    cursor:pointer;
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:58px;
+
+    filter:
+    drop-shadow(
+        0 0 12px
+        rgba(255,215,0,.35)
+    );
+
+}
+
+
+/* Shake animation */
+
+.shake{
+
+    animation:
+
+    giftShake
+    0.65s
+    infinite;
+
+}
+
+
+@keyframes giftShake{
+
+    0%{
+        transform:rotate(0deg) scale(1);
+    }
+
+    20%{
+        transform:rotate(-9deg) scale(1.05);
+    }
+
+    40%{
+        transform:rotate(9deg) scale(1.05);
+    }
+
+    60%{
+        transform:rotate(-7deg) scale(1.05);
+    }
+
+    80%{
+        transform:rotate(7deg) scale(1.05);
+    }
+
+    100%{
+        transform:rotate(0deg) scale(1);
+    }
+
+}
+
+
+.gift-hint{
+
+    font-size:11px;
+
+    color:#aaa;
+
+}
+
+
+/* =========================================
+   WHEEL OVERLAY
+========================================= */
+
+#wheelOverlay{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,.92);
+
+    z-index:9999;
+
+    padding:20px;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+}
+
+
+.wheel-title{
+
+    color:#ffd700;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+}
+
+
+.wheel-subtitle{
+
+    color:#aaa;
+
+    font-size:11px;
+
+    margin-bottom:15px;
+
+}
+
+
+/* =========================================
+   WHEEL
+========================================= */
+
+.wheel-container{
+
+    position:relative;
+
+    width:280px;
+
+    height:280px;
+
+    margin:10px auto 20px;
+
+}
+
+
+#wheel{
+
+    width:280px;
+
+    height:280px;
+
+    border-radius:50%;
+
+    border:6px solid #ffd700;
+
+    background:#222;
+
+    box-shadow:
+    0 0 35px
+    rgba(255,215,0,.35);
+
+    transition:
+    transform
+    6s cubic-bezier(
+        .12,
+        .75,
+        .08,
+        1
+    );
+
+}
+
+
+.pointer{
+
+    position:absolute;
+
+    top:-15px;
+
+    left:50%;
+
+    transform:
+    translateX(-50%);
+
+    width:0;
+
+    height:0;
+
+    border-left:
+    14px solid transparent;
+
+    border-right:
+    14px solid transparent;
+
+    border-top:
+    28px solid #ff0055;
+
+    z-index:10;
+
+    filter:
+    drop-shadow(
+        0 2px 4px
+        rgba(0,0,0,.7)
+    );
+
+}
+
+
+/* Wheel dissolve */
+
+.dissolve{
+
+    animation:
+    wheelDissolve
+    1.2s
+    forwards;
+
+}
+
+
+@keyframes wheelDissolve{
+
+    0%{
+
+        opacity:1;
+
+        transform:
+        scale(1)
+        rotate(0deg);
+
+        filter:
+        blur(0);
+
+    }
+
+    45%{
+
+        opacity:.7;
+
+        transform:
+        scale(1.08)
+        rotate(8deg);
+
+        filter:
+        blur(2px);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:
+        scale(.25)
+        rotate(25deg);
+
+        filter:
+        blur(12px);
+
+    }
+
+}
+
+
+/* =========================================
+   SPIN BUTTON
+========================================= */
+
+#spinBtn{
+
+    max-width:280px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ffd700,
+        #ff9800
+    );
+
+}
+
+
+/* =========================================
+   REWARD RESULT
+========================================= */
+
+#rewardResult{
+
+    display:none;
+
+    max-width:340px;
+
+    width:100%;
+
+    background:
+    linear-gradient(
+        145deg,
+        #332300,
+        #171717
+    );
+
+    border:2px solid #ffd700;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    box-shadow:
+    0 0 35px
+    rgba(255,215,0,.3);
+
+    animation:
+    rewardAppear
+    .7s ease;
+
+}
+
+
+@keyframes rewardAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        scale(.5)
+        translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        scale(1)
+        translateY(0);
+
+    }
+
+}
+
+
+.reward-icon{
+
+    font-size:50px;
+
+    margin-bottom:8px;
+
+}
+
+.reward-small{
+
+    color:#aaa;
+
+    font-size:11px;
+
+    margin-bottom:5px;
+
+}
+
+.reward-name{
+
+    color:#ffd700;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    margin-bottom:14px;
+
+}
+
+.reward-note{
+
+    color:#ddd;
+
+    font-size:11px;
+
+    line-height:1.5;
+
+    margin-bottom:15px;
+
+}
+
+
+/* =========================================
+   HISTORY
+========================================= */
+
+.history-box{
+
+    background:#1e1e1e;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    border:1px solid #333;
+
+    margin-top:18px;
+
+    text-align:left;
+
+}
+
+.history-title{
+
+    color:#ffd700;
+
+    font-size:14px;
+
+    margin-bottom:10px;
+
+    font-weight:bold;
+
+}
+
+.history-item{
+
+    font-size:12px;
+
+    padding:9px 0;
+
+    border-bottom:1px dashed #444;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.history-item:last-child{
+
+    border-bottom:none;
+
+}
+
+
+/* =========================================
+   WHATSAPP
+========================================= */
+
+.whatsapp-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    width:100%;
+
+    padding:13px;
+
+    border-radius:9px;
+
+    background:#25D366;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    font-weight:700;
+
+    font-size:14px;
+
+    margin-top:15px;
+
+    box-shadow:
+    0 5px 15px
+    rgba(37,211,102,.2);
+
+}
+
+
+/* =========================================
+   LOADER
+========================================= */
+
+.loader-text{
+
+    color:#ffd700;
+
+    font-size:12px;
+
+    margin-top:8px;
+
+    display:none;
+
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer{
+
+    color:#666;
+
+    font-size:9px;
+
+    margin:18px 0 5px;
+
+}
+
 </style>
 
-</head>  
-<body>  <div class="header">  
-  <h1>🌺 माँ काली वस्त्रालय 🌺</h1>  
-  <p>Digital Loyalty Rewards Card</p>  
-</div>  <!-- LOGIN / SEARCH AREA -->  <div class="card" id="loginCard">  
-  <h3>📱 अपना कार्ड खोलें</h3>  
-  <p style="font-size:12px; color:#aaa; margin-bottom:15px; margin-top:5px;">अपना 10-अंकों का मोबाइल नंबर दर्ज करें</p>  
-  <input type="tel" id="custMobile" placeholder="Enter Mobile Number" maxlength="10">  
-  <button id="searchBtn" onclick="searchCustomer()">कार्ड देखें / Open Card</button>  
-  <div id="loginLoader" class="loader-text">⏳ खोज रहे हैं... कृपया प्रतीक्षा करें</div>  
-</div>  <!-- MAIN DASHBOARD -->  <div id="mainDashboard" style="display:none;">  
-  <div class="card">  
-    <div class="user-info">  
-      <p>नाम: <b id="custName">-</b></p>  
-      <p>कार्ड ID: <span id="custId" style="color:#fff;">-</span></p>  
-      <p>कुल ख़रीदारी स्कोर: <b id="custPurchases" style="color:#ffd700; font-size:18px;">0</b> / 10 Purchases</p>  
-    </div>  <!-- MILESTONE NOTIFICATION -->  
-<div id="rewardStatusArea"></div>  
+</head>
 
-<!-- LUCKY WHEEL AREA -->  
-<div id="wheelArea" style="display:none;">  
-  <h3 style="color:#ffd700; font-size:16px;">🎉 बधाई हो! लकी व्हील घुमाएं</h3>  
-  <div class="wheel-container">  
-    <div class="pointer"></div>  
-    <canvas id="wheel" width="260" height="260"></canvas>  
-  </div>  
-  <button id="spinBtn" onclick="spinWheel()">🎡 Spin the Wheel!</button>  
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<div class="header">
+
+    <!--
+      IMPORTANT:
+      1786193692481.png ko isi folder me rakho
+    -->
+
+    <img
+        src="1786193692481.png"
+        class="logo"
+        alt="माँ काली वस्त्रालय"
+    >
+
+    <h1>
+        🌺 माँ काली वस्त्रालय 🌺
+    </h1>
+
+    <p>
+        Digital Loyalty Rewards Card
+    </p>
+
 </div>
 
-  </div>    <!-- GIFT HISTORY -->    <div class="history-box">  
-    <div class="history-title">🎁 आपके मिले हुए उपहार (Claimed Rewards)</div>  
-    <div id="historyList">  
-      <p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>  
-    </div>  
-  </div>  
-</div>  <script>  
-const DB_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/";  
-let currentCust = null;  
-let wheelCanvas = document.getElementById("wheel");  
-let ctx = wheelCanvas ? wheelCanvas.getContext("2d") : null;  
-  
-const rewardsList = [  
-  "Face Towel (₹50)",  
-  "Big Face Towel (₹120)",  
-  "Handkerchief (₹25)",  
-  "Short Dupatta (₹50)",  
-  "₹50 OFF (Above ₹500)",  
-  "100% OFF Purchase"  
-];  
-  
-const colors = ["#FF5722", "#4CAF50", "#FFEB3B", "#2196F3", "#9C27B0", "#E91E63"];  
-  
-function drawWheel() {  
-  if(!ctx) return;  
-  const numOptions = rewardsList.length;  
-  const arcSize = (2 * Math.PI) / numOptions;  
-  
-  for (let i = 0; i < numOptions; i++) {  
-    ctx.beginPath();  
-    ctx.fillStyle = colors[i % colors.length];  
-    ctx.moveTo(130, 130);  
-    ctx.arc(130, 130, 130, i * arcSize, (i + 1) * arcSize);  
-    ctx.fill();  
-  
-    ctx.save();  
-    ctx.fillStyle = (i === 2) ? "#000" : "#FFF";   
-    ctx.translate(130, 130);  
-    ctx.rotate(i * arcSize + arcSize / 2);  
-    ctx.textAlign = "right";  
-    ctx.font = "bold 11px Poppins";  
-    ctx.fillText(rewardsList[i], 120, 4);  
-    ctx.restore();  
-  }  
-}  
-  
-function searchCustomer() {  
-  const mobile = document.getElementById("custMobile").value.trim();  
-  if(mobile.length !== 10) {  
-    alert("कृपया सही 10-अंकों का मोबाइल नंबर डालें!");  
-    return;  
-  }  
-  
-  const searchBtn = document.getElementById("searchBtn");  
-  const loader = document.getElementById("loginLoader");  
-  
-  searchBtn.disabled = true;  
-  loader.style.display = "block";  
-  
-  fetch(`${DB_URL}customers/${mobile}.json`)  
-    .then(res => res.json())  
-    .then(data => {  
-      searchBtn.disabled = false;  
-      loader.style.display = "none";  
-  
-      if(!data) {  
-        alert("आपका कार्ड नहीं मिला! कृपया दुकान पर संपर्क करें।");  
-        return;  
-      }  
-      currentCust = { ...data, mobile };  
-  
-      document.getElementById("loginCard").style.display = "none";  
-      document.getElementById("mainDashboard").style.display = "block";  
-  
-      // 👑 कस्टमर नाम के आगे "जी" जोड़ा गया  
-      document.getElementById("custName").innerText = data.name + " जी";  
-        
-      document.getElementById("custId").innerText = data.customerId || "MKV-CARD";  
-      document.getElementById("custPurchases").innerText = data.purchases || 0;  
-  
-      checkRewardEligibility(data);  
-      renderHistory(data);  
-      drawWheel();  
-    })  
-    .catch(() => {  
-      searchBtn.disabled = false;  
-      loader.style.display = "none";  
-      alert("नेटवर्क समस्या! कृपया दोबारा प्रयास करें।");  
-    });  
-}  
-  
-function checkRewardEligibility(data) {  
-  const p = data.purchases || 0;  
-  const milestones = [3, 5, 8, 10];  
-  let eligibleMilestone = null;  
-  
-  for(let m of milestones) {  
-    if(p >= m) {  
-      if(!data.gifts || !data.gifts[m] || data.gifts[m].status !== "REDEEMED") {  
-        eligibleMilestone = m;  
-        break;  
-      }  
-    }  
-  }  
-  
-  const statusArea = document.getElementById("rewardStatusArea");  
-  const wheelArea = document.getElementById("wheelArea");  
-  
-  if(eligibleMilestone) {  
-    statusArea.innerHTML = `<div class="milestone-badge">🎉 Milestone #${eligibleMilestone} अनलॉक्ड! उपहार पाने के लिए नीचे लकी व्हील घुमाएं।</div>`;  
-    wheelArea.style.display = "block";  
-    wheelArea.setAttribute("data-milestone", eligibleMilestone);  
-  } else {  
-    statusArea.innerHTML = `<p style="font-size:12px; color:#aaa; margin-bottom:10px;">अगला गिफ़्ट अनलॉक करने के लिए और ख़रीदारी करें! (गिफ़्ट माइलस्टोन: 3, 5, 8, 10)</p>`;  
-    wheelArea.style.display = "none";  
-  }  
-}  
-  
-function spinWheel() {  
-  const wheelArea = document.getElementById("wheelArea");  
-  const milestone = wheelArea.getAttribute("data-milestone");  
-  if(!milestone || !currentCust) return;  
-  
-  const spinBtn = document.getElementById("spinBtn");  
-  spinBtn.disabled = true;  
-  
-  let targetReward = currentCust.targetReward;  
-  let targetIndex = 0;  
-  
-  if(targetReward && targetReward !== "AUTO" && rewardsList.includes(targetReward)) {  
-    targetIndex = rewardsList.indexOf(targetReward);  
-  } else {  
-    targetIndex = Math.floor(Math.random() * rewardsList.length);  
-  }  
-  
-  const numOptions = rewardsList.length;  
-  const arcSize = 360 / numOptions;  
-  const targetAngle = 360 - (targetIndex * arcSize + arcSize / 2);  
-  const totalRotation = 360 * 5 + targetAngle;  
-  
-  const wheelElem = document.getElementById("wheel");  
-  wheelElem.style.transform = `rotate(${totalRotation}deg)`;  
-  
-  setTimeout(() => {  
-    const wonReward = rewardsList[targetIndex];  
-    const dateStr = new Date().toLocaleDateString('hi-IN');  
-  
-    // Save Result to Firebase  
-    fetch(`${DB_URL}customers/${currentCust.mobile}/gifts/${milestone}.json`, {  
-      method: "PUT",  
-      body: JSON.stringify({  
-        reward: wonReward,  
-        status: "REDEEMED",  
-        redeemedAt: dateStr  
-      })  
-    }).then(() => {  
-      alert(`🎉 बधाई हो ${currentCust.name} जी!\n\nआपने जीता है: ${wonReward}\n\nकृपया दुकान काउंटर पर यह मेसेज दिखाकर अपना गिफ़्ट प्राप्त करें!`);  
-        
-      if(!currentCust.gifts) currentCust.gifts = {};  
-      currentCust.gifts[milestone] = { reward: wonReward, status: "REDEEMED", redeemedAt: dateStr };  
-        
-      checkRewardEligibility(currentCust);  
-      renderHistory(currentCust);  
-    });  
-  
-  }, 4000);  
-}  
-  
-function renderHistory(data) {  
-  const hList = document.getElementById("historyList");  
-  if(data.gifts) {  
-    let items = [];  
-    for(let key in data.gifts) {  
-      if(data.gifts[key].status === "REDEEMED") {  
-        items.push(`  
-          <div class="history-item">  
-            <div>  
-              <strong style="color:#fff;">${data.gifts[key].reward}</strong><br>  
-              <small style="color:#ffd700;">Milestone #${key}</small>  
-            </div>  
-            <div style="color:#aaa;">${data.gifts[key].redeemedAt || 'N/A'}</div>  
-          </div>  
-        `);  
-      }  
-    }  
-    hList.innerHTML = items.length > 0 ? items.join('') : '<p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';  
-  } else {  
-    hList.innerHTML = '<p style="font-size:11px; color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';  
-  }  
-}  
-</script>  </body>  
-</html>
+
+
+<!-- =========================================
+     LOGIN
+========================================= -->
+
+<div
+    class="card"
+    id="loginCard"
+>
+
+    <h3>
+        📱 अपना कार्ड खोलें
+    </h3>
+
+    <p
+        style="
+        font-size:12px;
+        color:#aaa;
+        margin:5px 0 15px;
+        "
+    >
+        अपना 10-अंकों का मोबाइल नंबर दर्ज करें
+    </p>
+
+
+    <input
+        type="tel"
+        id="custMobile"
+        placeholder="Enter Mobile Number"
+        maxlength="10"
+    >
+
+
+    <button
+        id="searchBtn"
+        onclick="searchCustomer()"
+    >
+        कार्ड देखें / Open Card
+    </button>
+
+
+    <div
+        id="loginLoader"
+        class="loader-text"
+    >
+        ⏳ कार्ड खोज रहे हैं...
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     MAIN DASHBOARD
+========================================= -->
+
+<div
+    id="mainDashboard"
+    style="display:none;"
+>
+
+
+    <div class="card">
+
+
+        <!-- CUSTOMER INFO -->
+
+        <div class="user-info">
+
+            <p>
+                नाम:
+                <b id="custName">-</b>
+            </p>
+
+            <p>
+                कार्ड ID:
+                <span id="custId">-</span>
+            </p>
+
+            <p>
+                कुल ख़रीदारी:
+                <b
+                    id="custPurchases"
+                    style="font-size:18px;"
+                >
+                    0
+                </b>
+                / 10
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================
+             PROGRESS
+        ====================================== -->
+
+        <div class="progress-title">
+
+            Loyalty Progress
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                id="progressFill"
+                class="progress-fill"
+            ></div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             MILESTONES
+        ====================================== -->
+
+        <div class="milestones">
+
+
+            <div
+                id="milestone3"
+                class="milestone"
+            >
+
+                <div class="milestone-circle">
+                    🎁
+                </div>
+
+                <div class="milestone-label">
+                    3rd
+                </div>
+
+            </div>
+
+
+
+            <div
+                id="milestone5"
+                class="milestone"
+            >
+
+                <div class="milestone-circle">
+                    🎁
+                </div>
+
+                <div class="milestone-label">
+                    5th
+                </div>
+
+            </div>
+
+
+
+            <div
+                id="milestone8"
+                class="milestone"
+            >
+
+                <div class="milestone-circle">
+                    🎁
+                </div>
+
+                <div class="milestone-label">
+                    8th
+                </div>
+
+            </div>
+
+
+
+            <div
+                id="milestone10"
+                class="milestone"
+            >
+
+                <div class="milestone-circle">
+                    🎁
+                </div>
+
+                <div class="milestone-label">
+                    10th
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             REWARD STATUS
+        ====================================== -->
+
+        <div id="rewardStatusArea"></div>
+
+
+
+        <!-- =====================================
+             MOVING GIFT BOX
+        ====================================== -->
+
+        <div
+            id="giftArea"
+            class="gift-area"
+        >
+
+            <div
+                id="giftMessage"
+                class="gift-message"
+            >
+                🎉 आपका Gift Unlock हो गया!
+            </div>
+
+
+            <div
+                id="giftBox"
+                class="gift-box shake"
+                onclick="openGift()"
+            >
+                🎁
+            </div>
+
+
+            <div class="gift-hint">
+
+                👆 Gift box पर tap करके अपना reward खोलें
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             WHATSAPP COMMUNITY
+        ====================================== -->
+
+        <a
+            href="https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop"
+            target="_blank"
+            class="whatsapp-btn"
+        >
+
+            👥 WhatsApp Community में Join करें
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         GIFT HISTORY
+    ====================================== -->
+
+    <div class="history-box">
+
+        <div class="history-title">
+
+            🎁 आपके मिले हुए उपहार
+
+        </div>
+
+
+        <div id="historyList">
+
+            <p
+                style="
+                font-size:11px;
+                color:#aaa;
+                "
+            >
+                अभी तक कोई उपहार क्लेम नहीं किया गया है।
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     WHEEL OVERLAY
+========================================= -->
+
+<div id="wheelOverlay">
+
+
+    <div class="wheel-title">
+
+        🎉 आपका Gift तैयार है!
+
+    </div>
+
+
+    <div class="wheel-subtitle">
+
+        Spin करें और अपना reward देखें
+
+    </div>
+
+
+
+    <div
+        id="wheelContainer"
+        class="wheel-container"
+    >
+
+        <div class="pointer"></div>
+
+        <canvas
+            id="wheel"
+            width="280"
+            height="280"
+        ></canvas>
+
+    </div>
+
+
+
+    <button
+        id="spinBtn"
+        onclick="spinWheel()"
+    >
+
+        🎡 SPIN THE WHEEL
+
+    </button>
+
+
+
+    <!-- RESULT -->
+
+    <div id="rewardResult">
+
+        <div class="reward-icon">
+            🎁
+        </div>
+
+        <div class="reward-small">
+            CONGRATULATIONS!
+        </div>
+
+        <div
+            id="rewardName"
+            class="reward-name"
+        >
+            -
+        </div>
+
+        <div class="reward-note">
+
+            इस reward को पाने के लिए
+            दुकान के counter पर यह screen दिखाएँ।
+
+        </div>
+
+        <button
+            onclick="closeReward()"
+        >
+            ❤️ धन्यवाद
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<div class="footer">
+
+    © माँ काली वस्त्रालय • Digital Loyalty Rewards
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   FIREBASE
+========================================= */
+
+const DB_URL =
+"https://maa-kali-rewards-default-rtdb.firebaseio.com/";
+
+
+
+/* =========================================
+   WHATSAPP
+========================================= */
+
+const WHATSAPP_COMMUNITY =
+"https://chat.whatsapp.com/FVJhXgslm2u3Lfylbncdop";
+
+
+
+/* =========================================
+   REWARDS
+========================================= */
+
+const rewardsList = [
+
+    "Face Towel (₹50)",
+
+    "Big Face Towel (₹120)",
+
+    "Handkerchief (₹25)",
+
+    "Short Dupatta (₹50)",
+
+    "₹50 OFF (Above ₹500)",
+
+    "100% OFF Purchase"
+
+];
+
+
+const colors = [
+
+    "#FF5722",
+
+    "#4CAF50",
+
+    "#FFEB3B",
+
+    "#2196F3",
+
+    "#9C27B0",
+
+    "#E91E63"
+
+];
+
+
+
+const milestones = [3,5,8,10];
+
+
+let currentCust = null;
+
+let currentMilestone = null;
+
+let selectedReward = null;
+
+let isSpinning = false;
+
+
+
+/* =========================================
+   AUDIO SYSTEM
+========================================= */
+
+let audioContext = null;
+
+
+function startAudio(){
+
+    try{
+
+        if(!audioContext){
+
+            audioContext =
+                new (
+                    window.AudioContext ||
+                    window.webkitAudioContext
+                )();
+
+        }
+
+        if(
+            audioContext.state ===
+            "suspended"
+        ){
+
+            audioContext.resume();
+
+        }
+
+    }catch(e){
+
+        console.log("Audio unavailable");
+
+    }
+
+}
+
+
+/* Tick / spinning sound */
+
+function playSpinSound(){
+
+    startAudio();
+
+    if(!audioContext) return;
+
+
+    const start =
+        audioContext.currentTime;
+
+
+    for(let i=0;i<45;i++){
+
+        const time =
+            start +
+            i * 0.11;
+
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+
+        oscillator.type =
+            "square";
+
+
+        oscillator.frequency.setValueAtTime(
+            650 + (i % 4) * 80,
+            time
+        );
+
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            time
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.08,
+            time + 0.01
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            time + 0.055
+        );
+
+
+        oscillator.connect(gain);
+
+        gain.connect(
+            audioContext.destination
+        );
+
+
+        oscillator.start(time);
+
+        oscillator.stop(
+            time + 0.06
+        );
+
+    }
+
+}
+
+
+/* Charming winning sound */
+
+function playWinSound(){
+
+    startAudio();
+
+    if(!audioContext) return;
+
+
+    const notes = [
+        523.25,
+        659.25,
+        783.99,
+        1046.50
+    ];
+
+
+    const start =
+        audioContext.currentTime;
+
+
+    notes.forEach(
+        (freq,index)=>{
+
+            const oscillator =
+                audioContext.createOscillator();
+
+            const gain =
+                audioContext.createGain();
+
+
+            const time =
+                start +
+                index * 0.15;
+
+
+            oscillator.type =
+                "sine";
+
+
+            oscillator.frequency.setValueAtTime(
+                freq,
+                time
+            );
+
+
+            gain.gain.setValueAtTime(
+                0.0001,
+                time
+            );
+
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.25,
+                time + 0.03
+            );
+
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.0001,
+                time + 0.45
+            );
+
+
+            oscillator.connect(gain);
+
+            gain.connect(
+                audioContext.destination
+            );
+
+
+            oscillator.start(time);
+
+            oscillator.stop(
+                time + 0.5
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+function searchCustomer(){
+
+    startAudio();
+
+
+    const mobile =
+        document
+        .getElementById("custMobile")
+        .value
+        .trim();
+
+
+    if(!/^\d{10}$/.test(mobile)){
+
+        alert(
+            "कृपया सही 10-अंकों का मोबाइल नंबर डालें!"
+        );
+
+        return;
+
+    }
+
+
+    const searchBtn =
+        document.getElementById(
+            "searchBtn"
+        );
+
+
+    const loader =
+        document.getElementById(
+            "loginLoader"
+        );
+
+
+    searchBtn.disabled = true;
+
+    loader.style.display = "block";
+
+
+    fetch(
+        `${DB_URL}customers/${mobile}.json`
+    )
+
+    .then(res => {
+
+        if(!res.ok){
+
+            throw new Error(
+                "Network error"
+            );
+
+        }
+
+        return res.json();
+
+    })
+
+    .then(data => {
+
+        searchBtn.disabled = false;
+
+        loader.style.display = "none";
+
+
+        if(!data){
+
+            alert(
+                "आपका कार्ड नहीं मिला! कृपया दुकान पर संपर्क करें।"
+            );
+
+            return;
+
+        }
+
+
+        currentCust = {
+
+            ...data,
+
+            mobile:mobile
+
+        };
+
+
+        document.getElementById(
+            "loginCard"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "mainDashboard"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "custName"
+        ).innerText =
+            (data.name || "Customer") +
+            " जी";
+
+
+        document.getElementById(
+            "custId"
+        ).innerText =
+            data.customerId ||
+            "MKV-CARD";
+
+
+        document.getElementById(
+            "custPurchases"
+        ).innerText =
+            data.purchases || 0;
+
+
+        updateDashboard(data);
+
+        renderHistory(data);
+
+    })
+
+    .catch(error => {
+
+        console.log(error);
+
+        searchBtn.disabled = false;
+
+        loader.style.display = "none";
+
+
+        alert(
+            "नेटवर्क समस्या! कृपया दोबारा प्रयास करें।"
+        );
+
+    });
+
+}
+
+
+
+/* =========================================
+   DASHBOARD
+========================================= */
+
+function updateDashboard(data){
+
+    const purchases =
+        Number(data.purchases || 0);
+
+
+    const progress =
+        Math.min(
+            purchases / 10 * 100,
+            100
+        );
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        progress + "%";
+
+
+    updateMilestones(
+        data
+    );
+
+
+    checkRewardEligibility(
+        data
+    );
+
+}
+
+
+
+/* =========================================
+   MILESTONES UI
+========================================= */
+
+function updateMilestones(data){
+
+    const purchases =
+        Number(data.purchases || 0);
+
+
+    milestones.forEach(
+        milestone => {
+
+            const element =
+                document.getElementById(
+                    "milestone" +
+                    milestone
+                );
+
+
+            if(!element) return;
+
+
+            element.classList.remove(
+                "unlocked"
+            );
+
+            element.classList.remove(
+                "done"
+            );
+
+
+            if(
+                data.gifts &&
+                data.gifts[milestone] &&
+                data.gifts[milestone].status ===
+                "REDEEMED"
+            ){
+
+                element.classList.add(
+                    "done"
+                );
+
+            }
+
+            else if(
+                purchases >= milestone
+            ){
+
+                element.classList.add(
+                    "unlocked"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+
+/* =========================================
+   FIND NEXT ELIGIBLE GIFT
+========================================= */
+
+function checkRewardEligibility(data){
+
+    const purchases =
+        Number(data.purchases || 0);
+
+
+    let eligibleMilestone = null;
+
+
+    for(
+        let i=0;
+        i<milestones.length;
+        i++
+    ){
+
+        const m =
+            milestones[i];
+
+
+        const alreadyClaimed =
+            data.gifts &&
+            data.gifts[m] &&
+            data.gifts[m].status ===
+            "REDEEMED";
+
+
+        if(
+            purchases >= m &&
+            !alreadyClaimed
+        ){
+
+            eligibleMilestone = m;
+
+            break;
+
+        }
+
+    }
+
+
+    const giftArea =
+        document.getElementById(
+            "giftArea"
+        );
+
+
+    const statusArea =
+        document.getElementById(
+            "rewardStatusArea"
+        );
+
+
+    if(eligibleMilestone){
+
+        currentMilestone =
+            eligibleMilestone;
+
+
+        statusArea.innerHTML = `
+
+            <div
+                style="
+                color:#25d366;
+                font-weight:bold;
+                font-size:13px;
+                margin-bottom:5px;
+                "
+            >
+
+                🎉 Milestone #${eligibleMilestone}
+                Unlock हो गया!
+
+            </div>
+
+        `;
+
+
+        giftArea.style.display =
+            "block";
+
+
+        document.getElementById(
+            "giftMessage"
+        ).innerText =
+            `🎁 Milestone #${eligibleMilestone} का Gift तैयार है!`;
+
+
+        const giftBox =
+            document.getElementById(
+                "giftBox"
+            );
+
+
+        giftBox.classList.add(
+            "shake"
+        );
+
+    }
+
+    else{
+
+        currentMilestone = null;
+
+
+        giftArea.style.display =
+            "none";
+
+
+        statusArea.innerHTML = `
+
+            <div
+                style="
+                color:#aaa;
+                font-size:11px;
+                margin-bottom:5px;
+                "
+            >
+
+                🎁 अगला Gift पाने के लिए
+                और खरीदारी करें।
+
+                <br>
+
+                Gift Milestones:
+                3 • 5 • 8 • 10
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =========================================
+   OPEN GIFT
+========================================= */
+
+function openGift(){
+
+    if(
+        !currentCust ||
+        !currentMilestone
+    ){
+
+        return;
+
+    }
+
+
+    startAudio();
+
+
+    const overlay =
+        document.getElementById(
+            "wheelOverlay"
+        );
+
+
+    const giftArea =
+        document.getElementById(
+            "giftArea"
+        );
+
+
+    giftArea.style.display =
+        "none";
+
+
+    overlay.style.display =
+        "flex";
+
+
+    const wheel =
+        document.getElementById(
+            "wheel"
+        );
+
+
+    wheel.classList.remove(
+        "dissolve"
+    );
+
+
+    wheel.style.opacity = "1";
+
+    wheel.style.transform =
+        "rotate(0deg)";
+
+
+    document.getElementById(
+        "wheelContainer"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "spinBtn"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "spinBtn"
+    ).disabled = false;
+
+
+    document.getElementById(
+        "rewardResult"
+    ).style.display =
+        "none";
+
+
+    selectedReward = null;
+
+
+    drawWheel();
+
+}
+
+
+
+/* =========================================
+   DRAW WHEEL
+========================================= */
+
+function drawWheel(){
+
+    const canvas =
+        document.getElementById(
+            "wheel"
+        );
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    const center = 140;
+
+    const radius = 134;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    const total =
+        rewardsList.length;
+
+
+    const arc =
+        (Math.PI * 2) /
+        total;
+
+
+    for(
+        let i=0;
+        i<total;
+        i++
+    ){
+
+        const start =
+            i * arc;
+
+
+        const end =
+            start + arc;
+
+
+        ctx.beginPath();
+
+
+        ctx.moveTo(
+            center,
+            center
+        );
+
+
+        ctx.arc(
+            center,
+            center,
+            radius,
+            start,
+            end
+        );
+
+
+        ctx.closePath();
+
+
+        ctx.fillStyle =
+            colors[i];
+
+
+        ctx.fill();
+
+
+        ctx.strokeStyle =
+            "#111";
+
+
+        ctx.lineWidth = 2;
+
+        ctx.stroke();
+
+
+
+        /* Text */
+
+        ctx.save();
+
+
+        ctx.translate(
+            center,
+            center
+        );
+
+
+        ctx.rotate(
+            start +
+            arc / 2
+        );
+
+
+        ctx.textAlign =
+            "right";
+
+
+        ctx.fillStyle =
+            i === 2
+            ? "#000"
+            : "#fff";
+
+
+        ctx.font =
+            "bold 10px Poppins";
+
+
+        let text =
+            rewardsList[i];
+
+
+        /*
+        Long reward text
+        */
+
+        if(
+            text.length > 22
+        ){
+
+            if(
+                text ===
+                "₹50 OFF (Above ₹500)"
+            ){
+
+                text =
+                "₹50 OFF";
+
+            }
+
+            else if(
+                text ===
+                "100% OFF Purchase"
+            ){
+
+                text =
+                "100% OFF";
+
+            }
+
+        }
+
+
+        ctx.fillText(
+            text,
+            radius - 8,
+            4
+        );
+
+
+        ctx.restore();
+
+    }
+
+
+    /* Center circle */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        center,
+        center,
+        24,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fillStyle =
+        "#111";
+
+    ctx.fill();
+
+
+    ctx.strokeStyle =
+        "#ffd700";
+
+    ctx.lineWidth = 3;
+
+    ctx.stroke();
+
+
+    ctx.font =
+        "18px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+    ctx.fillText(
+        "🎁",
+        center,
+        center
+    );
+
+}
+
+
+
+/* =========================================
+   SPIN WHEEL
+========================================= */
+
+function spinWheel(){
+
+    if(
+        isSpinning ||
+        !currentCust ||
+        !currentMilestone
+    ){
+
+        return;
+
+    }
+
+
+    isSpinning = true;
+
+
+    const spinBtn =
+        document.getElementById(
+            "spinBtn"
+        );
+
+
+    spinBtn.disabled = true;
+
+    spinBtn.innerText =
+        "🎡 Spinning...";
+
+
+    startAudio();
+
+    playSpinSound();
+
+
+
+    /*
+    =========================================
+    ADMIN TARGET REWARD
+    =========================================
+
+    AUTO = Random
+
+    Otherwise exactly the reward
+    selected in Admin Panel.
+    */
+
+
+    const targetReward =
+        currentCust.targetReward;
+
+
+    let targetIndex;
+
+
+    if(
+        targetReward &&
+        targetReward !== "AUTO" &&
+        rewardsList.includes(
+            targetReward
+        )
+    ){
+
+        targetIndex =
+            rewardsList.indexOf(
+                targetReward
+            );
+
+    }
+
+    else{
+
+        targetIndex =
+            Math.floor(
+                Math.random() *
+                rewardsList.length
+            );
+
+    }
+
+
+    selectedReward =
+        rewardsList[targetIndex];
+
+
+
+    /*
+    =========================================
+    CALCULATE ROTATION
+    =========================================
+    */
+
+
+    const slice =
+        360 /
+        rewardsList.length;
+
+
+    const centerAngle =
+        targetIndex * slice +
+        slice / 2;
+
+
+    const finalAngle =
+        360 -
+        centerAngle;
+
+
+    const extraSpins =
+        360 * 7;
+
+
+    const totalRotation =
+        extraSpins +
+        finalAngle;
+
+
+    const wheel =
+        document.getElementById(
+            "wheel"
+        );
+
+
+    wheel.style.transform =
+        `rotate(${totalRotation}deg)`;
+
+
+
+    /*
+    =========================================
+    WAIT FOR WHEEL
+    =========================================
+    */
+
+    setTimeout(
+        () => {
+
+            /*
+            Wheel धीरे-धीरे already
+            CSS easing से रुक चुका होगा.
+            */
+
+
+            setTimeout(
+                () => {
+
+                    showWinningReward();
+
+                },
+                300
+            );
+
+        },
+        6300
+    );
+
+}
+
+
+
+/* =========================================
+   SHOW WINNING REWARD
+========================================= */
+
+function showWinningReward(){
+
+    const wheel =
+        document.getElementById(
+            "wheel"
+        );
+
+
+    /*
+    Winning sound
+    */
+
+    playWinSound();
+
+
+    /*
+    Wheel dissolve
+    */
+
+    wheel.classList.add(
+        "dissolve"
+    );
+
+
+    document.getElementById(
+        "spinBtn"
+    ).style.display =
+        "none";
+
+
+    /*
+    Wait for dissolve
+    */
+
+    setTimeout(
+        () => {
+
+            document.getElementById(
+                "wheelContainer"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "rewardResult"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "rewardName"
+            ).innerText =
+                selectedReward;
+
+
+            /*
+            Save reward to Firebase
+            */
+
+            claimReward();
+
+        },
+        1200
+    );
+
+}
+
+
+
+/* =========================================
+   CLAIM REWARD
+========================================= */
+
+function claimReward(){
+
+    if(
+        !currentCust ||
+        !currentMilestone ||
+        !selectedReward
+    ){
+
+        return;
+
+    }
+
+
+    const dateStr =
+        new Date().toLocaleDateString(
+            "hi-IN"
+        );
+
+
+    const giftData = {
+
+        reward:selectedReward,
+
+        status:"REDEEMED",
+
+        redeemedAt:dateStr
+
+    };
+
+
+    fetch(
+        `${DB_URL}customers/${currentCust.mobile}/gifts/${currentMilestone}.json`,
+        {
+            method:"PUT",
+
+            body:
+                JSON.stringify(
+                    giftData
+                )
+        }
+    )
+
+    .then(res => {
+
+        if(!res.ok){
+
+            throw new Error(
+                "Reward save failed"
+            );
+
+        }
+
+        /*
+        Local data update
+        */
+
+        if(
+            !currentCust.gifts
+        ){
+
+            currentCust.gifts = {};
+
+        }
+
+
+        currentCust.gifts[
+            currentMilestone
+        ] =
+            giftData;
+
+
+        renderHistory(
+            currentCust
+        );
+
+
+        /*
+        Update milestone UI
+        */
+
+        updateMilestones(
+            currentCust
+        );
+
+    })
+
+    .catch(error => {
+
+        console.log(error);
+
+
+        alert(
+            "Reward save nahi ho paya. Internet check karein."
+        );
+
+    });
+
+}
+
+
+
+/* =========================================
+   CLOSE REWARD
+========================================= */
+
+function closeReward(){
+
+    document.getElementById(
+        "wheelOverlay"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "rewardResult"
+    ).style.display =
+        "none";
+
+
+    isSpinning = false;
+
+
+    /*
+    Dashboard refresh
+    */
+
+    if(currentCust){
+
+        updateDashboard(
+            currentCust
+        );
+
+    }
+
+}
+
+
+
+/* =========================================
+   HISTORY
+========================================= */
+
+function renderHistory(data){
+
+    const hList =
+        document.getElementById(
+            "historyList"
+        );
+
+
+    if(
+        !data.gifts
+    ){
+
+        hList.innerHTML =
+            '<p style="font-size:11px;color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
+
+        return;
+
+    }
+
+
+    let items = [];
+
+
+    /*
+    Correct order:
+    3, 5, 8, 10
+    */
+
+    milestones.forEach(
+        key => {
+
+            const gift =
+                data.gifts[key];
+
+
+            if(
+                gift &&
+                gift.status ===
+                "REDEEMED"
+            ){
+
+                items.push(`
+
+                    <div class="history-item">
+
+                        <div>
+
+                            <strong
+                                style="color:#fff;"
+                            >
+                                ${gift.reward}
+                            </strong>
+
+                            <br>
+
+                            <small
+                                style="color:#ffd700;"
+                            >
+                                Milestone #${key}
+                            </small>
+
+                        </div>
+
+                        <div
+                            style="
+                            color:#aaa;
+                            font-size:11px;
+                            "
+                        >
+                            ${
+                                gift.redeemedAt ||
+                                "N/A"
+                            }
+                        </div>
+
+                    </div>
+
+                `);
+
+            }
+
+        }
+    );
+
+
+    hList.innerHTML =
+        items.length > 0
+
+        ? items.join("")
+
+        : '<p style="font-size:11px;color:#aaa;">अभी तक कोई उपहार क्लेम नहीं किया गया है।</p>';
+
+}
+
+
+
+/* =========================================
+   MOBILE ENTER BUTTON
+========================================= */
+
+document.getElementById(
+    "custMobile"
+).addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key ===
+            "Enter"
+        ){
+
+            searchCustomer();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   DRAW INITIAL WHEEL
+========================================= */
+
+drawWheel();
+
+</script>
+
+</body>
+ </html>
