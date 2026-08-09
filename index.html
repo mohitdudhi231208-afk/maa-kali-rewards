@@ -32,17 +32,28 @@
   .milestone-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 15px; }
   .m-box {
     background: #2a1b2d; border: 1px solid #555; border-radius: 8px; padding: 8px 4px;
-    text-align: center; font-size: 11px; font-weight: 600;
+    text-align: center; font-size: 11px; font-weight: 600; cursor: pointer;
   }
   .m-box.done { background: #1b5e20; border-color: #81c784; color: #fff; }
-  .m-box.gift { background: #e65100; border-color: #ffd700; color: #fff; animation: pulse 1.5s infinite; }
+  .m-box.gift-unlocked { background: #e65100; border-color: #ffd700; color: #fff; animation: pulse 1.5s infinite; }
   .m-box.redeemed { background: #37474f; border-color: #78909c; color: #aaa; }
 
   @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
   .login-box { background: #1f1225; padding: 20px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #ffd700; margin-top: 30px; }
-  input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; margin: 10px 0; font-size: 16px; text-align: center; }
+  input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ffd700; background: #000; color: #fff; margin: 10px 0; font-size: 15px; text-align: center; }
   button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #ffd700; color: #000; font-weight: 800; font-size: 15px; cursor: pointer; }
+
+  /* Popup Modal */
+  .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
+  .modal-content { background: #1f1225; border: 2px solid #ffd700; border-radius: 20px; padding: 20px; text-align: center; width: 90%; max-width: 360px; position: relative; }
+  
+  #wheelCanvas { margin: 15px 0; border-radius: 50%; border: 4px solid #ffd700; }
+  .spin-btn { background: #ff4500; color: #fff; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; font-size: 16px; margin-top: 10px; }
+  
+  .gift-result-card { display: none; background: #2a1b2d; border: 2px dashed #ffd700; padding: 20px; border-radius: 15px; margin-top: 10px; }
+  .gift-icon-big { font-size: 50px; margin-bottom: 10px; }
+  .ok-btn { background: #2e7d32; color: #fff; margin-top: 15px; font-size: 16px; }
 </style>
 </head>
 <body>
@@ -82,12 +93,55 @@
   </div>
 </div>
 
+<!-- POPUP FOR WHEEL & GIFT RESULT -->
+<div id="rewardModal" class="modal">
+  <div class="modal-content">
+    
+    <!-- SECTION 1: SPIN WHEEL -->
+    <div id="wheelContainer">
+      <h3 style="color:#ffd700;" id="wheelTitle">🎁 Spin & Win Gift</h3>
+      <p style="font-size:12px; color:#ddd;">Reward jeetne ke liye Wheel Ghumayein!</p>
+      
+      <!-- Owner Set Gift Selector (Optional Control) -->
+      <select id="selectedReward">
+        <option value="AUTO">🎯 Random Lucky Gift</option>
+        <option value="5% Off Discount">🏷️ 5% Off Discount</option>
+        <option value="Surprise Gift Pack">🎁 Surprise Gift Pack</option>
+        <option value="10% Off Discount">🏷️ 10% Off Discount</option>
+        <option value="Executive Key Chain">🔑 Executive Key Chain</option>
+        <option value="Rs 50 Cash Voucher">💵 Rs 50 Voucher</option>
+      </select>
+
+      <canvas id="wheelCanvas" width="250" height="250"></canvas>
+      <br>
+      <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN NOW</button>
+    </div>
+
+    <!-- SECTION 2: GIFT DISPLAY AFTER SPIN -->
+    <div id="giftResultSection" class="gift-result-card">
+      <div class="gift-icon-big">🎁</div>
+      <h3 style="color:#ffd700;" id="winTitle">Congratulations!</h3>
+      <p style="font-size: 13px; margin-top: 5px; color: #ccc;">Aapne jeeta hai:</p>
+      <div id="finalRewardText" style="font-size: 20px; font-weight: 800; color: #ffd700; margin: 12px 0;">-</div>
+      <button class="ok-btn" onclick="closeAndReturnToMenu()">OK (Back To Menu)</button>
+    </div>
+
+  </div>
+</div>
+
 <script>
 const DB_URL = "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
+let activeMobile = "";
+let currentMilestone = null;
+let prizes = ["5% Off Discount", "Surprise Gift Pack", "10% Off Discount", "Executive Key Chain", "Rs 50 Cash Voucher", "Special Gift"];
+let isSpinning = false;
+let finalWonGift = "";
 
 function loadCustomerData() {
   const mobile = document.getElementById("mobileInput").value.trim();
   if(mobile.length !== 10) { alert("Sahi 10-digit mobile number dalein!"); return; }
+
+  activeMobile = mobile;
 
   fetch(`${DB_URL}customers/${mobile}.json`)
     .then(res => res.json())
@@ -109,14 +163,6 @@ function loadCustomerData() {
       document.getElementById("purchaseCountText").innerText = `${currentCycleCount} / 10 Purchases`;
       document.getElementById("progressFill").style.width = `${(currentCycleCount / 10) * 100}%`;
 
-      let nextGift = "3rd Purchase";
-      if(currentCycleCount >= 3 && currentCycleCount < 5) nextGift = "5th Purchase";
-      else if(currentCycleCount >= 5 && currentCycleCount < 8) nextGift = "8th Purchase";
-      else if(currentCycleCount >= 8 && currentCycleCount < 10) nextGift = "10th Special Gift";
-      else if(currentCycleCount === 10) nextGift = "Cycle Complete! 🎉";
-
-      document.getElementById("nextRewardMsg").innerText = `Next Gift: ${nextGift}`;
-
       const grid = document.getElementById("gridContainer");
       grid.innerHTML = "";
       
@@ -130,16 +176,19 @@ function loadCustomerData() {
         const isCompleted = i <= currentCycleCount;
 
         if(isGiftSlot) {
-          const giftState = (data.gifts && data.gifts[i]) ? data.gifts[i].status : "LOCKED";
+          const giftData = (data.gifts && data.gifts[i]) ? data.gifts[i] : {};
+          const giftState = giftData.status || "LOCKED";
           
           if(giftState === "REDEEMED") {
             box.classList.add("redeemed");
-            box.innerHTML = `#${i}<br>✅`;
+            box.innerHTML = `#${i}<br>✅ Claimed`;
           } else if(isCompleted) {
-            box.classList.add("gift");
-            box.innerHTML = `#${i}<br>🎁 Unlocked`;
+            box.classList.add("gift-unlocked");
+            box.innerHTML = `#${i}<br>🎁 Open Gift`;
+            box.onclick = () => openWheelModal(i);
           } else {
             box.innerHTML = `#${i}<br>🎁 Gift`;
+            box.onclick = () => alert("Pahle " + i + " purchases poore karein!");
           }
         } else {
           if(isCompleted) box.classList.add("done");
@@ -149,6 +198,108 @@ function loadCustomerData() {
         grid.appendChild(box);
       }
     });
+}
+
+function openWheelModal(milestone) {
+  currentMilestone = milestone;
+  document.getElementById("wheelContainer").style.display = "block";
+  document.getElementById("giftResultSection").style.display = "none";
+  document.getElementById("spinBtn").style.display = "inline-block";
+  document.getElementById("rewardModal").style.display = "flex";
+  drawWheel();
+}
+
+function drawWheel() {
+  const canvas = document.getElementById("wheelCanvas");
+  const ctx = canvas.getContext("2d");
+  const numOptions = prizes.length;
+  const arcSize = (2 * Math.PI) / numOptions;
+  const colors = ["#d32f2f", "#1976d2", "#388e3c", "#fbc02d", "#7b1fa2", "#e64a19"];
+
+  ctx.clearRect(0, 0, 250, 250);
+
+  for(let i = 0; i < numOptions; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.moveTo(125, 125);
+    ctx.arc(125, 125, 115, i * arcSize, (i + 1) * arcSize);
+    ctx.fill();
+
+    ctx.save();
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 11px Poppins";
+    ctx.translate(125, 125);
+    ctx.rotate(i * arcSize + arcSize / 2);
+    ctx.fillText(prizes[i].substring(0, 12), 35, 4);
+    ctx.restore();
+  }
+
+  // Arrow Pointer
+  ctx.fillStyle = "#ffd700";
+  ctx.beginPath();
+  ctx.moveTo(125, 0);
+  ctx.lineTo(115, 18);
+  ctx.lineTo(135, 18);
+  ctx.fill();
+}
+
+function spinWheel() {
+  if(isSpinning) return;
+  isSpinning = true;
+  document.getElementById("spinBtn").style.display = "none";
+
+  const selectedVal = document.getElementById("selectedReward").value;
+  let winIndex = 0;
+
+  if(selectedVal !== "AUTO") {
+    winIndex = prizes.findIndex(p => p.includes(selectedVal) || selectedVal.includes(p));
+    if(winIndex === -1) winIndex = 0;
+  } else {
+    winIndex = Math.floor(Math.random() * prizes.length);
+  }
+
+  finalWonGift = prizes[winIndex];
+
+  let totalRotation = 360 * 5 + (360 - (winIndex * (360 / prizes.length)) - 30);
+  let duration = 3000;
+  let startTime = null;
+
+  function animateWheel(timestamp) {
+    if (!startTime) startTime = timestamp;
+    let progress = timestamp - startTime;
+    let rotation = (progress / duration) * totalRotation;
+
+    if (progress < duration) {
+      const canvas = document.getElementById("wheelCanvas");
+      canvas.style.transform = `rotate(${rotation}deg)`;
+      canvas.style.transition = "transform 0.05s linear";
+      requestAnimationFrame(animateWheel);
+    } else {
+      isSpinning = false;
+      
+      // Save Reward to Firebase Database
+      fetch(`${DB_URL}customers/${activeMobile}/gifts/${currentMilestone}.json`, {
+        method: "PUT",
+        body: JSON.stringify({
+          status: "REDEEMED",
+          reward: finalWonGift,
+          redeemedAt: new Date().toLocaleDateString('en-IN')
+        })
+      }).then(() => {
+        // Wheel Hide karein aur Gift Result dikhayein
+        document.getElementById("wheelContainer").style.display = "none";
+        document.getElementById("finalRewardText").innerText = finalWonGift;
+        document.getElementById("giftResultSection").style.display = "block";
+      });
+    }
+  }
+
+  requestAnimationFrame(animateWheel);
+}
+
+function closeAndReturnToMenu() {
+  document.getElementById("rewardModal").style.display = "none";
+  loadCustomerData(); // Refresh Main Dashboard Menu
 }
 </script>
 </body>
