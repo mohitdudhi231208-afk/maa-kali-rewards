@@ -313,9 +313,11 @@ button:disabled{
     border-radius:50%;
     border:6px solid #ffd700;
     background:#111;
-    box-shadow:0 0 25px rgba(255,215,0,.4);
+    box-shadow:
+        0 0 25px rgba(255,215,0,.4);
     transform:rotate(0deg);
-    transition:transform 7s cubic-bezier(.08,.72,.08,1);
+    transition:
+        transform 7s cubic-bezier(.08,.72,.08,1);
 }
 
 .pointer{
@@ -343,21 +345,25 @@ button:disabled{
 }
 
 @keyframes dissolveWheel{
+
     0%{
         opacity:1;
         transform:scale(1);
         filter:blur(0);
     }
+
     40%{
         opacity:.7;
         transform:scale(1.08);
         filter:blur(2px);
     }
+
     100%{
         opacity:0;
         transform:scale(.15);
         filter:blur(12px);
     }
+
 }
 
 #result{
@@ -404,7 +410,7 @@ button:disabled{
 .live-status{
     color:#20b957;
     font-size:9px;
-    margin-top:7px;
+    margin-top:6px;
 }
 
 </style>
@@ -426,6 +432,8 @@ button:disabled{
 
 </div>
 
+
+<!-- LOGIN -->
 
 <div class="card" id="loginCard">
 
@@ -456,6 +464,8 @@ button:disabled{
 </div>
 
 
+<!-- DASHBOARD -->
+
 <div
     id="dashboard"
     style="display:none;"
@@ -482,7 +492,7 @@ button:disabled{
         </p>
 
         <div class="live-status">
-            ● LIVE DATABASE CONNECTED
+            ● LIVE
         </div>
 
     </div>
@@ -566,6 +576,8 @@ button:disabled{
     </div>
 
 
+    <!-- GIFT -->
+
     <div
         id="giftArea"
         class="gift-area"
@@ -603,6 +615,8 @@ button:disabled{
 </div>
 
 
+<!-- HISTORY -->
+
 <div class="history">
 
     <div class="history-title">
@@ -622,6 +636,8 @@ button:disabled{
 </div>
 
 
+<!-- WHEEL -->
+
 <div id="wheelOverlay">
 
     <div class="wheel-heading">
@@ -631,6 +647,7 @@ button:disabled{
     <div class="wheel-subheading">
         Spin the wheel and win your reward
     </div>
+
 
     <div class="wheel-wrap">
 
@@ -643,6 +660,7 @@ button:disabled{
         ></canvas>
 
     </div>
+
 
     <button
         id="spinButton"
@@ -689,183 +707,19 @@ button:disabled{
 </div>
 
 
-<!-- =====================================================
-     FIREBASE REALTIME DATABASE SDK
-===================================================== -->
-
-<script type="module">
-
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-    getDatabase,
-    ref,
-    onValue,
-    get,
-    set
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
-
-const firebaseConfig = {
-
-    databaseURL:
-    "https://maa-kali-rewards-default-rtdb.firebaseio.com/"
-
-};
-
-
-const app =
-    initializeApp(firebaseConfig);
-
-
-const db =
-    getDatabase(app);
-
-
-/* =====================================================
-   GLOBAL VARIABLES
-===================================================== */
-
-window.firebaseDB = db;
-
-window.firebaseRef = ref;
-
-window.firebaseOnValue = onValue;
-
-window.firebaseGet = get;
-
-window.firebaseSet = set;
-
-
-/* =====================================================
-   START CUSTOMER LISTENER
-===================================================== */
-
-window.startCustomerListener =
-function(mobile){
-
-    console.log(
-        "Starting LIVE listener:",
-        mobile
-    );
-
-
-    const customerRef =
-        ref(
-            db,
-            "customers/" + mobile
-        );
-
-
-    /*
-     ==================================================
-     सबसे महत्वपूर्ण हिस्सा
-
-     onValue() Firebase में हर change पर चलेगा।
-     Admin panel purchase +/- करेगा तो यह फिर चलेगा।
-     Reward claim होने पर भी यह फिर चलेगा।
-     ==================================================
-    */
-
-    window.customerUnsubscribe =
-        onValue(
-
-            customerRef,
-
-            (snapshot)=>{
-
-                const data =
-                    snapshot.val();
-
-
-                console.log(
-                    "🔥 LIVE UPDATE:",
-                    data
-                );
-
-
-                if(!data){
-
-                    alert(
-                        "Customer data Firebase से हट गया है।"
-                    );
-
-                    return;
-
-                }
-
-
-                /*
-                 Mobile को Firebase data में
-                 वापस attach कर रहे हैं।
-                */
-
-                currentCustomer = {
-
-                    ...data,
-
-                    mobile:mobile
-
-                };
-
-
-                /*
-                 पूरा Customer UI फिर से render
-                 */
-
-                updateCustomerScreen();
-
-                renderHistory();
-
-
-                /*
-                 यदि wheel अभी खुला नहीं है,
-                 तो gift availability भी live update होगी।
-                */
-
-            },
-
-            (error)=>{
-
-                console.error(
-                    "Realtime Firebase Error:",
-                    error
-                );
-
-                alert(
-                    "Live connection टूट गया। Internet check करें।"
-                );
-
-            }
-
-        );
-
-};
-
-
-</script>
-
-
 <script>
 
-
-/* =====================================================
-   DATABASE URL
-===================================================== */
+/* =========================================
+   FIREBASE DATABASE
+========================================= */
 
 const DB_URL =
 "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
 
 
-/* =====================================================
+/* =========================================
    REWARDS
-===================================================== */
+========================================= */
 
 const rewards = [
 
@@ -883,6 +737,10 @@ const rewards = [
 
 ];
 
+
+/* =========================================
+   WHEEL COLORS
+========================================= */
 
 const rewardColors = [
 
@@ -912,9 +770,21 @@ let spinning = false;
 let audioContext = null;
 
 
-/* =====================================================
+/*
+================================================
+🔥 LIVE CONNECTION
+================================================
+
+यह connection Firebase Realtime Database
+से लगातार updates लेगा।
+*/
+
+let liveConnection = null;
+
+
+/* =========================================
    AUDIO
-===================================================== */
+========================================= */
 
 function initAudio(){
 
@@ -940,6 +810,10 @@ function initAudio(){
 
 }
 
+
+/* =========================================
+   SPIN SOUND
+========================================= */
 
 function spinSound(){
 
@@ -1000,6 +874,10 @@ function spinSound(){
 
 }
 
+
+/* =========================================
+   WIN SOUND
+========================================= */
 
 function winSound(){
 
@@ -1067,9 +945,9 @@ function winSound(){
 }
 
 
-/* =====================================================
+/* =========================================
    CUSTOMER LOGIN
-===================================================== */
+========================================= */
 
 function searchCustomer(){
 
@@ -1098,7 +976,6 @@ function searchCustomer(){
             "searchBtn"
         );
 
-
     const loader =
         document.getElementById(
             "loader"
@@ -1111,14 +988,16 @@ function searchCustomer(){
 
 
     /*
-     पहले एक बार data check
-     */
+    ============================================
+    ORIGINAL LOGIN SYSTEM
+    ============================================
+    */
 
     fetch(
         `${DB_URL}customers/${mobile}.json`
     )
 
-    .then(res=>{
+    .then(res => {
 
         if(!res.ok){
 
@@ -1132,7 +1011,7 @@ function searchCustomer(){
 
     })
 
-    .then(data=>{
+    .then(data => {
 
         btn.disabled = false;
 
@@ -1149,10 +1028,6 @@ function searchCustomer(){
 
         }
 
-
-        /*
-         Current customer
-         */
 
         currentCustomer = {
 
@@ -1188,37 +1063,22 @@ function searchCustomer(){
             "MKV-CARD";
 
 
-        /*
-         Initial UI
-         */
-
         updateCustomerScreen();
 
         renderHistory();
 
 
         /*
-         ==================================================
-         🔥 सबसे महत्वपूर्ण
+        ============================================
+        🔥 LIVE UPDATE START
+        ============================================
+        */
 
-         अब Firebase को लगातार listen करेंगे।
-         ==================================================
-         */
-
-        if(
-            typeof startCustomerListener ===
-            "function"
-        ){
-
-            startCustomerListener(
-                mobile
-            );
-
-        }
+        startLiveUpdates(mobile);
 
     })
 
-    .catch(error=>{
+    .catch(error => {
 
         console.log(error);
 
@@ -1235,9 +1095,355 @@ function searchCustomer(){
 }
 
 
-/* =====================================================
+/* =========================================
+   🔥 LIVE FIREBASE UPDATE
+========================================= */
+
+function startLiveUpdates(mobile){
+
+    /*
+    पुराना connection बंद करो
+    */
+
+    if(liveConnection){
+
+        liveConnection.close();
+
+        liveConnection = null;
+
+    }
+
+
+    const url =
+        `${DB_URL}customers/${mobile}.json`;
+
+
+    console.log(
+        "🔥 Starting Firebase Live:",
+        url
+    );
+
+
+    try{
+
+        /*
+        ==========================================
+        Firebase Realtime Database REST Streaming
+        ==========================================
+        */
+
+        liveConnection =
+            new EventSource(url);
+
+
+        /*
+        Firebase connection open
+        */
+
+        liveConnection.onopen =
+            function(){
+
+                console.log(
+                    "🟢 Firebase LIVE connected"
+                );
+
+            };
+
+
+        /*
+        ==========================================
+        PUT EVENT
+
+        Firebase पूरा data भेज सकता है।
+        ==========================================
+        */
+
+        liveConnection.addEventListener(
+            "put",
+            function(event){
+
+                processLiveFirebaseData(
+                    event
+                );
+
+            }
+        );
+
+
+        /*
+        ==========================================
+        PATCH EVENT
+
+        केवल बदला हुआ data आ सकता है।
+        ==========================================
+        */
+
+        liveConnection.addEventListener(
+            "patch",
+            function(event){
+
+                processLiveFirebaseData(
+                    event
+                );
+
+            }
+        );
+
+
+        /*
+        सामान्य message भी check करें
+        */
+
+        liveConnection.onmessage =
+            function(event){
+
+                processLiveFirebaseData(
+                    event
+                );
+
+            };
+
+
+        /*
+        Connection error
+
+        Browser EventSource खुद reconnect
+        करने की कोशिश करता है।
+        */
+
+        liveConnection.onerror =
+            function(error){
+
+                console.log(
+                    "🟠 Firebase live reconnecting...",
+                    error
+                );
+
+            };
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Live connection could not start:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   PROCESS LIVE DATA
+========================================= */
+
+function processLiveFirebaseData(event){
+
+    try{
+
+        if(
+            !event ||
+            !event.data
+        ){
+
+            return;
+
+        }
+
+
+        const firebaseEvent =
+            JSON.parse(
+                event.data
+            );
+
+
+        console.log(
+            "🔥 FIREBASE LIVE EVENT:",
+            firebaseEvent
+        );
+
+
+        /*
+        Firebase REST streaming में
+        path + data मिलता है।
+        */
+
+        const path =
+            firebaseEvent.path;
+
+
+        const changedData =
+            firebaseEvent.data;
+
+
+        /*
+        ==========================================
+        CASE 1
+
+        पूरा customer data आया
+        ==========================================
+        */
+
+        if(
+            path === "/" &&
+            changedData &&
+            typeof changedData === "object"
+        ){
+
+            currentCustomer = {
+
+                ...changedData,
+
+                mobile:
+                    currentCustomer.mobile
+
+            };
+
+
+            updateCustomerScreen();
+
+            renderHistory();
+
+            return;
+
+        }
+
+
+        /*
+        ==========================================
+        CASE 2
+
+        किसी specific field में change आया
+        ==========================================
+        */
+
+        if(
+            path &&
+            path.startsWith("/")
+        ){
+
+            const cleanPath =
+                path.substring(1);
+
+
+            /*
+            Nested path
+            जैसे:
+
+            /purchases
+
+            /targetReward
+
+            /gifts/3
+            */
+
+            const parts =
+                cleanPath
+                .split("/")
+                .filter(Boolean);
+
+
+            if(parts.length === 1){
+
+                currentCustomer[
+                    parts[0]
+                ] =
+                    changedData;
+
+            }
+
+
+            else if(parts.length === 2){
+
+                const parent =
+                    parts[0];
+
+                const child =
+                    parts[1];
+
+
+                if(
+                    !currentCustomer[parent] ||
+                    typeof currentCustomer[parent] !== "object"
+                ){
+
+                    currentCustomer[parent] =
+                        {};
+
+                }
+
+
+                currentCustomer[parent][child] =
+                    changedData;
+
+            }
+
+
+            else if(parts.length === 3){
+
+                const parent =
+                    parts[0];
+
+                const child =
+                    parts[1];
+
+                const grandChild =
+                    parts[2];
+
+
+                if(
+                    !currentCustomer[parent] ||
+                    typeof currentCustomer[parent] !== "object"
+                ){
+
+                    currentCustomer[parent] =
+                        {};
+
+                }
+
+
+                if(
+                    !currentCustomer[parent][child] ||
+                    typeof currentCustomer[parent][child] !== "object"
+                ){
+
+                    currentCustomer[parent][child] =
+                        {};
+
+                }
+
+
+                currentCustomer[parent][child][grandChild] =
+                    changedData;
+
+            }
+
+
+            updateCustomerScreen();
+
+            renderHistory();
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Live Firebase processing error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
    UPDATE CUSTOMER SCREEN
-===================================================== */
+========================================= */
 
 function updateCustomerScreen(){
 
@@ -1257,8 +1463,8 @@ function updateCustomerScreen(){
 
 
     /*
-     LIVE TICKS
-     */
+    LIVE TICK
+    */
 
     for(let i=1;i<=10;i++){
 
@@ -1266,9 +1472,6 @@ function updateCustomerScreen(){
             document.getElementById(
                 "box" + i
             );
-
-
-        if(!box) continue;
 
 
         box.classList.remove(
@@ -1307,9 +1510,9 @@ function updateCustomerScreen(){
 }
 
 
-/* =====================================================
+/* =========================================
    CHECK GIFT
-===================================================== */
+========================================= */
 
 function checkGift(){
 
@@ -1391,9 +1594,9 @@ function checkGift(){
 }
 
 
-/* =====================================================
+/* =========================================
    DRAW WHEEL
-===================================================== */
+========================================= */
 
 function drawWheel(){
 
@@ -1517,23 +1720,53 @@ function drawWheel(){
             rewards[i];
 
 
-        if(text === "Face Towel (₹50)")
+        if(
+            text === "Face Towel (₹50)"
+        ){
+
             text = "Face Towel";
 
-        if(text === "Big Face Towel (₹120)")
+        }
+
+        if(
+            text === "Big Face Towel (₹120)"
+        ){
+
             text = "Big Towel";
 
-        if(text === "Handkerchief (₹25)")
+        }
+
+        if(
+            text === "Handkerchief (₹25)"
+        ){
+
             text = "Hanky";
 
-        if(text === "Short Dupatta (₹50)")
+        }
+
+        if(
+            text === "Short Dupatta (₹50)"
+        ){
+
             text = "Dupatta";
 
-        if(text === "₹50 OFF (Above ₹500)")
+        }
+
+        if(
+            text === "₹50 OFF (Above ₹500)"
+        ){
+
             text = "₹50 OFF";
 
-        if(text === "100% OFF Purchase")
+        }
+
+        if(
+            text === "100% OFF Purchase"
+        ){
+
             text = "100% OFF";
+
+        }
 
 
         ctx.fillText(
@@ -1598,9 +1831,9 @@ function drawWheel(){
 }
 
 
-/* =====================================================
+/* =========================================
    OPEN GIFT
-===================================================== */
+========================================= */
 
 function openGift(){
 
@@ -1616,10 +1849,7 @@ function openGift(){
 
 
     /*
-     🔥 LIVE CHECK
-
-     Gift किसी दूसरे device/admin से अभी
-     claim हो चुका हो तो wheel open नहीं होगा।
+    Live data से फिर check
     */
 
     const gift =
@@ -1713,9 +1943,9 @@ function openGift(){
 }
 
 
-/* =====================================================
+/* =========================================
    SPIN WHEEL
-===================================================== */
+========================================= */
 
 function spinWheel(){
 
@@ -1729,10 +1959,6 @@ function spinWheel(){
 
     }
 
-
-    /*
-     🔥 Last-second LIVE check
-     */
 
     const gift =
         currentCustomer.gifts &&
@@ -1856,9 +2082,9 @@ function spinWheel(){
 }
 
 
-/* =====================================================
+/* =========================================
    FINISH SPIN
-===================================================== */
+========================================= */
 
 function finishSpin(){
 
@@ -1903,9 +2129,9 @@ function finishSpin(){
 }
 
 
-/* =====================================================
+/* =========================================
    SAVE REWARD
-===================================================== */
+========================================= */
 
 function saveReward(){
 
@@ -1957,17 +2183,6 @@ function saveReward(){
     };
 
 
-    /*
-     ==================================================
-     Firebase REST PUT
-
-     यह database में reward save करेगा।
-
-     उसके बाद onValue() automatically
-     latest customer data ले आएगा।
-     ==================================================
-    */
-
     fetch(
         `${DB_URL}customers/${currentCustomer.mobile}/gifts/${currentMilestone}.json`,
         {
@@ -1992,10 +2207,12 @@ function saveReward(){
 
 
         /*
-         Local data भी तुरंत update
-         */
+        Local update
+        */
 
-        if(!currentCustomer.gifts){
+        if(
+            !currentCustomer.gifts
+        ){
 
             currentCustomer.gifts =
                 {};
@@ -2009,19 +2226,9 @@ function saveReward(){
             rewardData;
 
 
-        /*
-         तुरंत UI update
-         */
-
         updateCustomerScreen();
 
         renderHistory();
-
-
-        console.log(
-            "🎁 Reward successfully claimed:",
-            rewardData
-        );
 
     })
 
@@ -2038,4 +2245,224 @@ function saveReward(){
 }
 
 
-/* =====================================================
+/* =========================================
+   CLOSE RESULT
+========================================= */
+
+function closeResult(){
+
+    document.getElementById(
+        "wheelOverlay"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "result"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "wheel"
+    ).classList.remove(
+        "dissolve"
+    );
+
+
+    spinning = false;
+
+
+    selectedReward = null;
+
+    selectedIndex = null;
+
+
+    updateCustomerScreen();
+
+}
+
+
+/* =========================================
+   RENDER HISTORY
+========================================= */
+
+function renderHistory(){
+
+    const list =
+        document.getElementById(
+            "historyList"
+        );
+
+
+    if(
+        !currentCustomer ||
+        !currentCustomer.gifts
+    ){
+
+        list.innerHTML =
+            `
+            <p style="color:#aaa;font-size:11px;">
+                अभी तक कोई gift claim नहीं किया गया।
+            </p>
+            `;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    milestones.forEach(
+        milestone => {
+
+            const gift =
+                currentCustomer.gifts[
+                    milestone
+                ];
+
+
+            if(
+                gift &&
+                gift.status === "REDEEMED"
+            ){
+
+                html += `
+
+                <div class="history-item">
+
+                    <div>
+
+                        <strong
+                            style="color:white;"
+                        >
+                            ${escapeHTML(
+                                gift.reward ||
+                                "Gift"
+                            )}
+                        </strong>
+
+                        <br>
+
+                        <span
+                            style="color:#ffd700;"
+                        >
+                            Milestone #${milestone}
+                        </span>
+
+                    </div>
+
+                    <span
+                        style="color:#aaa;text-align:right;"
+                    >
+                        ${escapeHTML(
+                            gift.redeemedAt ||
+                            ""
+                        )}
+
+                        ${
+                            gift.redeemedTime
+                            ? "<br>" +
+                              escapeHTML(
+                                gift.redeemedTime
+                              )
+                            : ""
+                        }
+
+                    </span>
+
+                </div>
+
+                `;
+
+            }
+
+        }
+    );
+
+
+    if(!html){
+
+        html =
+            `
+            <p style="color:#aaa;font-size:11px;">
+                अभी तक कोई gift claim नहीं किया गया।
+            </p>
+            `;
+
+    }
+
+
+    list.innerHTML =
+        html;
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   ENTER KEY
+========================================= */
+
+document.getElementById(
+    "mobile"
+).addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "Enter"){
+
+            searchCustomer();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   CLOSE LIVE CONNECTION
+   जब page बंद हो
+========================================= */
+
+window.addEventListener(
+    "beforeunload",
+    function(){
+
+        if(liveConnection){
+
+            liveConnection.close();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   INITIAL WHEEL
+========================================= */
+
+drawWheel();
+
+</script>
+
+</body>
+            </html>
