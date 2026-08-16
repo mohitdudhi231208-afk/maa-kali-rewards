@@ -313,11 +313,9 @@ button:disabled{
     border-radius:50%;
     border:6px solid #ffd700;
     background:#111;
-    box-shadow:
-        0 0 25px rgba(255,215,0,.4);
+    box-shadow:0 0 25px rgba(255,215,0,.4);
     transform:rotate(0deg);
-    transition:
-        transform 7s cubic-bezier(.08,.72,.08,1);
+    transition:transform 7s cubic-bezier(.08,.72,.08,1);
 }
 
 .pointer{
@@ -345,25 +343,21 @@ button:disabled{
 }
 
 @keyframes dissolveWheel{
-
     0%{
         opacity:1;
         transform:scale(1);
         filter:blur(0);
     }
-
     40%{
         opacity:.7;
         transform:scale(1.08);
         filter:blur(2px);
     }
-
     100%{
         opacity:0;
         transform:scale(.15);
         filter:blur(12px);
     }
-
 }
 
 #result{
@@ -433,7 +427,10 @@ button:disabled{
 </div>
 
 
-<!-- LOGIN -->
+<!-- =========================================
+     CUSTOMER LOGIN
+     ONLY MOBILE NUMBER
+========================================= -->
 
 <div class="card" id="loginCard">
 
@@ -447,6 +444,8 @@ button:disabled{
         id="mobile"
         type="tel"
         maxlength="10"
+        inputmode="numeric"
+        autocomplete="tel"
         placeholder="Enter Mobile Number"
     >
 
@@ -466,10 +465,7 @@ button:disabled{
 
 <!-- DASHBOARD -->
 
-<div
-    id="dashboard"
-    style="display:none;"
->
+<div id="dashboard" style="display:none;">
 
 <div class="card">
 
@@ -578,15 +574,9 @@ button:disabled{
 
     <!-- GIFT -->
 
-    <div
-        id="giftArea"
-        class="gift-area"
-    >
+    <div id="giftArea" class="gift-area">
 
-        <div
-            id="giftTitle"
-            class="gift-title"
-        >
+        <div id="giftTitle" class="gift-title">
             🎉 आपका Gift Unlock हो गया!
         </div>
 
@@ -648,7 +638,6 @@ button:disabled{
         Spin the wheel and win your reward
     </div>
 
-
     <div class="wheel-wrap">
 
         <div class="pointer"></div>
@@ -661,7 +650,6 @@ button:disabled{
 
     </div>
 
-
     <button
         id="spinButton"
         class="spin-button"
@@ -669,7 +657,6 @@ button:disabled{
     >
         🎡 SPIN THE WHEEL
     </button>
-
 
     <div id="result">
 
@@ -709,76 +696,35 @@ button:disabled{
 
 <script>
 
-/* =========================================
-   FIREBASE DATABASE
-========================================= */
-
 const DB_URL =
 "https://maa-kali-rewards-default-rtdb.firebaseio.com/";
 
-
-/* =========================================
-   REWARDS
-========================================= */
-
 const rewards = [
-
     "Face Towel (₹50)",
-
     "Big Face Towel (₹120)",
-
     "Handkerchief (₹25)",
-
     "Short Dupatta (₹50)",
-
     "₹50 OFF (Above ₹500)",
-
     "100% OFF Purchase"
-
 ];
 
-
-/* =========================================
-   WHEEL COLORS
-========================================= */
-
 const rewardColors = [
-
     "#ff5722",
     "#4caf50",
     "#ffca28",
     "#2196f3",
     "#9c27b0",
     "#e91e63"
-
 ];
-
 
 const milestones = [3,5,8,10];
 
-
 let currentCustomer = null;
-
 let currentMilestone = null;
-
 let selectedReward = null;
-
 let selectedIndex = null;
-
 let spinning = false;
-
 let audioContext = null;
-
-
-/*
-================================================
-🔥 LIVE CONNECTION
-================================================
-
-यह connection Firebase Realtime Database
-से लगातार updates लेगा।
-*/
-
 let liveConnection = null;
 
 
@@ -811,10 +757,6 @@ function initAudio(){
 }
 
 
-/* =========================================
-   SPIN SOUND
-========================================= */
-
 function spinSound(){
 
     initAudio();
@@ -823,7 +765,6 @@ function spinSound(){
 
     const start =
         audioContext.currentTime;
-
 
     for(let i=0;i<55;i++){
 
@@ -836,12 +777,10 @@ function spinSound(){
         const t =
             start + i * .12;
 
-
         osc.type = "square";
 
         osc.frequency.value =
             650 + (i % 4) * 90;
-
 
         gain.gain.setValueAtTime(
             .001,
@@ -858,16 +797,12 @@ function spinSound(){
             t + .06
         );
 
-
         osc.connect(gain);
-
         gain.connect(
             audioContext.destination
         );
 
-
         osc.start(t);
-
         osc.stop(t + .07);
 
     }
@@ -875,16 +810,11 @@ function spinSound(){
 }
 
 
-/* =========================================
-   WIN SOUND
-========================================= */
-
 function winSound(){
 
     initAudio();
 
     if(!audioContext) return;
-
 
     const notes = [
         523.25,
@@ -892,7 +822,6 @@ function winSound(){
         783.99,
         1046.5
     ];
-
 
     notes.forEach((freq,i)=>{
 
@@ -906,12 +835,8 @@ function winSound(){
             audioContext.currentTime +
             i * .14;
 
-
         osc.type = "sine";
-
-        osc.frequency.value =
-            freq;
-
+        osc.frequency.value = freq;
 
         gain.gain.setValueAtTime(
             .001,
@@ -928,16 +853,12 @@ function winSound(){
             t + .45
         );
 
-
         osc.connect(gain);
-
         gain.connect(
             audioContext.destination
         );
 
-
         osc.start(t);
-
         osc.stop(t + .5);
 
     });
@@ -947,18 +868,17 @@ function winSound(){
 
 /* =========================================
    CUSTOMER LOGIN
+   ONLY MOBILE NUMBER
 ========================================= */
 
 function searchCustomer(){
 
     initAudio();
 
-
     const mobile =
         document.getElementById("mobile")
         .value
         .trim();
-
 
     if(!/^\d{10}$/.test(mobile)){
 
@@ -970,28 +890,14 @@ function searchCustomer(){
 
     }
 
-
     const btn =
-        document.getElementById(
-            "searchBtn"
-        );
+        document.getElementById("searchBtn");
 
     const loader =
-        document.getElementById(
-            "loader"
-        );
-
+        document.getElementById("loader");
 
     btn.disabled = true;
-
     loader.style.display = "block";
-
-
-    /*
-    ============================================
-    ORIGINAL LOGIN SYSTEM
-    ============================================
-    */
 
     fetch(
         `${DB_URL}customers/${mobile}.json`
@@ -1014,9 +920,7 @@ function searchCustomer(){
     .then(data => {
 
         btn.disabled = false;
-
         loader.style.display = "none";
-
 
         if(!data){
 
@@ -1028,33 +932,23 @@ function searchCustomer(){
 
         }
 
-
         currentCustomer = {
-
             ...data,
-
             mobile:mobile
-
         };
-
 
         document.getElementById(
             "loginCard"
-        ).style.display =
-            "none";
-
+        ).style.display = "none";
 
         document.getElementById(
             "dashboard"
-        ).style.display =
-            "block";
-
+        ).style.display = "block";
 
         document.getElementById(
             "name"
         ).innerText =
             (data.name || "Customer") + " जी";
-
 
         document.getElementById(
             "cardId"
@@ -1062,17 +956,9 @@ function searchCustomer(){
             data.customerId ||
             "MKV-CARD";
 
-
         updateCustomerScreen();
 
         renderHistory();
-
-
-        /*
-        ============================================
-        🔥 LIVE UPDATE START
-        ============================================
-        */
 
         startLiveUpdates(mobile);
 
@@ -1096,49 +982,25 @@ function searchCustomer(){
 
 
 /* =========================================
-   🔥 LIVE FIREBASE UPDATE
+   LIVE FIREBASE UPDATE
 ========================================= */
 
 function startLiveUpdates(mobile){
 
-    /*
-    पुराना connection बंद करो
-    */
-
     if(liveConnection){
 
         liveConnection.close();
-
         liveConnection = null;
 
     }
 
-
     const url =
         `${DB_URL}customers/${mobile}.json`;
 
-
-    console.log(
-        "🔥 Starting Firebase Live:",
-        url
-    );
-
-
     try{
-
-        /*
-        ==========================================
-        Firebase Realtime Database REST Streaming
-        ==========================================
-        */
 
         liveConnection =
             new EventSource(url);
-
-
-        /*
-        Firebase connection open
-        */
 
         liveConnection.onopen =
             function(){
@@ -1149,67 +1011,30 @@ function startLiveUpdates(mobile){
 
             };
 
-
-        /*
-        ==========================================
-        PUT EVENT
-
-        Firebase पूरा data भेज सकता है।
-        ==========================================
-        */
-
         liveConnection.addEventListener(
             "put",
             function(event){
 
-                processLiveFirebaseData(
-                    event
-                );
+                processLiveFirebaseData(event);
 
             }
         );
-
-
-        /*
-        ==========================================
-        PATCH EVENT
-
-        केवल बदला हुआ data आ सकता है।
-        ==========================================
-        */
 
         liveConnection.addEventListener(
             "patch",
             function(event){
 
-                processLiveFirebaseData(
-                    event
-                );
+                processLiveFirebaseData(event);
 
             }
         );
 
-
-        /*
-        सामान्य message भी check करें
-        */
-
         liveConnection.onmessage =
             function(event){
 
-                processLiveFirebaseData(
-                    event
-                );
+                processLiveFirebaseData(event);
 
             };
-
-
-        /*
-        Connection error
-
-        Browser EventSource खुद reconnect
-        करने की कोशिश करता है।
-        */
 
         liveConnection.onerror =
             function(error){
@@ -1235,10 +1060,6 @@ function startLiveUpdates(mobile){
 }
 
 
-/* =========================================
-   PROCESS LIVE DATA
-========================================= */
-
 function processLiveFirebaseData(event){
 
     try{
@@ -1252,39 +1073,14 @@ function processLiveFirebaseData(event){
 
         }
 
-
         const firebaseEvent =
-            JSON.parse(
-                event.data
-            );
-
-
-        console.log(
-            "🔥 FIREBASE LIVE EVENT:",
-            firebaseEvent
-        );
-
-
-        /*
-        Firebase REST streaming में
-        path + data मिलता है।
-        */
+            JSON.parse(event.data);
 
         const path =
             firebaseEvent.path;
 
-
         const changedData =
             firebaseEvent.data;
-
-
-        /*
-        ==========================================
-        CASE 1
-
-        पूरा customer data आया
-        ==========================================
-        */
 
         if(
             path === "/" &&
@@ -1301,23 +1097,12 @@ function processLiveFirebaseData(event){
 
             };
 
-
             updateCustomerScreen();
-
             renderHistory();
 
             return;
 
         }
-
-
-        /*
-        ==========================================
-        CASE 2
-
-        किसी specific field में change आया
-        ==========================================
-        */
 
         if(
             path &&
@@ -1327,23 +1112,10 @@ function processLiveFirebaseData(event){
             const cleanPath =
                 path.substring(1);
 
-
-            /*
-            Nested path
-            जैसे:
-
-            /purchases
-
-            /targetReward
-
-            /gifts/3
-            */
-
             const parts =
                 cleanPath
                 .split("/")
                 .filter(Boolean);
-
 
             if(parts.length === 1){
 
@@ -1354,7 +1126,6 @@ function processLiveFirebaseData(event){
 
             }
 
-
             else if(parts.length === 2){
 
                 const parent =
@@ -1363,23 +1134,19 @@ function processLiveFirebaseData(event){
                 const child =
                     parts[1];
 
-
                 if(
                     !currentCustomer[parent] ||
                     typeof currentCustomer[parent] !== "object"
                 ){
 
-                    currentCustomer[parent] =
-                        {};
+                    currentCustomer[parent] = {};
 
                 }
-
 
                 currentCustomer[parent][child] =
                     changedData;
 
             }
-
 
             else if(parts.length === 3){
 
@@ -1392,37 +1159,30 @@ function processLiveFirebaseData(event){
                 const grandChild =
                     parts[2];
 
-
                 if(
                     !currentCustomer[parent] ||
                     typeof currentCustomer[parent] !== "object"
                 ){
 
-                    currentCustomer[parent] =
-                        {};
+                    currentCustomer[parent] = {};
 
                 }
-
 
                 if(
                     !currentCustomer[parent][child] ||
                     typeof currentCustomer[parent][child] !== "object"
                 ){
 
-                    currentCustomer[parent][child] =
-                        {};
+                    currentCustomer[parent][child] = {};
 
                 }
-
 
                 currentCustomer[parent][child][grandChild] =
                     changedData;
 
             }
 
-
             updateCustomerScreen();
-
             renderHistory();
 
         }
@@ -1442,29 +1202,22 @@ function processLiveFirebaseData(event){
 
 
 /* =========================================
-   UPDATE CUSTOMER SCREEN
+   UPDATE SCREEN
 ========================================= */
 
 function updateCustomerScreen(){
 
     if(!currentCustomer) return;
 
-
     const purchases =
         Number(
             currentCustomer.purchases || 0
         );
 
-
     document.getElementById(
         "purchaseCount"
     ).innerText =
         purchases;
-
-
-    /*
-    LIVE TICK
-    */
 
     for(let i=1;i<=10;i++){
 
@@ -1473,21 +1226,12 @@ function updateCustomerScreen(){
                 "box" + i
             );
 
-
-        box.classList.remove(
-            "completed"
-        );
-
-        box.classList.remove(
-            "next"
-        );
-
+        box.classList.remove("completed");
+        box.classList.remove("next");
 
         if(i <= purchases){
 
-            box.classList.add(
-                "completed"
-            );
+            box.classList.add("completed");
 
         }
 
@@ -1496,14 +1240,11 @@ function updateCustomerScreen(){
             purchases < 10
         ){
 
-            box.classList.add(
-                "next"
-            );
+            box.classList.add("next");
 
         }
 
     }
-
 
     checkGift();
 
@@ -1518,15 +1259,12 @@ function checkGift(){
 
     if(!currentCustomer) return;
 
-
     const purchases =
         Number(
             currentCustomer.purchases || 0
         );
 
-
     let available = null;
-
 
     for(
         const milestone of milestones
@@ -1536,42 +1274,32 @@ function checkGift(){
             currentCustomer.gifts &&
             currentCustomer.gifts[milestone];
 
-
         const claimed =
             gift &&
             gift.status === "REDEEMED";
-
 
         if(
             purchases >= milestone &&
             !claimed
         ){
 
-            available =
-                milestone;
-
+            available = milestone;
             break;
 
         }
 
     }
 
-
     const giftArea =
-        document.getElementById(
-            "giftArea"
-        );
-
+        document.getElementById("giftArea");
 
     if(available){
 
         currentMilestone =
             available;
 
-
         giftArea.style.display =
             "block";
-
 
         document.getElementById(
             "giftTitle"
@@ -1582,9 +1310,7 @@ function checkGift(){
 
     else{
 
-        currentMilestone =
-            null;
-
+        currentMilestone = null;
 
         giftArea.style.display =
             "none";
@@ -1601,26 +1327,19 @@ function checkGift(){
 function drawWheel(){
 
     const canvas =
-        document.getElementById(
-            "wheel"
-        );
-
+        document.getElementById("wheel");
 
     const ctx =
         canvas.getContext("2d");
 
-
     const size =
         canvas.width;
-
 
     const center =
         size / 2;
 
-
     const radius =
         center - 5;
-
 
     ctx.clearRect(
         0,
@@ -1629,11 +1348,9 @@ function drawWheel(){
         size
     );
 
-
     const slice =
         Math.PI * 2 /
         rewards.length;
-
 
     for(
         let i=0;
@@ -1645,19 +1362,15 @@ function drawWheel(){
             -Math.PI / 2 +
             i * slice;
 
-
         const end =
             start + slice;
 
-
         ctx.beginPath();
-
 
         ctx.moveTo(
             center,
             center
         );
-
 
         ctx.arc(
             center,
@@ -1667,16 +1380,12 @@ function drawWheel(){
             end
         );
 
-
         ctx.closePath();
-
 
         ctx.fillStyle =
             rewardColors[i];
 
-
         ctx.fill();
-
 
         ctx.strokeStyle =
             "#111";
@@ -1685,21 +1394,17 @@ function drawWheel(){
 
         ctx.stroke();
 
-
         ctx.save();
-
 
         ctx.translate(
             center,
             center
         );
 
-
         ctx.rotate(
             start +
             slice / 2
         );
-
 
         ctx.textAlign =
             "right";
@@ -1707,67 +1412,32 @@ function drawWheel(){
         ctx.textBaseline =
             "middle";
 
-
         ctx.fillStyle =
             "#fff";
-
 
         ctx.font =
             "bold 11px Arial";
 
-
         let text =
             rewards[i];
 
-
-        if(
-            text === "Face Towel (₹50)"
-        ){
-
+        if(text === "Face Towel (₹50)")
             text = "Face Towel";
 
-        }
-
-        if(
-            text === "Big Face Towel (₹120)"
-        ){
-
+        if(text === "Big Face Towel (₹120)")
             text = "Big Towel";
 
-        }
-
-        if(
-            text === "Handkerchief (₹25)"
-        ){
-
+        if(text === "Handkerchief (₹25)")
             text = "Hanky";
 
-        }
-
-        if(
-            text === "Short Dupatta (₹50)"
-        ){
-
+        if(text === "Short Dupatta (₹50)")
             text = "Dupatta";
 
-        }
-
-        if(
-            text === "₹50 OFF (Above ₹500)"
-        ){
-
+        if(text === "₹50 OFF (Above ₹500)")
             text = "₹50 OFF";
 
-        }
-
-        if(
-            text === "100% OFF Purchase"
-        ){
-
+        if(text === "100% OFF Purchase")
             text = "100% OFF";
-
-        }
-
 
         ctx.fillText(
             text,
@@ -1775,14 +1445,11 @@ function drawWheel(){
             0
         );
 
-
         ctx.restore();
 
     }
 
-
     ctx.beginPath();
-
 
     ctx.arc(
         center,
@@ -1792,35 +1459,26 @@ function drawWheel(){
         Math.PI * 2
     );
 
-
     ctx.fillStyle =
         "#111";
 
-
     ctx.fill();
-
 
     ctx.strokeStyle =
         "#ffd700";
 
-
     ctx.lineWidth = 3;
 
-
     ctx.stroke();
-
 
     ctx.font =
         "20px Arial";
 
-
     ctx.textAlign =
         "center";
 
-
     ctx.textBaseline =
         "middle";
-
 
     ctx.fillText(
         "🎁",
@@ -1847,17 +1505,9 @@ function openGift(){
 
     }
 
-
-    /*
-    Live data से फिर check
-    */
-
     const gift =
         currentCustomer.gifts &&
-        currentCustomer.gifts[
-            currentMilestone
-        ];
-
+        currentCustomer.gifts[currentMilestone];
 
     if(
         gift &&
@@ -1874,69 +1524,45 @@ function openGift(){
 
     }
 
-
     initAudio();
-
 
     const overlay =
         document.getElementById(
             "wheelOverlay"
         );
 
-
     overlay.style.display =
         "flex";
 
-
     const wheel =
-        document.getElementById(
-            "wheel"
-        );
+        document.getElementById("wheel");
 
+    wheel.classList.remove("dissolve");
 
-    wheel.classList.remove(
-        "dissolve"
-    );
-
-
-    wheel.style.transition =
-        "none";
-
-
-    wheel.style.transform =
-        "rotate(0deg)";
-
+    wheel.style.transition = "none";
+    wheel.style.transform = "rotate(0deg)";
 
     void wheel.offsetWidth;
-
 
     wheel.style.transition =
         "transform 7s cubic-bezier(.08,.72,.08,1)";
 
-
     document.getElementById(
         "result"
-    ).style.display =
-        "none";
-
+    ).style.display = "none";
 
     document.getElementById(
         "spinButton"
-    ).style.display =
-        "block";
-
+    ).style.display = "block";
 
     document.getElementById(
         "spinButton"
-    ).disabled =
-        false;
-
+    ).disabled = false;
 
     document.getElementById(
         "spinButton"
     ).innerText =
         "🎡 SPIN THE WHEEL";
-
 
     drawWheel();
 
@@ -1944,7 +1570,7 @@ function openGift(){
 
 
 /* =========================================
-   SPIN WHEEL
+   SPIN
 ========================================= */
 
 function spinWheel(){
@@ -1959,13 +1585,9 @@ function spinWheel(){
 
     }
 
-
     const gift =
         currentCustomer.gifts &&
-        currentCustomer.gifts[
-            currentMilestone
-        ];
-
+        currentCustomer.gifts[currentMilestone];
 
     if(
         gift &&
@@ -1982,29 +1604,22 @@ function spinWheel(){
 
     }
 
-
     spinning = true;
-
 
     const button =
         document.getElementById(
             "spinButton"
         );
 
-
     button.disabled = true;
-
 
     button.innerText =
         "🎡 Wheel घूम रहा है...";
 
-
     let target;
-
 
     const adminReward =
         currentCustomer.targetReward;
-
 
     if(
         typeof adminReward === "string" &&
@@ -2014,9 +1629,7 @@ function spinWheel(){
     ){
 
         target =
-            rewards.indexOf(
-                adminReward
-            );
+            rewards.indexOf(adminReward);
 
     }
 
@@ -2030,48 +1643,31 @@ function spinWheel(){
 
     }
 
-
-    selectedIndex =
-        target;
-
-
-    selectedReward =
-        rewards[target];
-
+    selectedIndex = target;
+    selectedReward = rewards[target];
 
     const sliceDegrees =
-        360 /
-        rewards.length;
-
+        360 / rewards.length;
 
     const targetCenter =
         target *
         sliceDegrees +
         sliceDegrees / 2;
 
-
     const finalRotation =
-        360 -
-        targetCenter;
-
+        360 - targetCenter;
 
     const totalRotation =
         360 * 7 +
         finalRotation;
 
-
     const wheel =
-        document.getElementById(
-            "wheel"
-        );
-
+        document.getElementById("wheel");
 
     spinSound();
 
-
     wheel.style.transform =
         `rotate(${totalRotation}deg)`;
-
 
     setTimeout(()=>{
 
@@ -2090,23 +1686,14 @@ function finishSpin(){
 
     winSound();
 
-
     const wheel =
-        document.getElementById(
-            "wheel"
-        );
+        document.getElementById("wheel");
 
-
-    wheel.classList.add(
-        "dissolve"
-    );
-
+    wheel.classList.add("dissolve");
 
     document.getElementById(
         "spinButton"
-    ).style.display =
-        "none";
-
+    ).style.display = "none";
 
     setTimeout(()=>{
 
@@ -2115,12 +1702,10 @@ function finishSpin(){
         ).innerText =
             selectedReward;
 
-
         document.getElementById(
             "result"
         ).style.display =
             "block";
-
 
         saveReward();
 
@@ -2145,16 +1730,11 @@ function saveReward(){
 
     }
 
-
     const now =
         new Date();
 
-
     const date =
-        now.toLocaleDateString(
-            "hi-IN"
-        );
-
+        now.toLocaleDateString("hi-IN");
 
     const time =
         now.toLocaleTimeString(
@@ -2165,33 +1745,23 @@ function saveReward(){
             }
         );
 
-
     const rewardData = {
 
-        reward:
-            selectedReward,
+        reward:selectedReward,
 
-        status:
-            "REDEEMED",
+        status:"REDEEMED",
 
-        redeemedAt:
-            date,
+        redeemedAt:date,
 
-        redeemedTime:
-            time
+        redeemedTime:time
 
     };
-
 
     fetch(
         `${DB_URL}customers/${currentCustomer.mobile}/gifts/${currentMilestone}.json`,
         {
             method:"PUT",
-
-            body:JSON.stringify(
-                rewardData
-            )
-
+            body:JSON.stringify(rewardData)
         }
     )
 
@@ -2205,29 +1775,18 @@ function saveReward(){
 
         }
 
+        if(!currentCustomer.gifts){
 
-        /*
-        Local update
-        */
-
-        if(
-            !currentCustomer.gifts
-        ){
-
-            currentCustomer.gifts =
-                {};
+            currentCustomer.gifts = {};
 
         }
-
 
         currentCustomer.gifts[
             currentMilestone
         ] =
             rewardData;
 
-
         updateCustomerScreen();
-
         renderHistory();
 
     })
@@ -2256,12 +1815,10 @@ function closeResult(){
     ).style.display =
         "none";
 
-
     document.getElementById(
         "result"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "wheel"
@@ -2269,14 +1826,10 @@ function closeResult(){
         "dissolve"
     );
 
-
     spinning = false;
 
-
     selectedReward = null;
-
     selectedIndex = null;
-
 
     updateCustomerScreen();
 
@@ -2284,7 +1837,7 @@ function closeResult(){
 
 
 /* =========================================
-   RENDER HISTORY
+   HISTORY
 ========================================= */
 
 function renderHistory(){
@@ -2293,7 +1846,6 @@ function renderHistory(){
         document.getElementById(
             "historyList"
         );
-
 
     if(
         !currentCustomer ||
@@ -2311,9 +1863,7 @@ function renderHistory(){
 
     }
 
-
     let html = "";
-
 
     milestones.forEach(
         milestone => {
@@ -2322,7 +1872,6 @@ function renderHistory(){
                 currentCustomer.gifts[
                     milestone
                 ];
-
 
             if(
                 gift &&
@@ -2358,8 +1907,7 @@ function renderHistory(){
                         style="color:#aaa;text-align:right;"
                     >
                         ${escapeHTML(
-                            gift.redeemedAt ||
-                            ""
+                            gift.redeemedAt || ""
                         )}
 
                         ${
@@ -2382,7 +1930,6 @@ function renderHistory(){
         }
     );
 
-
     if(!html){
 
         html =
@@ -2394,9 +1941,7 @@ function renderHistory(){
 
     }
 
-
-    list.innerHTML =
-        html;
+    list.innerHTML = html;
 
 }
 
@@ -2439,7 +1984,6 @@ document.getElementById(
 
 /* =========================================
    CLOSE LIVE CONNECTION
-   जब page बंद हो
 ========================================= */
 
 window.addEventListener(
@@ -2465,4 +2009,4 @@ drawWheel();
 </script>
 
 </body>
-            </html>
+                </html>
